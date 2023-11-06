@@ -3,20 +3,86 @@ const Nombre = document.getElementById("Nombre");
 const Apellido = document.getElementById("Apellido");
 const Fecha = document.getElementById("Fecha");
 const RFC = document.getElementById("RFC");
-const Botn = document.getElementById("submit-button");
 const Numero = document.getElementById("telefono");
+const Usuario = document.getElementById("Usuario");
+const Correo = document.getElementById("Correo");
+const Botn = document.getElementById("submit-button");
+const mensajeError = document.getElementById("mensajeError");
+
+const contraseñaInput = document.getElementById('Contraseña');
+const contraseñaConfirmacionInput = document.getElementById('ContraseñaConfirmacion');
+
+
 
 // Escucha el evento input en los campos Nombre, Apellido y Fecha
 Nombre.addEventListener("input", generarRFC);
 Apellido.addEventListener("input", generarRFC);
 Fecha.addEventListener("input", generarRFC);
-
-
-const Correo = document.getElementById("Correo");
-const mensajeError = document.getElementById("mensajeError");
-
-
 Correo.addEventListener('blur', validarCorreoElectronico);
+
+
+
+
+Usuario.addEventListener('input', validarUsuario);
+
+function validarUsuario() {
+  const nombre = Usuario.value.trim();
+
+  if (nombre.length < 8) {
+    mensajeError.textContent = 'El usuario debe tener al menos 8 caracteres';
+    mensajeError.style.color = 'red';
+    Usuario.style.border = '2px solid red';
+    Usuario.style.boxShadow = '0 0 10px red';
+    Botn.setAttribute("disabled", "true");
+  } else {
+    mensajeError.textContent = '';
+    Usuario.style.border = '2px solid green';
+    Usuario.style.boxShadow = '0 0 10px green';
+
+  }
+}
+
+contraseñaInput.addEventListener('input', validarContraseña);
+contraseñaConfirmacionInput.addEventListener('input', validarConfirmacionContraseña);
+
+
+function validarContraseña() {
+  const contraseña = contraseñaInput.value;
+  if (contraseña.length < 8 || contraseña.length > 20 || !/^[a-zA-Z0-9]+$/.test(contraseña) || /\s/.test(contraseña)) {
+    mensajeError.textContent = 'La contraseña no cumple con los requisitos.';
+    mensajeError.style.display = 'block';
+    contraseñaInput.style.border = '2px solid red';
+    contraseñaInput.style.boxShadow = '0 0 10px red';
+    Botn.setAttribute("disabled", "true");
+  } else {
+    mensajeError.style.display = 'none';
+    contraseñaInput.style.border = '2px solid green';
+    contraseñaInput.style.boxShadow = '0 0 10px green';
+
+  }
+}
+
+function validarConfirmacionContraseña() {
+  const contraseña = contraseñaInput.value;
+  const confirmación = contraseñaConfirmacionInput.value;
+  if (confirmación !== contraseña) {
+    mensajeError.textContent = 'Las contraseñas no coinciden.';
+    mensajeError.style.display = 'block';
+    contraseñaInput.style.border = '2px solid red';
+    contraseñaInput.style.boxShadow = '0 0 10px red';
+    contraseñaConfirmacionInput.style.border = '2px solid red';
+    contraseñaConfirmacionInput.style.boxShadow = '0 0 10px red';
+  } else {
+    mensajeError.style.display = 'none';
+    contraseñaInput.style.border = '2px solid green';
+    contraseñaInput.style.boxShadow = '0 0 10px green';
+    contraseñaConfirmacionInput.style.border = '2px solid green';
+    contraseñaConfirmacionInput.style.boxShadow = '0 0 10px green';
+  }
+}
+
+
+
 
 function validarCorreoElectronico() {
   const correo = Correo.value;
