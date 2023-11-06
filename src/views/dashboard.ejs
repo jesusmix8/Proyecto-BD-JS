@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Panel de Control</title>
+</head>
+<body>
+    <h1>Bienvenido, <%= usuario[0].nombre %></h1>
+    <h2>Estos son tus datos:</h2>
+    <ul>
+        <li>Nombre: <%= usuario[0].nombre %></li>
+        <li>Correo: <%= usuario[0].correo %></li>
+        <li>Contraseña: <%= usuario[0].contraseña %></li>
+        <li>Tipo de cuenta: cuenta <%= usuario[0].tipo_cuenta%></li>
+        <li>Saldo : <%= usuario[0].saldo%></li>
+    </ul>
+
+    <a href="/logout">Cerrar sesión</a>
+    <!-- Otros elementos HTML para mostrar los datos del usuario -->
+</body>
+</html>
