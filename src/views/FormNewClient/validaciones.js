@@ -89,13 +89,15 @@ function validarCorreoElectronico() {
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
   if (correo.match(emailRegex)) {
-    // El correo es válido, borra cualquier mensaje de error
     console.log('correo valido');
     mensajeError.textContent = '';
+    Correo.style.border = '2px solid green';
+    Correo.style.boxShadow = '0 0 10px green';
 
   } else {
-    // El correo no es válido, muestra un mensaje de error
     mensajeError.textContent = '**Correo electrónico no válido';
+    Correo.style.border = '2px solid red';
+    Correo.style.boxShadow = '0 0 10px red';
     Botn.setAttribute("disabled", "true");
   }
 }
