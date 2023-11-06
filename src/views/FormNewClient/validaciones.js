@@ -8,10 +8,36 @@ const Usuario = document.getElementById("Usuario");
 const Correo = document.getElementById("Correo");
 const Botn = document.getElementById("submit-button");
 const mensajeError = document.getElementById("mensajeError");
-
 const contraseñaInput = document.getElementById('Contraseña');
 const contraseñaConfirmacionInput = document.getElementById('ContraseñaConfirmacion');
 
+
+document.addEventListener("DOMContentLoaded", function() {
+  const form = document.getElementById("client-form");
+  const submitButton = document.getElementById("submit-button");
+  submitButton.setAttribute("disabled", "disabled");
+  const formFields = form.querySelectorAll("input");
+  // Función para verificar si todos los campos están llenos
+  function checkFormFields() {
+      let allFieldsFilled = true;
+      formFields.forEach(function(field) {
+          if (field.value === "") {
+              allFieldsFilled = false;
+          }
+      });
+
+      if (allFieldsFilled) {
+          submitButton.removeAttribute("disabled");
+      } else {
+          submitButton.setAttribute("disabled", "disabled");
+      }
+  }
+
+  // Agregar un evento de escucha a cada campo del formulario
+  formFields.forEach(function(field) {
+      field.addEventListener("input", checkFormFields);
+  });
+});
 
 
 // Escucha el evento input en los campos Nombre, Apellido y Fecha

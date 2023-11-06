@@ -75,24 +75,31 @@
 
                 <div class="col my-4">
                     <div class="my-2">
-                            <div class = "my-2 row" >
-                                <div class="col">
-                                    <label for="exampleFormControlInput1" class="form-label text-sm">Codigo Postal</label>
-                                    <input type="text" name="codigopostal" id="codigopostal"class="form-control " placeholder="Codigo Postal">
-                                </div>
-                                <div class="col">
-                                    <label for="exampleFormControlInput1" class="form-label">Estado</label>
-                                    <input type="text" name="estado" id="estadoInput"class="form-control" placeholder="Estado">
-                                </div>
-                                <div class="col">
-                                    <label for="exampleFormControlInput1" class="form-label">Municipio</label>
-                                    <input type="text" name="municipio" id="municipioInput" class="form-control" placeholder="Municipio">
-                                </div>
+                        <div class="my-2 row">
+                            <div class="col">
+                                <label for="exampleFormControlInput1" class="form-label text-sm">Codigo Postal</label>
+                                <input type="text" name="codigopostal" id="codigopostal" class="form-control" placeholder="Codigo Postal" onkeyup="buscarInformacionPorCodigoPostal()">
                             </div>
-
-
-                        <label for="exampleFormControlInput1" class="form-label">Direción y número de casa</label>
-                        <input type="text" name="Direccion" class="form-control" placeholder="Direccion">
+                            <div class="col">
+                                <label for="exampleFormControlInput1" class="form-label">Estado</label>
+                                <input type="text" name="estado" id="estadoInput" class="form-control" placeholder="Estado">
+                            </div>
+                            <div class="col">
+                                <label for="exampleFormControlInput1" class="form-label">Municipio</label>
+                                <input type="text" name="municipio" id="municipioInput" class="form-control" placeholder="Municipio">
+                            </div>
+                        </div>
+                        
+                        <div class="my-2 row">
+                            <div class="col">
+                                <label for="exampleFormControlSelect1" class="form-label">Colonia</label>
+                                <select name="colonia" id="coloniaSelect" class="form-select"></select>
+                            </div>
+                            <div class="col">
+                                <label for="exampleFormControlInput1" class="form-label">Dirección y número de casa</label>
+                                <input type="text" name="Direccion" class="form-control" placeholder="Direccion">
+                            </div>
+                        </div>
                     </div>
                     
             
@@ -107,7 +114,7 @@
                             <div id="ayudaContraseña" class="form-text text-body-emphasis">
                             Tu Contraseña debe contener de 8 a 20 caracteres, contender  letras y numeros, y no debe contener espacios o emojis. 
                         </div>
-                        <label for="exampleFormControlInput1" class="form-label">Contraseña</label>
+                        <label for="exampleFormControlInput1" class="form-label">Confirma la contraseña</label>
                         <input type="password" id="ContraseñaConfirmacion"name="Contraseña" class="form-control" placeholder="Contraseña" aria-describedby="ayudaContraseña">
                            
                     </div>
@@ -134,8 +141,7 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src= "/static/FormNewClient/datosllenados.js"></script>
-    <script src="/static/FormNewClient/controladosform.js"></script>
+    <script src="/static/FormNewClient/fetch.js"></script>
     <script src="/static/FormNewClient/validaciones.js"></script>
     <script src = "/static/FormNewClient/estados.js"></script>    
 
