@@ -18,7 +18,7 @@ const contraseñaConfirmacionInput = document.getElementById('ContraseñaConfirm
 Nombre.addEventListener("input", generarRFC);
 Apellido.addEventListener("input", generarRFC);
 Fecha.addEventListener("input", generarRFC);
-Correo.addEventListener('blur', validarCorreoElectronico);
+Correo.addEventListener('input', validarCorreoElectronico);
 
 
 
@@ -104,7 +104,7 @@ function validarCorreoElectronico() {
 
 
 
-Numero.addEventListener('blur', validarNumero);
+Numero.addEventListener('input', validarNumero);
 
 function validarNumero() {
     const numero = Numero.value;
@@ -113,12 +113,15 @@ function validarNumero() {
     if (numero.match(numeroRegex)) {
         console.log('numero valido');
         mensajeError.textContent = '';
-        Botn.removeAttribute('disabled');
+        Numero.style.border = '2px solid green';
+        Numero.style.boxShadow = '0 0 10px green';
     
     } else {
         // El correo no es válido, muestra un mensaje de error
         mensajeError.textContent = '**Numero no valido';
         Botn.setAttribute("disabled", "true");
+        Numero.style.border = '2px solid red';
+        Numero.style.boxShadow = '0 0 10px red';
     }
 }
 
