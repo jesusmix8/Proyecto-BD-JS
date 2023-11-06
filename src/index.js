@@ -1,6 +1,11 @@
 const express = require('express');
 const morgan = require('morgan');
 const app = express();
+const crypto = require('crypto');
+
+const generateRandomKey = (length) => {
+    return crypto.randomBytes(Math.ceil(length / 2)).toString('hex')
+}
 
 const cors = require('cors');
 const path = require('path');
@@ -20,7 +25,7 @@ app.use(express.static('src'));
 app.use('/static', express.static(path.join(__dirname, 'views')));
 
 app.use(session({
-    secret: 'secret',
+    secret: 'generateRandomKey(64)',
     resave: true,
     saveUninitialized: true
 }));

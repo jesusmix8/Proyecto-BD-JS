@@ -21,7 +21,7 @@ const login = async (req, res) => {
       }
     });
   }
-  res.sendFile("views/login.html", { root: __dirname + "/../" });
+  res.sendFile("views/login/login.html", { root: __dirname + "/../" });
 };
 
 const formhtml = async (req, res) => {
@@ -112,14 +112,14 @@ const getDataClient = async (req, res) => {
         res.status(200).json({ message: "Bienvenido"});
 
       } else {
-        res.status(401).json({ error: "No se encontraron datos del cliente" });
+        res.status(401).json({ message: "No se encontraron datos del cliente" });
       }
     } else {
-      res.status(401).json({ error: "Credenciales incorrectas" });
+      res.status(401).json({ message: "Credenciales incorrectas" });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Error en el servidor" });
+    res.status(500).json({ message: "Error en el servidor" });
   }
 };
 
@@ -127,7 +127,6 @@ const getDataClient = async (req, res) => {
 const  loaddashboard =  (req, res) => {
   const  usuario = req.session.usuario;
   if (usuario){
-    //Un html con los datos del usuario
     res.render("dashboard", {usuario: usuario});
   }
   
