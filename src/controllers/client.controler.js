@@ -42,13 +42,7 @@ const logout = async (req, res) => {
     res.redirect("/login"); // Redirige al usuario a la página de inicio de sesión u otra página de tu elección
   });
 };
-//   req.session.destroy(err => {
-//     if (err) {
-//       console.error(err);
-//     }
-//     res.redirect('/login'); // Redirige al usuario a la página de inicio de sesión u otra página de tu elección
-//   });
-// });
+
 
 const createClient = async (req, res) => {
   try {
@@ -124,9 +118,13 @@ const getDataClient = async (req, res) => {
 };
 
 
-const  loaddashboard =  (req, res) => {
+const  loaddashboard =  async (req, res) => {
   const  usuario = req.session.usuario;
   if (usuario){
+    // const saldoFinDeMes = 54; 
+    // Object.assign(usuario[0], {saldoFinDeMes: saldoFinDeMes}); 
+    delete usuario[0].contraseña;
+    console.log(usuario);
     res.render("dashboard", {usuario: usuario});
   }
   
@@ -134,6 +132,10 @@ const  loaddashboard =  (req, res) => {
   res.json({message: "No hay usuario en la sesión"});
   
 }};
+
+const cargadePantallaTransferencia = async (req, res) => {
+  res.sendFile("views/transferencia/formtransferencia.html", { root: __dirname + "/../" });
+};
 
 
 
@@ -155,5 +157,5 @@ module.exports = {
   getDataClient,
   createClient,
   deleteClient,
-  updateClient,
+  cargadePantallaTransferencia
 };
