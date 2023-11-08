@@ -9,8 +9,17 @@
 </head>
 <body>
     <H1>Realizar una tranferencia</H1>
-
+    <form id="my-form" action="/submit" method="post">
+        <!-- Campos del formulario -->
+        <input type="text" name="cuentaDestino" placeholder="Nombre De usuario">
+        <input type="number" name="monto" id="moneyInput" placeholder="$0.0">
+        <input type="text" name="descripcion" placeholder="descripcion"> 
+        <!-- Agregar más campos aquí si es necesario -->
+        <button type="submit">Enviar</button>
+      </form>
+      
     
-    
+    <script src="/static/Transferencia/fetch.js"></script>
+   
 </body>
 </html>

@@ -1,3 +1,4 @@
+const e = require("express");
 const pool = require("../db");
 
 const inicio = async (req, res) => {
@@ -118,7 +119,7 @@ const getDataClient = async (req, res) => {
 };
 
 
-const  loaddashboard =  async (req, res) => {
+const  loaddashboard =   (req, res) => {
   const  usuario = req.session.usuario;
   if (usuario){
     // const saldoFinDeMes = 54; 
@@ -133,22 +134,62 @@ const  loaddashboard =  async (req, res) => {
   
 }};
 
-const cargadePantallaTransferencia = async (req, res) => {
-  res.sendFile("views/transferencia/formtransferencia.html", { root: __dirname + "/../" });
+const cargadePantallaTransferencia =  (req, res) => {
+  const  usuario = req.session.usuario;
+  if (usuario){
+    res.sendFile("views/Transferencia/formtransferencia.html", { root: __dirname + "/../" });
+  }
+  else{
+    res.json({message: "No hay usuario en la sesión"});
+  }
+};
+
+const transferclient = async (req, res) => {
+  const { cuentaDestino, monto, descripcion } = req.body;
+  console.log(cuentaDestino, monto, descripcion);
+  const cuentaDestinor = parseInt(cuentaDestino);
+  //Comprobar si existe una cuenta destino con ese usuario
+  const result = await pool.query(
+     "SELECT usuario FROM cuenta WHERE cuenta = $1",
+    [cuentaDestinor]
+   );
+
+   if(result.rows.length > 0){
+     //Comprobar si la cuenta origen y destino son la misma
+      console.log("Cuenta destino encontrada");
+      const usuario = req.session.usuario;
+      const cuentaOrigen = usuario[0].cuenta;
+
+      if(cuentaOrigen === cuentaDestinor){
+        res.status(400).json({ message: "No se puede realizar una transferencia a la misma cuenta" });
+      }else{
+        //Comprobar si la cuenta origen tiene saldo suficiente para realizar la transferencia
+        const saldoOrigen = usuario[0].saldo;
+        const montoTransferencia = parseInt(monto);
+        if(saldoOrigen < montoTransferencia){
+          res.status(400).json({ message: "Saldo insuficiente para realizar la transferencia" });
+        }else{
+          //Realizar la transferencia
+        }
+      }
+    
+  }else{
+    console.log("Cuenta destino no encontrada");
+  }
 };
 
 
 
-
-const deleteClient = async (req, res) => {
+const deleteClient =  (req, res) => {
   res.send("Delete cliente");
 };
 
-const updateClient = async (req, res) => {
+const updateClient =  (req, res) => {
   res.send("Actualizando cliente");
 };
 
 module.exports = {
+  transferclient,
   logout,
   loaddashboard,
   login,
