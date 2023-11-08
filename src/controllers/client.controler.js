@@ -2,7 +2,6 @@ const e = require("express");
 const pool = require("../db");
 
 const inicio = async (req, res) => {
-
   if (req.session) {
     req.session.destroy((err) => {
       if (err) {
@@ -11,7 +10,6 @@ const inicio = async (req, res) => {
     });
   }
   res.sendFile("views/inicio/index.html", { root: __dirname + "/../" });
-
 };
 
 const login = async (req, res) => {
@@ -44,7 +42,6 @@ const logout = async (req, res) => {
   });
 };
 
-
 const createClient = async (req, res) => {
   try {
     const {
@@ -73,20 +70,15 @@ const createClient = async (req, res) => {
     res.json(result.rows);
   } catch (error) {
     if (error["code"] === "23505") {
-      res
-        .status(409)
-        .json({
-          messageerror: "Usuario ya registrado",
-          messagedetail: error["detail"],
-        });
+      res.status(409).json({
+        messageerror: "Usuario ya registrado",
+        messagedetail: error["detail"],
+      });
     } else {
       res.status(400).json({ message: "Error desconocido" });
     }
   }
 };
-
-
-
 
 const getDataClient = async (req, res) => {
   try {
@@ -104,10 +96,11 @@ const getDataClient = async (req, res) => {
         // Convertir los datos a formato JSON
         const clienteJSON = JSON.stringify(dataclient["rows"]);
         req.session.usuario = JSON.parse(clienteJSON);
-        res.status(200).json({ message: "Bienvenido"});
-
+        res.status(200).json({ message: "Bienvenido" });
       } else {
-        res.status(401).json({ message: "No se encontraron datos del cliente" });
+        res
+          .status(401)
+          .json({ message: "No se encontraron datos del cliente" });
       }
     } else {
       res.status(401).json({ message: "Credenciales incorrectas" });
@@ -118,73 +111,79 @@ const getDataClient = async (req, res) => {
   }
 };
 
-
-const  loaddashboard =   (req, res) => {
-  const  usuario = req.session.usuario;
-  if (usuario){
-    // const saldoFinDeMes = 54; 
-    // Object.assign(usuario[0], {saldoFinDeMes: saldoFinDeMes}); 
+const loaddashboard = async (req, res) => {
+  const usuario = req.session.usuario;
+  if (usuario) {
+    const saldo = await pool.query(
+      "Select saldo from cuenta where usuario = $1",
+      [usuario[0].usuario]
+    );
     delete usuario[0].contraseña;
+    usuario[0].saldo = saldo.rows[0].saldo;
     console.log(usuario);
-    res.render("dashboard", {usuario: usuario});
+    res.render("dashboard", { usuario: usuario });
+  } else {
+    res.json({ message: "No hay usuario en la sesión" });
   }
-  
-  else{
-  res.json({message: "No hay usuario en la sesión"});
-  
-}};
+};
 
-const cargadePantallaTransferencia =  (req, res) => {
-  const  usuario = req.session.usuario;
-  if (usuario){
-    res.sendFile("views/Transferencia/formtransferencia.html", { root: __dirname + "/../" });
-  }
-  else{
-    res.json({message: "No hay usuario en la sesión"});
+const cargadePantallaTransferencia = (req, res) => {
+  const usuario = req.session.usuario;
+  if (usuario) {
+    res.sendFile("views/Transferencia/formtransferencia.html", {
+      root: __dirname + "/../",
+    });
+  } else {
+    res.redirect("/login");   
   }
 };
 
 const transferclient = async (req, res) => {
   const { cuentaDestino, monto, descripcion } = req.body;
   console.log(cuentaDestino, monto, descripcion);
-  const cuentaDestinor = parseInt(cuentaDestino);
   //Comprobar si existe una cuenta destino con ese usuario
   const result = await pool.query(
-     "SELECT usuario FROM cuenta WHERE cuenta = $1",
-    [cuentaDestinor]
-   );
+    "SELECT id_cuenta FROM cuenta WHERE usuario = $1",
+    [cuentaDestino]
+  );
 
-   if(result.rows.length > 0){
-     //Comprobar si la cuenta origen y destino son la misma
-      console.log("Cuenta destino encontrada");
-      const usuario = req.session.usuario;
-      const cuentaOrigen = usuario[0].cuenta;
+  if (result.rows.length > 0) {
+    //Comprobar si la cuenta origen y destino son la misma
+    console.log("Cuenta destino encontrada");
+    const usuario = req.session.usuario;
+    const cuentaOrigen = usuario[0].usuario;
+    const ID_Cuenta = usuario[0].id_cuenta;
+    const ID_CuentaDestino = result.rows[0].id_cuenta;
+    if (ID_Cuenta === result.rows[0].id_cuenta) {
+      console.log("No se puede transferir a la misma cuenta");
+    } else {
+      //Comprobar si la cuenta origen tiene saldo suficiente para realizar la transferencia
+      const saldoOrigen = await pool.query(
+        "Select saldo from cuenta where usuario = $1",
+        [cuentaOrigen]
+      );
 
-      if(cuentaOrigen === cuentaDestinor){
-        res.status(400).json({ message: "No se puede realizar una transferencia a la misma cuenta" });
-      }else{
-        //Comprobar si la cuenta origen tiene saldo suficiente para realizar la transferencia
-        const saldoOrigen = usuario[0].saldo;
-        const montoTransferencia = parseInt(monto);
-        if(saldoOrigen < montoTransferencia){
-          res.status(400).json({ message: "Saldo insuficiente para realizar la transferencia" });
-        }else{
-          //Realizar la transferencia
-        }
+      const montoTransferencia = parseInt(monto);
+      if (saldoOrigen < montoTransferencia) {
+        console.log("Saldo insuficiente");
+      } else {
+        const transferenciaQuery = await pool.query(
+          "INSERT INTO Transaccion (Tipo_Transaccion, Monto, Fecha_Hora, ID_Cuenta, CuentaDestino) VALUES ($1, $2, CURRENT_TIMESTAMP, $3, $4)",
+          ["Transferencia", montoTransferencia, ID_Cuenta, ID_CuentaDestino]
+        );
+        console.log("Transferencia realizada");
       }
-    
-  }else{
+    }
+  } else {
     console.log("Cuenta destino no encontrada");
   }
 };
 
-
-
-const deleteClient =  (req, res) => {
+const deleteClient = (req, res) => {
   res.send("Delete cliente");
 };
 
-const updateClient =  (req, res) => {
+const updateClient = (req, res) => {
   res.send("Actualizando cliente");
 };
 
@@ -198,5 +197,5 @@ module.exports = {
   getDataClient,
   createClient,
   deleteClient,
-  cargadePantallaTransferencia
+  cargadePantallaTransferencia,
 };

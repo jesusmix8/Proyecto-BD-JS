@@ -39,8 +39,6 @@ document.getElementById('my-form').addEventListener('submit', function (e) {
         }
     })
     .then(data => {
-        // Manejar la respuesta exitosa
-        console.log('Respuesta del servidor:', data);
     })
     .catch(error => {
         // Manejar errores generales
