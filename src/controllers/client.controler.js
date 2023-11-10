@@ -42,7 +42,7 @@ const logout = (req, res) => {
 };
 
 const createClient = async (req, res) => {
- // try {
+  try {
     //conseguir direccion
     // direccion id , calle, numero, colonia, codigopostal
     const { Calle, Numero, Colonia, Codigopostal } = req.body;
@@ -53,9 +53,8 @@ const createClient = async (req, res) => {
     );
     const idDireccion = resultdireccion.rows[0].direccion_id;
 
+    //Conseguir la sucursal
 
-    //Conseguir la sucursal 
-    
     const resultSucursal = await pool.query(
       "SELECT s.sucursal_id FROM sucursal s JOIN direccion d ON s.direccion_ID = d.direccion_ID JOIN catalogoEstado ce ON d.codigoPostal = ce.codigoPostal WHERE ce.codigoPostal = $1",
       [Codigopostal]
@@ -91,16 +90,16 @@ const createClient = async (req, res) => {
       ]
     );
     res.status(200).json({ message: "Cliente registrado exitosamente" });
-  // } catch (error) {
-  //   if (error["code"] === "23505") {
-  //     res.status(409).json({
-  //       messageerror: "Usuario ya registrado",
-  //       messagedetail: error["detail"],
-  //     });
-  //   } else {
-  //     res.status(400).json({ message: "Error desconocido" });
-  //   }
-  // }
+  } catch (error) {
+    if (error["code"] === "23505") {
+      res.status(409).json({
+        messageerror: "Usuario ya registrado",
+        messagedetail: error["detail"],
+      });
+    } else {
+      res.status(400).json({ message: "Error desconocido" });
+    }
+  }
 };
 
 const getDataClient = async (req, res) => {
@@ -110,9 +109,10 @@ const getDataClient = async (req, res) => {
       "SELECT * FROM cliente WHERE Usuario = $1 AND Contraseña = $2",
       [Usuario, Contraseña]
     );
+    console.log(result.rows);
     if (result.rows.length > 0) {
       const dataclient = await pool.query(
-        "SELECT * FROM Cliente JOIN Cuenta ON Cliente.Usuario = Cuenta.Usuario WHERE Cliente.Usuario = $1",
+        "SELECT * FROM Cliente WHERE Usuario = $1",
         [Usuario]
       );
       if (dataclient.rows.length > 0) {
@@ -137,13 +137,13 @@ const getDataClient = async (req, res) => {
 const loaddashboard = async (req, res) => {
   const usuario = req.session.usuario;
   if (usuario) {
-    const saldo = await pool.query(
-      "Select saldo from cuenta where usuario = $1",
-      [usuario[0].usuario]
-    );
-    delete usuario[0].contraseña;
-    usuario[0].saldo = saldo.rows[0].saldo;
-    console.log(usuario);
+    // const saldo = await pool.query(
+    //   "Select saldo from cuenta where usuario = $1",
+    //   [usuario[0].usuario]
+    // );
+    // delete usuario[0].contraseña;
+    // usuario[0].saldo = saldo.rows[0].saldo;
+    // console.log(usuario);
     res.render("dashboard", { usuario: usuario });
   } else {
     res.json({ message: "No hay usuario en la sesión" });

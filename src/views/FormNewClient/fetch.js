@@ -35,12 +35,10 @@ document.getElementById('client-form').addEventListener('submit', function (e) {
         Nombre: Nombre,
         Apellido: Apellido,
         Genero: Genero,
-        //Datos de direccion
         Calle: Calle,
         Codigopostal: Codigopostal,
         Numero: Numero,
         Colonia : Colonia,
-        // 
         Telefono: Telefono,
         Correo: Correo,
         Fechadenacimiento: Fechadenacimiento,
