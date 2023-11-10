@@ -42,7 +42,7 @@ const logout = (req, res) => {
 };
 
 const createClient = async (req, res) => {
-  try {
+ // try {
     //conseguir direccion
     // direccion id , calle, numero, colonia, codigopostal
     const { Calle, Numero, Colonia, Codigopostal } = req.body;
@@ -52,6 +52,15 @@ const createClient = async (req, res) => {
       [Calle, Codigopostal, Numero, Colonia]
     );
     const idDireccion = resultdireccion.rows[0].direccion_id;
+
+
+    //Conseguir la sucursal 
+    
+    const resultSucursal = await pool.query(
+      "SELECT s.sucursal_id FROM sucursal s JOIN direccion d ON s.direccion_ID = d.direccion_ID JOIN catalogoEstado ce ON d.codigoPostal = ce.codigoPostal WHERE ce.codigoPostal = $1",
+      [Codigopostal]
+    );
+    const idSucursal = resultSucursal.rows[0].sucursal_id;
 
     const {
       RFC,
@@ -66,7 +75,7 @@ const createClient = async (req, res) => {
     } = req.body;
 
     const result = await pool.query(
-      "INSERT INTO cliente (RFC, nombre, apellido, numeroDeTelefono, correo, fechadeNacimiento, genero, usuario, contraseña, direccion_ID) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)",
+      "INSERT INTO cliente (RFC, nombre, apellido, numeroDeTelefono, correo, fechadeNacimiento, genero, usuario, contraseña, direccion_ID, sucursal_id) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10, $11)",
       [
         RFC,
         Nombre,
@@ -78,19 +87,20 @@ const createClient = async (req, res) => {
         Usuario,
         Contraseña,
         idDireccion,
+        idSucursal,
       ]
     );
     res.status(200).json({ message: "Cliente registrado exitosamente" });
-  } catch (error) {
-    if (error["code"] === "23505") {
-      res.status(409).json({
-        messageerror: "Usuario ya registrado",
-        messagedetail: error["detail"],
-      });
-    } else {
-      res.status(400).json({ message: "Error desconocido" });
-    }
-  }
+  // } catch (error) {
+  //   if (error["code"] === "23505") {
+  //     res.status(409).json({
+  //       messageerror: "Usuario ya registrado",
+  //       messagedetail: error["detail"],
+  //     });
+  //   } else {
+  //     res.status(400).json({ message: "Error desconocido" });
+  //   }
+  // }
 };
 
 const getDataClient = async (req, res) => {
