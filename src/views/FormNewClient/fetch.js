@@ -14,22 +14,33 @@ document.getElementById('client-form').addEventListener('submit', function (e) {
     const Codigopostal = document.querySelector('input[name="codigopostal"]').value;
     const Estado = document.querySelector('input[name="estado"]').value;
     const Municipio = document.querySelector('input[name="municipio"]').value;
-    const Direccionycasa = document.querySelector('input[name="Direccion"]').value;
+    const Calle = document.querySelector('input[name="Direccion"]').value;
     const Telefono = document.querySelector('input[name="Telefono"]').value;
     const Correo = document.querySelector('input[name="Correo"]').value;
     const Fechadenacimiento = document.querySelector('input[name="Fechadenacimiento"]').value;
     const RFC = document.querySelector('input[name="RFC"]').value;
+    const Numero = document.getElementById('NumeroDeCasa').value;
+    const Colonia = document.getElementById('coloniaSelect').value;
+    const Genero = document.getElementById('generoSelect').value;
 
 
 
-    const nombreCompleto = Nombre + ' ' + Apellido;
-    const DireccionCompleta = Direccionycasa + ' ' + Codigopostal + ' ' + Estado + ' ' + Municipio;
+
+    //const nombreCompleto = Nombre + ' ' + Apellido;
+    //const DireccionCompleta = Direccionycasa + ' ' + Codigopostal + ' ' + Estado + ' ' + Municipio;
     
     const data = {
         Usuario: Usuario,
         Contraseña: Contraseña,
-        Nombre: nombreCompleto,
-        Direccion: DireccionCompleta,
+        Nombre: Nombre,
+        Apellido: Apellido,
+        Genero: Genero,
+        //Datos de direccion
+        Calle: Calle,
+        Codigopostal: Codigopostal,
+        Numero: Numero,
+        Colonia : Colonia,
+        // 
         Telefono: Telefono,
         Correo: Correo,
         Fechadenacimiento: Fechadenacimiento,
@@ -46,7 +57,6 @@ document.getElementById('client-form').addEventListener('submit', function (e) {
     })
     .then(response => {
         if (response.status === 200) {
-            console.log('Cliente registrado exitosamente');
             mensajexito.textContent = 'Cuenta registrada exitosamente';
             mensajexito.style.display = 'block'; // Mostrar mensaje de éxito
 
@@ -71,7 +81,7 @@ document.getElementById('client-form').addEventListener('submit', function (e) {
         }
     })
     .catch(error => {
-        // Manejar errores
+        // Manejar errores de petición
         document.getElementById('mensajeError').textContent = error.message;
     });
 });

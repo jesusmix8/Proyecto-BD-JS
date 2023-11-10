@@ -16,18 +16,15 @@ document.getElementById('login-form').addEventListener('submit', function (e) {
     })
     .then(response => {
         if (response.status === 200){
-            console.log('Cliente logeado exitosamente');
             window.location.href = '/perfil';
         } else if (response.status === 400) {
             return response.json().then(data => {
                 mesnsajeerror.textContent = data.message;
-                mesnsajeerror.style.display = 'block';
-                console.log (data.message) // Mostrar mensaje de error
+                mesnsajeerror.style.display = 'block';// Mostrar mensaje de error
             });
             
         }else if (response.status === 401) {
             mesnsajeerror.textContent = 'Usuario o contraseña incorrectas';
-            console.log ('Credenciales incorrectas') 
         }})
         
     .catch(error => {

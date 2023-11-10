@@ -1,3 +1,5 @@
+const mensaje = document.getElementById('mensaje');
+
 document.getElementById('my-form').addEventListener('submit', function (e) {
     e.preventDefault();
 
@@ -23,12 +25,20 @@ document.getElementById('my-form').addEventListener('submit', function (e) {
     .then(response => {
         if (response.status === 200) {
             // La solicitud se completó exitosamente (código de estado 200)
+            mensaje.textContent = 'Transferencia exitosa';
+            mensaje.style.display = 'block';
+
+            setTimeout(() => {
+                window.location.href = '/perfil';
+            }, 2000);
             return response.json(); // Analizar la respuesta JSON
+
         } else if (response.status === 400) {
-            // Código de estado 400 (Bad Request) - Error del cliente
             return response.json().then(data => {
-                // Manejar el error específico del cliente
-                throw new Error(data.error);
+                mensaje.textContent = data.message;
+                mensaje.style.display = 'block';
+
+                
             });
         } else if (response.status === 404) {
             // Código de estado 404 (Not Found) - Recurso no encontrado

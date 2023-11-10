@@ -1,7 +1,6 @@
-const e = require("express");
 const pool = require("../db");
 
-const inicio = async (req, res) => {
+const inicio = (req, res) => {
   if (req.session) {
     req.session.destroy((err) => {
       if (err) {
@@ -12,7 +11,7 @@ const inicio = async (req, res) => {
   res.sendFile("views/inicio/index.html", { root: __dirname + "/../" });
 };
 
-const login = async (req, res) => {
+const login = (req, res) => {
   if (req.session) {
     req.session.destroy((err) => {
       if (err) {
@@ -23,7 +22,7 @@ const login = async (req, res) => {
   res.sendFile("views/login/login.html", { root: __dirname + "/../" });
 };
 
-const formhtml = async (req, res) => {
+const formhtml = (req, res) => {
   res.sendFile("views/FormNewClient/form.html", { root: __dirname + "/../" });
   if (req.session) {
     req.session.destroy((err) => {
@@ -33,7 +32,7 @@ const formhtml = async (req, res) => {
     });
   }
 };
-const logout = async (req, res) => {
+const logout = (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       console.error(err);
@@ -44,30 +43,44 @@ const logout = async (req, res) => {
 
 const createClient = async (req, res) => {
   try {
+    //conseguir direccion
+    // direccion id , calle, numero, colonia, codigopostal
+    const { Calle, Numero, Colonia, Codigopostal } = req.body;
+
+    const resultdireccion = await pool.query(
+      "INSERT INTO direccion (calle, codigoPostal, numero, colonia) values ($1,$2,$3,$4) returning direccion_id",
+      [Calle, Codigopostal, Numero, Colonia]
+    );
+    const idDireccion = resultdireccion.rows[0].direccion_id;
+
     const {
-      Usuario,
-      Contraseña,
       RFC,
       Nombre,
-      Direccion,
+      Apellido,
       Telefono,
       Correo,
       Fechadenacimiento,
+      Genero,
+      Usuario,
+      Contraseña,
     } = req.body;
+
     const result = await pool.query(
-      "INSERT INTO cliente (Usuario, Contraseña, RFC, Nombre, Direccion, Telefono, Correo, Fechadenacimiento)  VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
+      "INSERT INTO cliente (RFC, nombre, apellido, numeroDeTelefono, correo, fechadeNacimiento, genero, usuario, contraseña, direccion_ID) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)",
       [
-        Usuario,
-        Contraseña,
         RFC,
         Nombre,
-        Direccion,
+        Apellido,
         Telefono,
         Correo,
         Fechadenacimiento,
+        Genero,
+        Usuario,
+        Contraseña,
+        idDireccion,
       ]
     );
-    res.json(result.rows);
+    res.status(200).json({ message: "Cliente registrado exitosamente" });
   } catch (error) {
     if (error["code"] === "23505") {
       res.status(409).json({
@@ -134,7 +147,7 @@ const cargadePantallaTransferencia = (req, res) => {
       root: __dirname + "/../",
     });
   } else {
-    res.redirect("/login");   
+    res.redirect("/login");
   }
 };
 
@@ -155,7 +168,9 @@ const transferclient = async (req, res) => {
     const ID_Cuenta = usuario[0].id_cuenta;
     const ID_CuentaDestino = result.rows[0].id_cuenta;
     if (ID_Cuenta === result.rows[0].id_cuenta) {
-      console.log("No se puede transferir a la misma cuenta");
+      res
+        .status(400)
+        .json({ message: "No puedes transferir a la misma cuenta" });
     } else {
       //Comprobar si la cuenta origen tiene saldo suficiente para realizar la transferencia
       const saldoOrigen = await pool.query(
@@ -165,18 +180,24 @@ const transferclient = async (req, res) => {
 
       const montoTransferencia = parseInt(monto);
       if (saldoOrigen < montoTransferencia) {
-        console.log("Saldo insuficiente");
+        res.status(400).json({ message: "Saldo insuficiente" });
       } else {
         const transferenciaQuery = await pool.query(
           "INSERT INTO Transaccion (Tipo_Transaccion, Monto, Fecha_Hora, ID_Cuenta, CuentaDestino) VALUES ($1, $2, CURRENT_TIMESTAMP, $3, $4)",
           ["Transferencia", montoTransferencia, ID_Cuenta, ID_CuentaDestino]
         );
-        console.log("Transferencia realizada");
+        res.status(200).json({ message: "Transferencia exitosa" });
       }
     }
   } else {
-    console.log("Cuenta destino no encontrada");
+    res.status(404).json({ message: "Cuenta destino no encontrada" });
   }
+};
+
+const pantalladeahorro = (req, res) => {
+  res.sendFile("views/Ahorro/FormAhorro.html", {
+    root: __dirname + "/../",
+  });
 };
 
 const deleteClient = (req, res) => {
@@ -188,6 +209,7 @@ const updateClient = (req, res) => {
 };
 
 module.exports = {
+  pantalladeahorro,
   transferclient,
   logout,
   loaddashboard,

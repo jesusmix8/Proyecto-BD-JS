@@ -41,9 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 // Escucha el evento input en los campos Nombre, Apellido y Fecha
-Nombre.addEventListener("input", generarRFC);
-Apellido.addEventListener("input", generarRFC);
-Fecha.addEventListener("input", generarRFC);
+
 Correo.addEventListener('input', validarCorreoElectronico);
 
 
@@ -56,6 +54,7 @@ function validarUsuario() {
 
   if (nombre.length < 8) {
     mensajeError.textContent = 'El usuario debe tener al menos 8 caracteres';
+    mensajeError.style.display = 'block';
     mensajeError.style.color = 'red';
     Usuario.style.border = '2px solid red';
     Usuario.style.boxShadow = '0 0 10px red';
@@ -151,6 +150,9 @@ function validarNumero() {
     }
 }
 
+Nombre.addEventListener("input", generarRFC);
+Apellido.addEventListener("input", generarRFC);
+Fecha.addEventListener("input", generarRFC);
 
 function generarRFC() {
   // Obtén el valor de los campos Nombre, Apellido y Fecha
@@ -170,6 +172,8 @@ function generarRFC() {
     RFC.value = "";
   }
 }
+
+
 
 // Función para crear el RFC (debes implementar esta función según tus requisitos)
 function crearRFC(nombre, apellido, fecha) {

@@ -12,6 +12,7 @@ const path = require('path');
 const session = require('express-session');
 
 app.set('view engine', 'ejs');
+
 app.set('views', path.join(__dirname, 'views'));
 
 
@@ -22,6 +23,8 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.static('src'));
+
+
 app.use('/static', express.static(path.join(__dirname, 'views')));
 
 app.use(session({
