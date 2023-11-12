@@ -51,7 +51,7 @@ CREATE TABLE cliente (
    usuario VARCHAR(10) NOT NULL,
    contraseña VARCHAR(10) NOT NULL,
    CONSTRAINT usuario_length_check CHECK (LENGTH(usuario) > 0),
-   CONSTRAINT contraseña_length_check CHECK (LENGTH(contraseña) > 0)
+   CONSTRAINT contraseña_length_check CHECK (LENGTH(contraseña) > 0),
    CONSTRAINT rfc_unique UNIQUE (RFC)
 ) INHERITS (persona);
 
@@ -62,7 +62,7 @@ CREATE TABLE empleado (
      puesto VARCHAR (50) NOT NULL,
      fechadecontratacion DATE NOT NULL,
      fechaDeDespido DATE,
-     CONSTRAINT rfc_unico UNIQUE (RFC)
+     CONSTRAINT rfc_unico UNIQUE (RFC),
      CONSTRAINT fecha_despido_valida CHECK (fechaDeDespido IS NULL OR fechaDeDespido >= fechadecontratacion)
 ) INHERITS (persona);
 
@@ -167,3 +167,13 @@ ALTER COLUMN sucursal_ID SET NOT NULL;
 ALTER TABLE sucursal
 DROP COLUMN cliente_ID,
 DROP COLUMN empleado_ID;
+
+-- Agregar la llave compuesta para Cliente (rfc, cliente_ID)
+ALTER TABLE cliente DROP CONSTRAINT IF EXISTS "cliente_pkey" CASCADE;
+
+ALTER TABLE cliente ADD CONSTRAINT "cliente_pkey" PRIMARY KEY (rfc, cliente_id);
+
+-- Agregar la llave compuesta para Empleado (rfc, empleado_ID)
+ALTER TABLE empleado DROP CONSTRAINT IF EXISTS "empleado_pkey" CASCADE;
+
+ALTER TABLE empleado ADD CONSTRAINT "empleado_pkey" PRIMARY KEY (rfc, empleado_id);
