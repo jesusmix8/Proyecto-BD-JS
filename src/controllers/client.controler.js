@@ -164,7 +164,7 @@ const cargadePantallaTransferencia = (req, res) => {
 const transferclient = async (req, res) => {
 
   console.log("Ejecutando desde transferclient")
-    
+    //xd
   // const { cuentaDestino, monto, descripcion } = req.body;
   // console.log(cuentaDestino, monto, descripcion);
   // //Comprobar si existe una cuenta destino con ese usuario
