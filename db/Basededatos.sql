@@ -167,13 +167,3 @@ ALTER COLUMN sucursal_ID SET NOT NULL;
 ALTER TABLE sucursal
 DROP COLUMN cliente_ID,
 DROP COLUMN empleado_ID;
-
--- Agregar la llave compuesta para Cliente (rfc, cliente_ID)
-ALTER TABLE cliente DROP CONSTRAINT IF EXISTS "cliente_pkey" CASCADE;
-
-ALTER TABLE cliente ADD CONSTRAINT "cliente_pkey" PRIMARY KEY (rfc, cliente_id);
-
--- Agregar la llave compuesta para Empleado (rfc, empleado_ID)
-ALTER TABLE empleado DROP CONSTRAINT IF EXISTS "empleado_pkey" CASCADE;
-
-ALTER TABLE empleado ADD CONSTRAINT "empleado_pkey" PRIMARY KEY (rfc, empleado_id);
