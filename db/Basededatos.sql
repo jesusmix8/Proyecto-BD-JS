@@ -168,3 +168,4 @@ ALTER TABLE sucursal
 DROP COLUMN cliente_ID,
 DROP COLUMN empleado_ID;
  
+ 
