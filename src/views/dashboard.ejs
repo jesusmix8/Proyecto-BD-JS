@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -11,22 +10,31 @@
     <h1 >Bienvenido, <%= usuario[0].nombre %> </h1>
     <h2>Estos son tus datos:</h2>
     <ul>
-        <li>Nombre: <%= usuario[0].nombre %></li>
-        <li>Correo: <%= usuario[0].correo %></li>
-        <li>Contraseña: <%= usuario[0].contraseña %></li>
-        <li>Direccion: <%= usuario[0].direccion %></li>
-        <li>Tipo de cuenta: cuenta <%= usuario[0].tipo_cuenta%></li>
-        <li>Saldo : <%= usuario[0].saldo%></li>
-        <li>Usuario : <%= usuario[0].usuario%></li>
+      <li>Saldo : <%= usuario[0].saldo %></li>
+      <li>Numero De tarjeta <%= usuario[0].servicios[0].notarjeta %></li> <!-- Cambié este punto y coma por un punto -->
+      <li>Nombre: <%= usuario[0].nombre %></li>
+      <li>Correo: <%= usuario[0].correo %></li> <!-- Cambié direccion por direccion_id -->
+      <li>Tipo de cuenta: cuenta <%= usuario[0].tipo_cuenta %></li> <!-- Agregué un espacio antes de cuenta -->
+      <li>Usuario : <%= usuario[0].usuario %></li>
     </ul>
-    <h1>VISTA</h1>
 
+    <h2>Servicios:</h2>
+    <ul>
+      <% usuario[0].servicios.forEach(function(servicio) { %>
+        <li>Servicio ID: <%= servicio.servicio_id %></li>
+        <li>Nombre de Servicio: <%= servicio.nombredeservicio %></li>
+        <li>Concepto: <%= servicio.concepto %></li>
+        <!-- Agrega más detalles según sea necesario -->
+      <% }); %>
+    </ul>
+
+    <h1>VISTA</h1>
     
-    <a href="/tranferencia">Realizar una transferencia</a>
-    <a href="/tarjeta">Solicitar una tarjeta de credito</a>
+    <a href="/transferencia">Realizar una transferencia</a>
+    <a href="/tarjeta">Solicitar una tarjeta de crédito</a>
     <a href="/tarjetaDebito">Solicitar una tarjeta de débito</a>
-    <a href="/Seguro"></a>
-    <a href="/credito">Solicitar un credito</a>
+    <a href="/seguro"></a>
+    <a href="/credito">Solicitar un crédito</a>
     <a href="/ahorro">Crear una cuenta de ahorro</a>
     <a href="/logout">Cerrar sesión</a>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

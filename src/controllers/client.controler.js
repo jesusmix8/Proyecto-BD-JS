@@ -76,8 +76,8 @@ const createClient = async (req, res) => {
       Contraseña,
     } = req.body;
 
-    const result = await pool.query(
-      "INSERT INTO cliente (RFC, nombre, apellido, numeroDeTelefono, correo, fechadeNacimiento, genero, usuario, contrasena, direccion_ID, sucursal_id) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10, $11)",
+    const cliente = await pool.query(
+      "INSERT INTO cliente (RFC, nombre, apellido, numeroDeTelefono, correo, fechadeNacimiento, genero, usuario, contrasena, direccion_ID, sucursal_id) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10, $11) returning cliente_id",
       [
         RFC,
         Nombre,
@@ -92,6 +92,22 @@ const createClient = async (req, res) => {
         idSucursal,
       ]
     );
+    const idCliente = cliente.rows[0].cliente_id;
+    const cuenta_iD = await pool.query(
+      "Select cuenta_id from cuenta where cliente_id = $1",
+      [idCliente]
+    );
+    const cuenta_ID = cuenta_iD.rows[0].cuenta_id;
+    console.log("jiya")
+    noDeTarjeta = Math.floor(Math.random() * 10000000000000000);
+    fechaDeExpiracion = new Date(new Date().setFullYear(new Date().getFullYear() + 3));
+    cvv = Math.floor(Math.random() * 100);
+    const tarjetaDigital = await pool.query(
+      "INSERT INTO  catalogo_servicio (nombreDeServicio, concepto, noTarjeta, fechaDeExpiracion, cvv, cuenta_ID) VALUES ($1,$2,$3,$4,$5,$6) returning servicio_id",
+      [ "Tarjeta Digital", "Tarjeta Digital", noDeTarjeta, fechaDeExpiracion, cvv, cuenta_ID ]
+    );
+    servicioID = tarjetaDigital.rows[0].catalogo_servicio_id;
+
     res.status(200).json({ message: "Cliente registrado exitosamente" });
   } catch (error) {
     if (error["code"] === "23505") {
@@ -150,12 +166,18 @@ const loaddashboard = async (req, res) => {
     usuario[0].saldo = saldo.rows[0].saldo;
     usuario[0].id_cuenta = saldo.rows[0].cuenta_id;
 
-    console.log (usuario[0])
     const tranasacciones = await pool.query(
        "SELECT * FROM transaccion WHERE cuenta_id = $1",
         [usuario[0].id_cuenta]
     );
     usuario[0].transacciones = tranasacciones.rows;
+    const servicios = await pool.query(
+      "SELECT * FROM catalogo_servicio WHERE cuenta_id = $1",
+      [usuario[0].id_cuenta]
+    );
+    usuario[0].servicios = servicios.rows;
+
+    console.log (usuario[0])
     res.render("dashboard", { usuario: usuario } );
   } else {
     res.redirect("/login");
