@@ -168,4 +168,8 @@ ALTER TABLE sucursal
 DROP COLUMN cliente_ID,
 DROP COLUMN empleado_ID;
  
- 
+ALTER TABLE catalogoestado
+ALTER COLUMN nombremunicipio TYPE VARCHAR(100);
+
+ALTER TABLE catalogoestado
+ALTER COLUMN nombreestado TYPE VARCHAR(100);
