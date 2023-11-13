@@ -12,8 +12,8 @@ pasandose a llamar CatalogoServicio el cual se referencía con cuenta
 
 CREATE TABLE catalogoEstado (
     codigoPostal INTEGER PRIMARY KEY NOT NULL,
-    nombreEstado VARCHAR(30) NOT NULL,
-    nombreMunicipio VARCHAR(30) NOT NULL,
+    nombreEstado VARCHAR(255) NOT NULL,
+    nombreMunicipio VARCHAR(255) NOT NULL,
     CONSTRAINT codigoPostal_positivo CHECK (codigoPostal > 0)
 );
 
@@ -22,9 +22,9 @@ CREATE TABLE catalogoEstado (
 
 CREATE TABLE direccion(
       direccion_ID serial PRIMARY KEY NOT NULL,
-      calle VARCHAR(30) NOT NULL,
-      numero VARCHAR(5) NOT NULL,
-      colonia VARCHAR(30) NOT NULL,
+      calle VARCHAR(255) NOT NULL,
+      numero VARCHAR(255) NOT NULL,
+      colonia VARCHAR(255) NOT NULL,
       codigoPostal INTEGER CONSTRAINT catalogoEstado_fkey REFERENCES catalogoEstado(codigoPostal)
 );
 
@@ -32,10 +32,10 @@ CREATE TABLE direccion(
 
 CREATE TABLE persona (
      RFC VARCHAR(13) PRIMARY KEY NOT NULL,
-     nombre VARCHAR(25) NOT NULL,
-     apellido VARCHAR(25) NOT NULL,
+     nombre VARCHAR(255) NOT NULL,
+     apellido VARCHAR(255) NOT NULL,
      numeroDeTelefono NUMERIC(10) NOT NULL,
-     correo VARCHAR(50) NOT NULL,
+     correo VARCHAR(255) NOT NULL,
      fechadeNacimiento DATE NOT NULL,
      genero VARCHAR(1) NOT NULL,
      direccion_ID INTEGER CONSTRAINT direccion_ID_fkey REFERENCES direccion(direccion_ID),
@@ -48,8 +48,8 @@ CREATE TABLE persona (
 
 CREATE TABLE cliente (
    cliente_ID serial PRIMARY KEY NOT NULL,
-   usuario VARCHAR(10) NOT NULL,
-   contraseña VARCHAR(10) NOT NULL,
+   usuario VARCHAR(255) NOT NULL,
+   contraseña VARCHAR(255) NOT NULL,
    CONSTRAINT usuario_length_check CHECK (LENGTH(usuario) > 0),
    CONSTRAINT contraseña_length_check CHECK (LENGTH(contraseña) > 0),
    CONSTRAINT rfc_unique UNIQUE (RFC)
@@ -59,7 +59,7 @@ CREATE TABLE cliente (
 
 CREATE TABLE empleado (
      empleado_ID serial PRIMARY KEY NOT NULL,
-     puesto VARCHAR (50) NOT NULL,
+     puesto VARCHAR (255) NOT NULL,
      fechadecontratacion DATE NOT NULL,
      fechaDeDespido DATE,
      CONSTRAINT rfc_unico UNIQUE (RFC),
@@ -70,8 +70,8 @@ CREATE TABLE empleado (
 
 CREATE TABLE sucursal(
     sucursal_ID serial PRIMARY KEY NOT NULL,
-    nomSucursal VARCHAR(25) NOT NULL,
-    horario VARCHAR(20) NOT NULL,
+    nomSucursal VARCHAR(255) NOT NULL,
+    horario VARCHAR(255) NOT NULL,
     telefonoDeContacto NUMERIC(10) NOT NULL,
     direccion_ID INTEGER CONSTRAINT direccion_ID_fkey REFERENCES direccion(direccion_ID),
     cliente_ID INTEGER CONSTRAINT cliente_ID_fkey REFERENCES cliente(cliente_ID),
@@ -88,11 +88,11 @@ CREATE TABLE cuenta(
 CREATE TABLE transaccion (
     transaccion_ID serial NOT NULL,
     fechaDeTransaccion DATE NOT NULL,
-    tipoDeMovimiento VARCHAR(50) NOT NULL,
-    cuentaOrigen varchar(25) NOT NULL,
-    cuentaDestino varchar(25) NOT NULL,
+    tipoDeMovimiento VARCHAR(255) NOT NULL,
+    cuentaOrigen varchar(255) NOT NULL,
+    cuentaDestino varchar(255) NOT NULL,
     monto decimal (10,2) NOT NULL,
-    concepto varchar(50) NOT NULL,
+    concepto varchar(255) NOT NULL,
     cuenta_ID INTEGER CONSTRAINT cuenta_ID_fkey REFERENCES cuenta(cuenta_ID),
     CONSTRAINT monto_positivo CHECK (monto > 0),
     PRIMARY KEY (transaccion_ID, monto)
@@ -113,10 +113,10 @@ CREATE TABLE transaccion_mayor_5000 PARTITION OF transaccion FOR VALUES FROM (50
 
 CREATE TABLE catalogo_servicio (
      servicio_ID serial PRIMARY KEY NOT NULL,
-     nombreDeServicio VARCHAR (50) NOT NULL,
-     concepto VARCHAR(300),
-     cveInterbancaria NUMERIC(18),
-     noTarjeta NUMERIC(16),
+     nombreDeServicio VARCHAR (255) NOT NULL,
+     concepto VARCHAR(255),
+     cveInterbancaria NUMERIC(255),
+     noTarjeta NUMERIC(255),
      lineaDeCredito FLOAT,
      fechaDeCredito DATE,
      fechaDeExpiracion DATE,
@@ -125,7 +125,7 @@ CREATE TABLE catalogo_servicio (
      fechaDeApertura DATE,
      pagoMinimo FLOAT,
      pagoParaNoGenerarIntereses FLOAT,
-     promociones VARCHAR(50),
+     promociones VARCHAR(255),
      fechaDePago DATE,
      intereses FLOAT,
      saldo FLOAT,
@@ -138,16 +138,16 @@ CREATE TABLE catalogo_servicio (
 
 CREATE TABLE fact_transferencia(
 	transaccion_ID serial PRIMARY KEY NOT NULL,
-	nombreDeServicio VARCHAR (50) NOT NULL,
+	nombreDeServicio VARCHAR (255) NOT NULL,
 	fechaDeTransaccion DATE NOT NULL,
-	tipoDeMovimiento VARCHAR(50) NOT NULL,
+	tipoDeMovimiento VARCHAR(255) NOT NULL,
 	monto decimal (10,2) NOT NULL,
-	nombre VARCHAR(25) NOT NULL,
-	apellido VARCHAR(25) NOT NULL,
-	nomSucursal VARCHAR(25) NOT NULL,
+	nombre VARCHAR(255) NOT NULL,
+	apellido VARCHAR(255) NOT NULL,
+	nomSucursal VARCHAR(255) NOT NULL,
 	codigoPostal INTEGER NOT NULL,
-	nombreEstado VARCHAR(30) NOT NULL,
-	nombreMunicipio VARCHAR(30) NOT NULL,
+	nombreEstado VARCHAR(255) NOT NULL,
+	nombreMunicipio VARCHAR(255) NOT NULL,
 	cuenta_ID INTEGER CONSTRAINT cuenta_ID_fkey REFERENCES cuenta(cuenta_ID)
 );
 
