@@ -97,6 +97,7 @@ const createClient = async (req, res) => {
         messagedetail: error["detail"],
       });
     } else {
+      console.log(error);
       res.status(400).json({ message: "Error desconocido" });
     }
   }
