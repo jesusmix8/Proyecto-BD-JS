@@ -12,8 +12,8 @@ pasandose a llamar CatalogoServicio el cual se referencía con cuenta
 
 CREATE TABLE catalogoEstado (
     codigoPostal INTEGER PRIMARY KEY NOT NULL,
-    nombreEstado VARCHAR(30) NOT NULL,
-    nombreMunicipio VARCHAR(30) NOT NULL,
+    nombreEstado VARCHAR(50) NOT NULL,
+    nombreMunicipio VARCHAR(50) NOT NULL,
     CONSTRAINT codigoPostal_positivo CHECK (codigoPostal > 0)
 );
 
