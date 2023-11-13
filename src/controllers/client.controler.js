@@ -59,7 +59,10 @@ const createClient = async (req, res) => {
       "SELECT s.sucursal_id FROM sucursal s JOIN direccion d ON s.direccion_ID = d.direccion_ID JOIN catalogoEstado ce ON d.codigoPostal = ce.codigoPostal WHERE ce.codigoPostal = $1",
       [Codigopostal]
     );
+    console.log(resultSucursal.rows[0]);
     const idSucursal = resultSucursal.rows[0].sucursal_id;
+    console.log(idSucursal);
+
 
     const {
       RFC,
@@ -138,9 +141,24 @@ const getDataClient = async (req, res) => {
 const loaddashboard = async (req, res) => {
   const usuario = req.session.usuario;
   if (usuario) {
-    res.render("dashboard", { usuario: usuario });
+    //Conseguir saldo de la cuenta
+    const saldo = await pool.query(
+      "SELECT saldo, cuenta_id FROM cuenta WHERE cliente_id = $1",
+      [usuario[0].cliente_id]
+    );
+
+    usuario[0].saldo = saldo.rows[0].saldo;
+    usuario[0].id_cuenta = saldo.rows[0].cuenta_id;
+
+    console.log (usuario[0])
+    const tranasacciones = await pool.query(
+       "SELECT * FROM transaccion WHERE cuenta_id = $1",
+        [usuario[0].id_cuenta]
+    );
+    usuario[0].transacciones = tranasacciones.rows;
+    res.render("dashboard", { usuario: usuario } );
   } else {
-    res.json({ message: "No hay usuario en la sesión" });
+    res.redirect("/login");
   }
 };
 
@@ -154,6 +172,8 @@ const cargadePantallaTransferencia = (req, res) => {
     res.redirect("/login");
   }
 };
+
+
 //TODO implementar la transferencia
 //Aqui se recibe el usuario de la cuenta destino, el monto y la descripcion desde el html "formtransferencia.html"
 //Usando los datos de la sesion en req.session.usuario se obtiene el usuario de la cuenta origen
