@@ -256,6 +256,33 @@ const pantalladeahorro = (req, res) => {
   });
 };
 
+const pantallaDeposito = (req, res) => {
+  res.sendFile("views/deposito/deposito.html", {
+    root: __dirname + "/../",
+  });
+}
+
+const realizarDeposito = async (req, res) => {
+  const usuario = req.session.usuario;
+try {
+  // revissar si hay usuario en sesion
+  if(usuario){
+    const cantidad = req.body.Cantidad;
+    const usuario = req.session.usuario;
+    const cuenta_ID = usuario[0].id_cuenta;
+  
+    const result = await pool.query(
+      "UPDATE cuenta SET saldo = saldo + $1 WHERE cuenta_id = $2",
+      [cantidad, cuenta_ID]
+    );
+    res.status(200).json({ message: "Deposito exitoso" });
+  }
+} catch (error) {
+  res.status(400).json({ message: "Error desconocido" });
+}
+};
+
+
 const deleteClient = (req, res) => {
   res.send("Delete cliente");
 };
@@ -265,6 +292,8 @@ const updateClient = (req, res) => {
 };
 
 module.exports = {
+  realizarDeposito,
+  pantallaDeposito,
   pantalladeahorro,
   transferclient,
   logout,
