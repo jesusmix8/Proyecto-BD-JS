@@ -15,7 +15,7 @@ router.get('/perfil', loaddashboard);
 
 router.get('/logout', logout);
 
-router.get('/tranferencia', cargadePantallaTransferencia);
+router.get('/transferencia', cargadePantallaTransferencia);
 
 router.get('/ahorro',pantalladeahorro)
 
