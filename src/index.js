@@ -26,6 +26,8 @@ app.use(express.static('src'));
 
 
 app.use('/static', express.static(path.join(__dirname, 'views')));
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.use(session({
     secret: 'generateRandomKey(64)',
