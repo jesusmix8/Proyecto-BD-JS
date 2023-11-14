@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const router = Router();
-const { logout, inicio,formhtml, createClient, getDataClient, loaddashboard ,deleteClient, transferclient , login, cargadePantallaTransferencia,pantalladeahorro} = require('../controllers/client.controler');
+const { logout, inicio,formhtml, createClient, getDataClient, loaddashboard ,deleteClient, transferclient , login, cargadePantallaTransferencia,pantalladeahorro,pantallaDeposito, realizarDeposito} = require('../controllers/client.controler');
 
 
 
@@ -15,15 +15,19 @@ router.get('/perfil', loaddashboard);
 
 router.get('/logout', logout);
 
-router.get('/tranferencia', cargadePantallaTransferencia);
+router.get('/transferencia', cargadePantallaTransferencia);
 
 router.get('/ahorro',pantalladeahorro)
+
+router.get('/depositar',pantallaDeposito)
 
 router.post('/transfer', transferclient)
 
 router.post('/client_register',createClient );
 
 router.post('/login',getDataClient );
+
+router.post('/deposito',realizarDeposito);
 
 router.delete('/client', deleteClient);
 

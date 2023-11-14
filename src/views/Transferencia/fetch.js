@@ -5,7 +5,7 @@ document.getElementById('my-form').addEventListener('submit', function (e) {
 
     const cuentaDestino = document.querySelector('input[name="cuentaDestino"]').value;
     const monto = document.querySelector('input[name="monto"]').value;
-    const descripcion = document.querySelector('input[name="monto"]').value;
+    const descripcion = document.querySelector('input[name="descripcion"]').value;
 
 
     const data = {
