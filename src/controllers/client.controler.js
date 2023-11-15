@@ -309,6 +309,7 @@ try {
 }
 };
 
+Hola
 
 const deleteClient = (req, res) => {
   res.send("Delete cliente");
