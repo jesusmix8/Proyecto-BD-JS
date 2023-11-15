@@ -309,7 +309,7 @@ try {
 }
 };
 
-Hola
+//Hola sexy ddawdaw memito awdwda
 
 const deleteClient = (req, res) => {
   res.send("Delete cliente");
