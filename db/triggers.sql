@@ -17,3 +17,4 @@ AFTER INSERT
 ON cliente
 FOR EACH ROW
 EXECUTE FUNCTION crear_cuenta_despues_insertar_cliente();
+--Hola
