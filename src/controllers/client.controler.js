@@ -126,7 +126,7 @@ const getDataClient = async (req, res) => {
   try {
     const { Usuario, Contraseña } = req.body;
     const result = await pool.query(
-      "SELECT * FROM cliente WHERE Usuario = $1 AND Contraseña = $2",
+      "SELECT * FROM cliente WHERE Usuario = $1 AND Contrasena = $2",
       [Usuario, Contraseña]
     );
     console.log(result.rows);
