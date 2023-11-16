@@ -199,32 +199,32 @@ const realizarTransferenciaCliente = async (req, res) => {
 
   const usuario = req.session.usuario;
   const cuentaIDororigen = usuario[0].id_cuenta;
-
   console.log("Cuenta origen: " + cuentaIDororigen);
+  const cuentaOrigen = await pool.query(
+    "SELECT * FROM catalogo_servicio WHERE cuenta_id = $1;",
+    [cuentaIDororigen]
+  )
 
   const { cuentaDestino, monto, descripcion } = req.body;
-  console.log(cuentaDestino, monto, descripcion);
   const tipo="Transferencia";
 
-  const idOrigen = await pool.query(
-    "SELECT cuenta_id FROM cuenta WHERE cuenta_id = $1",
+  const idCuentaDestino = await pool.query(
+    "SELECT * FROM catalogo_servicio WHERE notarjeta = $1;",
     [cuentaDestino]
-  );
-  if (idOrigen.rows.length > 0) {
+  )
+  
+  if (idCuentaDestino.rows.length > 0) {
+    const noCuentaOrigen = cuentaOrigen.rows[0].notarjeta;
+    const noCuentaDestino = idCuentaDestino.rows[0].notarjeta;
+    console.log("Cuenta destino: " + noCuentaDestino)
     const result = await pool.query(
-      "Insert into transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen,cuentadestino, monto,concepto,cuenta_id) values (NOW(),$1,$2,$3,$4,$5,$6)",
-      [tipo, cuentaIDororigen, cuentaDestino,monto,descripcion,cuentaIDororigen]
+      "INSERT INTO transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) values (NOW(),$1,$2,$3,$4,$5,$6)",
+      [tipo, noCuentaOrigen, noCuentaDestino, monto, descripcion, cuentaIDororigen]
     );
     res.status(200).json({ message: "Transferencia exitosa" });
   } else {
     res.status(404).json({ message: "Cuenta destino no encontrada" });
   }
-
-
-
-
-
-
     //xd
   // const { cuentaDestino, monto, descripcion } = req.body;
   // console.log(cuentaDestino, monto, descripcion);
