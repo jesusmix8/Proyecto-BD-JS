@@ -1,44 +1,33 @@
 const pool = require("../db");
 
+
+const destroySession = (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error(err); 
+    }
+  });
+};
+
 const inicio = (req, res) => {
-  if (req.session) {
-    req.session.destroy((err) => {
-      if (err) {
-        console.error(err);
-      }
-    });
-  }
+  destroySession(req, res);
   res.sendFile("views/inicio/index.html", { root: __dirname + "/../" });
 };
 
 const login = (req, res) => {
-  if (req.session) {
-    req.session.destroy((err) => {
-      if (err) {
-        console.error(err);
-      }
-    });
-  }
+  destroySession(req, res);
   res.sendFile("views/login/login.html", { root: __dirname + "/../" });
 };
 
-const formhtml = (req, res) => {
+const FormNewClient = (req, res) => {
+  destroySession(req, res);
   res.sendFile("views/FormNewClient/form.html", { root: __dirname + "/../" });
-  if (req.session) {
-    req.session.destroy((err) => {
-      if (err) {
-        console.error(err);
-      }
-    });
-  }
+
 };
+
 const logout = (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      console.error(err);
-    }
-    res.redirect("/login"); // Redirige al usuario a la página de inicio de sesión u otra página de tu elección
-  });
+  destroySession(req, res);
+  res.redirect("/login");
 };
 
 const createClient = async (req, res) => {
@@ -122,6 +111,7 @@ const createClient = async (req, res) => {
   }
 };
 
+
 const getDataClient = async (req, res) => {
   try {
     const { Usuario, Contraseña } = req.body;
@@ -204,7 +194,7 @@ const cargadePantallaTransferencia = (req, res) => {
 //Se comprueba si la cuenta origen tiene saldo suficiente para realizar la transferencia
 //Se realiza la transferencia
 
-const transferclient = async (req, res) => {
+const realizarTransferenciaCliente = async (req, res) => {
 
   const usuario = req.session.usuario;
   const cuentaIDororigen = usuario[0].id_cuenta;
@@ -309,7 +299,6 @@ try {
 }
 };
 
-//Hola sexy soy Esdras
 
 const deleteClient = (req, res) => {
   res.send("Delete cliente");
@@ -320,17 +309,17 @@ const updateClient = (req, res) => {
 };
 
 module.exports = {
-  realizarDeposito,
-  pantallaDeposito,
-  pantalladeahorro,
-  transferclient,
-  logout,
+  inicio,
+  FormNewClient,
+  createClient,
   loaddashboard,
   login,
-  inicio,
-  formhtml,
   getDataClient,
-  createClient,
-  deleteClient,
+  pantallaDeposito,
+  realizarDeposito,
+  realizarTransferenciaCliente,
   cargadePantallaTransferencia,
+  pantalladeahorro,
+  deleteClient,
+  logout,
 };
