@@ -1,6 +1,11 @@
 const {Router} = require('express');
 const router = Router();
-const { logout, inicio,formhtml, createClient, getDataClient, loaddashboard ,deleteClient, transferclient , login, cargadePantallaTransferencia,SolicitudDeAhorro,pantallaDeposito, realizarDeposito} = require('../controllers/client.controler');
+const { inicio, FormNewClient, createClient, login, getDataClient, loaddashboard , logout, 
+    cargadePantallaTransferencia, realizarTransferenciaCliente , SolicitudDeTdc, 
+    crearTDC, pantallatdc, SolicitudDeSeguro, crearSeguro, pantallaseguro, SolicitudDePrestamo,
+    crearPrestamo, pantallaprestamo, SolicitudDeAhorro, crearAhorro, pantalladeahorro,
+    pantallaDeposito, realizarDeposito} 
+    = require('../controllers/client.controler');
 
 
 
@@ -8,7 +13,7 @@ const { logout, inicio,formhtml, createClient, getDataClient, loaddashboard ,del
 router.get('/', inicio);
 
 //Ruta para la creacion de cliente
-router.get ('/nuevocliente' , formhtml);
+router.get ('/nuevocliente' , FormNewClient);
 router.post('/client_register',createClient );
 //Rutas relacionadas para la autenticacion de cliente
 router.get('/login' , login);
@@ -20,7 +25,7 @@ router.get('/logout', logout);
 
 //Rutas para servicios de cliente
 router.get('/transferencia', cargadePantallaTransferencia)
-router.post('/transfer', transferclient)
+router.post('/transfer', realizarTransferenciaCliente)
 
 router.get('/solicitarTDC', SolicitudDeTdc)
 router.post('/solicitudTDC', crearTDC)
@@ -39,7 +44,7 @@ router.get('/prestamo', pantallaprestamo)
 //Ahorro
 router.get('/ahorro', SolicitudDeAhorro)
 router.post('/solicitudAhorro', crearAhorro)
-router.get('/ahorro', pantallaprestamo)
+router.get('/ahorro', pantalladeahorro)
 
 
 router.get('/depositar',pantallaDeposito)

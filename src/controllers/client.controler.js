@@ -267,11 +267,7 @@ const realizarTransferenciaCliente = async (req, res) => {
   // }
 };
 
-const pantalladeahorro = (req, res) => {
-  res.sendFile("views/Ahorro/FormAhorro.html", {
-    root: __dirname + "/../",
-  });
-};
+
 
 const pantallaDeposito = (req, res) => {
   res.sendFile("views/deposito/deposito.html", {
@@ -300,13 +296,74 @@ try {
 };
 
 
-const deleteClient = (req, res) => {
-  res.send("Delete cliente");
+const SolicitudDeTdc = (req, res) => {
+  res.sendFile("views/TDC/FormTDC.html", {
+    root: __dirname + "/../",
+  });
+};
+const crearTDC = async (req, res) => {
+  console.log("Aqui ira la creacion del servicio de TDC");
+
 };
 
-const updateClient = (req, res) => {
-  res.send("Actualizando cliente");
+const pantallatdc = (req, res) => {
+  console.log("Aqui ira la pantalla de info de la TDC ");
 };
+
+
+const SolicitudDeSeguro = (req, res) => {
+  res.sendFile("views/Seguro/FormSeguro.html", {
+    root: __dirname + "/../",
+  });
+}
+
+const crearSeguro = async (req, res) => {
+  console.log("Aqui ira la creacion del servicio de Seguro");
+
+};
+
+const pantallaseguro = (req, res) => {
+  console.log("Aqui ira la pantalla de info del Seguro ");
+};
+
+
+const SolicitudDePrestamo = (req, res) => {
+  res.sendFile("views/Prestamo/FormPrestamo.html", {
+    root: __dirname + "/../",
+  });
+}
+
+const crearPrestamo = async (req, res) => {
+  console.log("Aqui ira la creacion del servicio de Prestamo");
+
+};
+
+const pantallaprestamo = (req, res) => {
+  console.log("Aqui ira la pantalla de info del Prestamo ");
+};
+
+
+const SolicitudDeAhorro = (req, res) => {
+  res.sendFile("views/Ahorro/FormAhorro.html", {
+    root: __dirname + "/../",
+  });
+}
+
+const crearAhorro = async (req, res) => {
+  console.log("Aqui ira la creacion del servicio de Ahorro");
+
+};
+
+const pantalladeahorro = (req, res) => {
+  res.sendFile("views/Ahorro/FormAhorro.html", {
+    root: __dirname + "/../",
+  });
+};
+
+
+
+
+
 
 module.exports = {
   inicio,
@@ -319,7 +376,17 @@ module.exports = {
   realizarDeposito,
   realizarTransferenciaCliente,
   cargadePantallaTransferencia,
+  SolicitudDeTdc,
+  crearTDC,
+  pantallatdc,
+  SolicitudDeSeguro,
+  crearSeguro,
+  pantallaseguro,
+  SolicitudDePrestamo,
+  crearPrestamo,
+  pantallaprestamo,
+  SolicitudDeAhorro,
+  crearAhorro,
   pantalladeahorro,
-  deleteClient,
   logout,
 };
