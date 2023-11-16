@@ -355,9 +355,7 @@ const crearAhorro = async (req, res) => {
 };
 
 const pantalladeahorro = (req, res) => {
-  res.sendFile("views/Ahorro/FormAhorro.html", {
-    root: __dirname + "/../",
-  });
+  console.log("Aqui ira la pantalla de info del Ahorro ");
 };
 
 

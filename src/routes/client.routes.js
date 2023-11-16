@@ -27,11 +27,12 @@ router.get('/logout', logout);
 router.get('/transferencia', cargadePantallaTransferencia)
 router.post('/transfer', realizarTransferenciaCliente)
 
+//Tarjeta de credito
 router.get('/solicitarTDC', SolicitudDeTdc)
 router.post('/solicitudTDC', crearTDC)
 router.get('/tdc', pantallatdc)
 
-//
+//Seguro
 router.get('/Seguro', SolicitudDeSeguro)
 router.post('/solicitudSeguro', crearSeguro)
 router.get('/seguro', pantallaseguro)
@@ -46,7 +47,7 @@ router.get('/ahorro', SolicitudDeAhorro)
 router.post('/solicitudAhorro', crearAhorro)
 router.get('/ahorro', pantalladeahorro)
 
-
+//deposito
 router.get('/depositar',pantallaDeposito)
 router.post('/deposito',realizarDeposito)
 
