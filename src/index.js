@@ -18,6 +18,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 
 const routesClient = require('./routes/client.routes');
+const routesEmployee = require('./routes/employee.routes');
 
 app.use(cors());
 app.use(morgan('dev'));
@@ -37,6 +38,7 @@ app.use(session({
 
 
 app.use(routesClient);
+app.use(routesEmployee);
 
 
 
