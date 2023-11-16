@@ -88,7 +88,8 @@ const createClient = async (req, res) => {
     );
     const cuenta_ID = cuenta_iD.rows[0].cuenta_id;
     console.log("jiya")
-    noDeTarjeta = Math.floor(Math.random() * 10000000000000000);
+    ultimos10Digitos = Math.floor(Math.random() * 10000000000);
+    noDeTarjeta = "491566" + ultimos10Digitos.toString().padStart(10, '0');
     fechaDeExpiracion = new Date(new Date().setFullYear(new Date().getFullYear() + 3));
     cvv = Math.floor(Math.random() * 100);
     const tarjetaDigital = await pool.query(
