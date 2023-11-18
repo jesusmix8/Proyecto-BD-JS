@@ -44,7 +44,7 @@ router.get('/prestamo', pantallaprestamo)
 
 //Ahorro
 router.get('/ahorro', SolicitudDeAhorro)
-router.post('/solicitudAhorro', crearAhorro)
+router.post('/crearAhorro', crearAhorro)
 router.get('/ahorro', pantalladeahorro)
 
 //deposito

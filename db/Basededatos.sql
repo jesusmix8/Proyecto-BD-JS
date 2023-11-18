@@ -173,3 +173,9 @@ ALTER COLUMN nombremunicipio TYPE VARCHAR(100);
 
 ALTER TABLE catalogoestado
 ALTER COLUMN nombreestado TYPE VARCHAR(100);
+
+--Alter para cambiar el tipo de dato de la columna cuentaOirgen la tabla Transaccion
+ALTER TABLE transaccion ALTER COLUMN cuentaorigen TYPE NUMERIC(16,0) USING cuentaorigen::NUMERIC(16,0);
+
+--Alter para cambiar el tipo de dato de la columna cuentaDestino en la tabla Transaccion
+ALTER TABLE transaccion ALTER COLUMN cuentadestino TYPE NUMERIC(16,0) USING cuentadestino::NUMERIC(16,0);
