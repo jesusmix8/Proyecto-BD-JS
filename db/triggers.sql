@@ -22,22 +22,23 @@ EXECUTE FUNCTION crear_cuenta_despues_insertar_cliente();
 CREATE OR REPLACE FUNCTION actualizar_saldo()
 RETURNS TRIGGER AS $$
 DECLARE 
-id_cuentaDestino INT;
+    id_cuentaDestino INT;
 BEGIN
- IF NEW.tipoDeMovimiento = 'Transferencia' THEN
--- Buscar el cuenta_id del CuentaDestino
- SELECT cuenta_id INTO id_cuentaDestino
- FROM catalogo_servicio 
- WHERE notarjeta = NEW.cuentaDestino;
--- Restar el saldo cuentaOrigen y sumar cuentaDestino
- UPDATE cuenta SET saldo = saldo - NEW.monto WHERE cuenta_ID = NEW.cuenta_ID;
- UPDATE cuenta SET saldo = saldo + NEW.monto WHERE cuenta_ID = id_cuentaDestino;
- ELSIF NEW.tipoDeMovimiento = 'Retiro' THEN
- UPDATE cuenta SET saldo = saldo - NEW.monto WHERE cuenta_ID = NEW.cuenta_ID;
- END IF;
- RETURN NEW;
+    IF NEW.tipoDeMovimiento = 'Transferencia' THEN
+        -- Buscar el cuenta_id del CuentaDestino
+        SELECT cuenta_id INTO id_cuentaDestino
+        FROM catalogo_servicio 
+        WHERE notarjeta = NEW.cuentaDestino::numeric; -- Convertir a tipo numeric
+        -- Restar el saldo cuentaOrigen y sumar cuentaDestino
+        UPDATE cuenta SET saldo = saldo - NEW.monto WHERE cuenta_ID = NEW.cuenta_ID;
+        UPDATE cuenta SET saldo = saldo + NEW.monto WHERE cuenta_ID = id_cuentaDestino;
+    ELSIF NEW.tipoDeMovimiento = 'Retiro' THEN
+        UPDATE cuenta SET saldo = saldo - NEW.monto WHERE cuenta_ID = NEW.cuenta_ID;
+    END IF;
+    RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+
 
 -- Crear el trigger
 CREATE TRIGGER trigger_actualizar_saldo
