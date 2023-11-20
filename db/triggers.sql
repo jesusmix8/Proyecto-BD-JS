@@ -38,3 +38,9 @@ BEGIN
  RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+
+-- Crear el trigger
+CREATE TRIGGER trigger_actualizar_saldo
+AFTER INSERT ON transaccion
+FOR EACH ROW
+EXECUTE FUNCTION actualizar_saldo();
