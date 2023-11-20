@@ -1,10 +1,9 @@
 const pool = require("../db");
 
-
 const destroySession = (req, res) => {
   req.session.destroy((err) => {
     if (err) {
-      console.error(err); 
+      console.error(err);
     }
   });
 };
@@ -22,7 +21,6 @@ const login = (req, res) => {
 const FormNewClient = (req, res) => {
   destroySession(req, res);
   res.sendFile("views/FormNewClient/form.html", { root: __dirname + "/../" });
-
 };
 
 const logout = (req, res) => {
@@ -48,10 +46,13 @@ const createClient = async (req, res) => {
       "SELECT s.sucursal_id FROM sucursal s JOIN direccion d ON s.direccion_ID = d.direccion_ID JOIN catalogoEstado ce ON d.codigoPostal = ce.codigoPostal WHERE ce.codigoPostal = $1",
       [Codigopostal]
     );
-    console.log(resultSucursal.rows[0]);
+    const numeroAleatorio = Math.floor(
+      Math.random() * resultSucursal.rows.length
+    );
+    console.log(resultSucursal.rows[numeroAleatorio]);
+
     const idSucursal = resultSucursal.rows[0].sucursal_id;
     console.log(idSucursal);
-
 
     const {
       RFC,
@@ -87,14 +88,22 @@ const createClient = async (req, res) => {
       [idCliente]
     );
     const cuenta_ID = cuenta_iD.rows[0].cuenta_id;
-    console.log("jiya")
     ultimos10Digitos = Math.floor(Math.random() * 10000000000);
-    noDeTarjeta = "491566" + ultimos10Digitos.toString().padStart(10, '0');
-    fechaDeExpiracion = new Date(new Date().setFullYear(new Date().getFullYear() + 3));
+    noDeTarjeta = "491566" + ultimos10Digitos.toString().padStart(10, "0");
+    fechaDeExpiracion = new Date(
+      new Date().setFullYear(new Date().getFullYear() + 3)
+    );
     cvv = Math.floor(Math.random() * 100);
     const tarjetaDigital = await pool.query(
       "INSERT INTO  catalogo_servicio (nombreDeServicio, concepto, noTarjeta, fechaDeExpiracion, cvv, cuenta_ID) VALUES ($1,$2,$3,$4,$5,$6) returning servicio_id",
-      [ "Tarjeta Digital", "Tarjeta Digital", noDeTarjeta, fechaDeExpiracion, cvv, cuenta_ID ]
+      [
+        "Tarjeta Digital",
+        "Tarjeta Digital",
+        noDeTarjeta,
+        fechaDeExpiracion,
+        cvv,
+        cuenta_ID,
+      ]
     );
     servicioID = tarjetaDigital.rows[0].catalogo_servicio_id;
 
@@ -111,7 +120,6 @@ const createClient = async (req, res) => {
     }
   }
 };
-
 
 const getDataClient = async (req, res) => {
   try {
@@ -154,8 +162,8 @@ const loaddashboard = async (req, res) => {
     usuario[0].saldo = saldo.rows[0].saldo;
     usuario[0].id_cuenta = saldo.rows[0].cuenta_id;
     const tranasacciones = await pool.query(
-       "SELECT * FROM transaccion WHERE cuenta_id = $1",
-        [usuario[0].id_cuenta]
+      "SELECT * FROM transaccion WHERE cuenta_id = $1",
+      [usuario[0].id_cuenta]
     );
     usuario[0].transacciones = tranasacciones.rows;
     const servicios = await pool.query(
@@ -164,8 +172,8 @@ const loaddashboard = async (req, res) => {
     );
     usuario[0].servicios = servicios.rows;
 
-    console.log (usuario[0])
-    res.render("dashboard", { usuario: usuario } );
+    console.log(usuario[0]);
+    res.render("dashboard", { usuario: usuario });
   } else {
     res.redirect("/login");
   }
@@ -183,30 +191,36 @@ const cargadePantallaTransferencia = (req, res) => {
 };
 
 const realizarTransferenciaCliente = async (req, res) => {
-
   const usuario = req.session.usuario;
   const cuentaIDororigen = usuario[0].id_cuenta;
   console.log("Cuenta origen: " + cuentaIDororigen);
   const cuentaOrigen = await pool.query(
     "SELECT * FROM catalogo_servicio WHERE cuenta_id = $1;",
     [cuentaIDororigen]
-  )
+  );
 
   const { cuentaDestino, monto, descripcion } = req.body;
-  const tipo="Transferencia";
+  const tipo = "Transferencia";
 
   const idCuentaDestino = await pool.query(
     "SELECT * FROM catalogo_servicio WHERE notarjeta = $1;",
     [cuentaDestino]
-  )
-  
+  );
+
   if (idCuentaDestino.rows.length > 0) {
     const noCuentaOrigen = cuentaOrigen.rows[0].notarjeta;
     const noCuentaDestino = idCuentaDestino.rows[0].notarjeta;
-    console.log("Cuenta destino: " + noCuentaDestino)
+    console.log("Cuenta destino: " + noCuentaDestino);
     const result = await pool.query(
       "INSERT INTO transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) values (NOW(),$1,$2,$3,$4,$5,$6)",
-      [tipo, noCuentaOrigen, noCuentaDestino, monto, descripcion, cuentaIDororigen]
+      [
+        tipo,
+        noCuentaOrigen,
+        noCuentaDestino,
+        monto,
+        descripcion,
+        cuentaIDororigen,
+      ]
     );
     res.status(200).json({ message: "Transferencia exitosa" });
   } else {
@@ -214,34 +228,31 @@ const realizarTransferenciaCliente = async (req, res) => {
   }
 };
 
-
-
 const pantallaDeposito = (req, res) => {
   res.sendFile("views/deposito/deposito.html", {
     root: __dirname + "/../",
   });
-}
+};
 
 const realizarDeposito = async (req, res) => {
   const usuario = req.session.usuario;
-try {
-  // revissar si hay usuario en sesion
-  if(usuario){
-    const cantidad = req.body.Cantidad;
-    const usuario = req.session.usuario;
-    const cuenta_ID = usuario[0].id_cuenta;
-  
-    const result = await pool.query(
-      "UPDATE cuenta SET saldo = saldo + $1 WHERE cuenta_id = $2",
-      [cantidad, cuenta_ID]
-    );
-    res.status(200).json({ message: "Deposito exitoso" });
-  }
-} catch (error) {
-  res.status(400).json({ message: "Error desconocido" });
-}
-};
+  try {
+    // revissar si hay usuario en sesion
+    if (usuario) {
+      const cantidad = req.body.Cantidad;
+      const usuario = req.session.usuario;
+      const cuenta_ID = usuario[0].id_cuenta;
 
+      const result = await pool.query(
+        "UPDATE cuenta SET saldo = saldo + $1 WHERE cuenta_id = $2",
+        [cantidad, cuenta_ID]
+      );
+      res.status(200).json({ message: "Deposito exitoso" });
+    }
+  } catch (error) {
+    res.status(400).json({ message: "Error desconocido" });
+  }
+};
 
 const SolicitudDeTdc = (req, res) => {
   res.sendFile("views/TDC/FormTDC.html", {
@@ -250,65 +261,56 @@ const SolicitudDeTdc = (req, res) => {
 };
 const crearTDC = async (req, res) => {
   console.log("Aqui ira la creacion del servicio de TDC");
-
 };
 
 const pantallatdc = (req, res) => {
   console.log("Aqui ira la pantalla de info de la TDC ");
 };
 
-
 const SolicitudDeSeguro = (req, res) => {
   res.sendFile("views/Seguro/FormSeguro.html", {
     root: __dirname + "/../",
   });
-}
+};
 
 const crearSeguro = async (req, res) => {
   console.log("Aqui ira la creacion del servicio de Seguro");
-
 };
 
 const pantallaseguro = (req, res) => {
   console.log("Aqui ira la pantalla de info del Seguro ");
 };
 
-
 const SolicitudDePrestamo = (req, res) => {
   res.sendFile("views/Prestamo/FormPrestamo.html", {
     root: __dirname + "/../",
   });
-}
+};
 
 const crearPrestamo = async (req, res) => {
   console.log("Aqui ira la creacion del servicio de Prestamo");
-
 };
 
 const pantallaprestamo = (req, res) => {
   console.log("Aqui ira la pantalla de info del Prestamo ");
 };
 
-
 const SolicitudDeAhorro = (req, res) => {
   res.sendFile("views/Ahorro/FormAhorro.html", {
     root: __dirname + "/../",
   });
-}
+};
 
 const crearAhorro = async (req, res) => {
   console.log("Aqui ira la creacion del servicio de Ahorro");
   const { NombreDelAhorro, Plazo, Monto } = req.body;
-  
-  res.status(200).json({ message: "Ahorro exitoso" });
 
+  res.status(200).json({ message: "Ahorro exitoso" });
 };
 
 const pantalladeahorro = (req, res) => {
   console.log("Aqui ira la pantalla de info del Ahorro ");
 };
-
-
 
 module.exports = {
   inicio,
