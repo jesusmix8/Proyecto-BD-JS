@@ -4,7 +4,7 @@ const { inicio, FormNewClient, createClient, login, getDataClient, loaddashboard
     cargadePantallaTransferencia, realizarTransferenciaCliente , SolicitudDeTdc, 
     crearTDC, pantallatdc, SolicitudDeSeguro, crearSeguro, pantallaseguro, SolicitudDePrestamo,
     crearPrestamo, pantallaprestamo, SolicitudDeAhorro, crearAhorro, pantalladeahorro,
-    pantallaDeposito, realizarDeposito} 
+    pantallaDeposito, realizarDeposito,cargarPantallaServicios, mostrarServicios} 
     = require('../controllers/client.controler');
 
 
@@ -26,6 +26,9 @@ router.get('/logout', logout);
 //Rutas para servicios de cliente
 router.get('/transferencia', cargadePantallaTransferencia)
 router.post('/transfer', realizarTransferenciaCliente)
+
+router.get('/servicios', cargarPantallaServicios)
+router.post('/services', mostrarServicios)
 
 //Tarjeta de credito
 router.get('/solicitarTDC', SolicitudDeTdc)
