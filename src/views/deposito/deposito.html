@@ -1,18 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Reliza un deposito</h1>
-    <p id="mensaje"></p>
-    <form action="/deposito" method="post" id="deposito-form">
-        <input type="number" name="cantidad" id="cantidad" placeholder="Cantidad a depositar">
-        <button type="submit" >Deposita</button>
-    </form>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="https://image.ibb.co/fOur3b/favicon.png" />
+    <meta name="theme-color" content="#1885ed" />
+    <title>Realizar un deposito</title>
+    <link rel="stylesheet" href="./public/css/dashboardStyles.css">
+    <link rel="stylesheet" href="/static/deposito/deposito.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" </head>
 
-    <script src ="/static/deposito/depositofetch.js"></script>
-</body>
+    <body>
+        <header class="header">
+            <div class="container2 header__container">
+                <div class="header__logo">
+                    <img class="header__img" src="https://image.ibb.co/kcVou6/path3000.png" />
+                    <h1 class="header__title">
+                        Banca<span class="header__light"> Facil</span>
+                    </h1>
+                </div>
+            </div>
+        </header>
+        <div class="container_t">
+            <div class="section1">
+                <div class="subsec1">
+                    <div class="item0">
+                        <img class="img"
+                            src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29uYXxlbnwwfHwwfHx8MA%3D%3D"
+                            alt="" />
+                        <div class="data-user">
+                            <p class="name">
+                                Mi nombre
+                            </p>
+                            <p class="tpu">
+                                Cuenta
+                            </p>
+                        </div>
+                    </div>
+                    <div class="item1" id="item">
+                        <i class="inactive bi bi-house"></i>
+                        <a href="/perfil" class="inactive">Inicio</a>
+                    </div>
+                    <div class="item1 id=" item"">
+                        <i class="inactive bi bi-credit-card"></i>
+                        <a href="#" class="inactive">Pagos</a>
+                    </div>
+                    <div class="item1" id="item">
+                        <i class="active bi bi bi-cash-coin"></i>
+                        <a href="#" class="active">Depósitos</a>
+                    </div>
+                    <div class="item1" id="item">
+                        <i class="inactive bi bi-hdd-stack"></i>
+                        <a href="#" class="inactive">Servicios</a>
+                    </div>
+                    <div class="item1" id="item">
+                        <i class="inactive bi bi-gear"></i>
+                        <a href="#" class="inactive">Configuración</a>
+                    </div>
+                </div>
+                <div class="subsec2">
+                    <div class="item2">
+                        <i class="inactive bi bi-box-arrow-left"></i>
+                        <a href="/logout" class="inactive">Cerrar sesión</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="transferencia">
+                <h1 class="header__title">Reliza un depósito</h1>
+                <p id="mensaje"></p>
+                <form action="/deposito" method="post" id="deposito-form">
+                    <input class="deposito" type="number" name="cantidad" id="cantidad"
+                        placeholder="Cantidad a depositar">
+                    <button class="btnt btnt--inside uppercase" type="submit">Depositar</button>
+                </form>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="/Javascript/Home.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="/static/deposito/depositofetch.js"></script>
+    </body>
+
 </html>

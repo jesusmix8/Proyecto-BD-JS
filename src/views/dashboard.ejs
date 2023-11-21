@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard</title>
+    <title>Inicio</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link
     rel="stylesheet"
@@ -79,15 +79,15 @@
           </div>
           <div class="item1" id="item">
             <i class="active bi bi-house"></i>
-            <a href="#" class="active">Dashboard</a>
-          </div>
-          <div class="item1 id="item"">
-            <i class="inactive bi bi-credit-card"></i>
-            <a href="#" class="inactive">Payments</a>
+            <a href="/perfil" class="active">Inicio</a>
           </div>
           <div class="item1" id="item">
-            <i class=" bi bi bi-cash-coin"></i>
-            <a href="/depositar" class="active">Depositar</a>
+            <i class="inactive bi bi-credit-card"></i>
+            <a href="#" class="inactive">Pagos</a>
+          </div>
+          <div class="item1" id="item">
+            <i class="inactive bi bi bi-cash-coin"></i>
+            <a href="/depositar" class="inactive">Depositos</a>
           </div>
           <div class="item1" id="item">
             <i class="inactive bi bi-hdd-stack"></i>
@@ -97,13 +97,13 @@
           </div>
           <div class="item1" id="item">
             <i class="inactive bi bi-gear"></i>
-            <a href="#" class="inactive">Settings</a>
+            <a href="#" class="inactive">Configuración</a>
           </div>
         </div>
         <div class="subsec2">
           <div class="item2">
-            <i class=" bi bi-box-arrow-left"></i>
-            <a href="/logout" class="active">Cerrar sesión</a>
+            <i class="inactive bi bi-box-arrow-left"></i>
+            <a href="/logout" class="inactive">Cerrar sesión</a>
           </div>
         </div>
       </div>
@@ -126,19 +126,19 @@
             <div class="icon">
               <i class="opt-icon bi bi-receipt-cutoff"></i>
             </div>
-            <a href=""> History</a>
+            <a href=""> Historial</a>
           </div>
           <div class="option">
             <div class="icon">
               <i class="opt-icon bi bi-graph-down-arrow"></i>
             </div>
-            <a href="">Limits</a>
+            <a href="">Límites</a>
           </div>
           <div class="option">
             <div class="icon">
               <i class="bi bi-exclamation"></i>
             </div>
-            <a href="">More</a>
+            <a href="">Más</a>
           </div>
         </div>
 
@@ -227,20 +227,6 @@
   ></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="./javascript/Home.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        var tarjetaElement = document.getElementById('tarjeta');
-        var numeroTarjeta = tarjetaElement.textContent.trim();
-  
-        // Separar cada cuatro dígitos con un espacio
-        var tarjetaFormateada = numeroTarjeta.replace(/\s/g, '').replace(/(\d{4}(?=\d))/g, '$1-');
-  
-        // Actualizar el contenido del elemento p
-        tarjetaElement.textContent = tarjetaFormateada;
-      });
-    </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   </body>
 </html>

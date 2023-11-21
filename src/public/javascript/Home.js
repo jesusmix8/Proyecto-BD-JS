@@ -25,6 +25,14 @@ boton.forEach(btn => {
         btn.classList.add('btn-active')
 }) })
 
+document.addEventListener('DOMContentLoaded', function () {
+  var tarjetaElement = document.getElementById('tarjeta');
+  var numeroTarjeta = tarjetaElement.textContent.trim();
+  // Separar cada cuatro dígitos con un espacio
+  var tarjetaFormateada = numeroTarjeta.replace(/\s/g, '').replace(/(\d{4}(?=\d))/g, '$1 ');
+  tarjetaElement.textContent = tarjetaFormateada;
+});
+
 const ctx = document.getElementById("myChart").getContext("2d");
 const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun"];
 const cantidades = [10, 20, 15, 30, 25, 40];
