@@ -24,6 +24,8 @@ const {
   pantalladeahorro,
   pantallaDeposito,
   realizarDeposito,
+  cargarPantallaServicios,
+  mostrarServicios,
 } = require("../controllers/client.controler");
 
 //Ruta inicial para cliente
@@ -41,6 +43,9 @@ router.get("/logout", logout);
 //Rutas para servicios de cliente
 router.get("/transferencia", cargadePantallaTransferencia);
 router.post("/transfer", realizarTransferenciaCliente);
+
+router.get("/servicios", cargarPantallaServicios);
+router.post("/services", mostrarServicios);
 
 //Tarjeta de credito
 router.get("/solicitarTDC", SolicitudDeTdc);

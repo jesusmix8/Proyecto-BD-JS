@@ -312,6 +312,16 @@ const pantalladeahorro = (req, res) => {
   console.log("Aqui ira la pantalla de info del Ahorro ");
 };
 
+const cargarPantallaServicios = (req, res) => {
+  res.sendFile("views/services/services.html", {
+    root: __dirname + "/../",
+  });
+};
+
+const mostrarServicios = (req, res) => {
+  console.log("Aqui ira la pantalla de servicios ");
+};
+
 module.exports = {
   inicio,
   FormNewClient,
@@ -336,4 +346,6 @@ module.exports = {
   crearAhorro,
   pantalladeahorro,
   logout,
+  cargarPantallaServicios,
+  mostrarServicios
 };

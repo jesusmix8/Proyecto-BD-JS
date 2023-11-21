@@ -102,18 +102,19 @@ background-image: url("https://image.ibb.co/de6JzG/bitmap_1_1.png");
 
 .price-box--purple .price-box__img{
   background-image: url("https://image.ibb.co/iGjEKG/1.png");
-
 }
 
 
 .price-box--violet .price-box__img{
   background-image: url("https://image.ibb.co/iyT8eG/2.png");
-
 }
 
 .price-box--blue .price-box__img{
   background-image: url("https://preview.ibb.co/nDRpmw/3.png");
+}
 
+.price-box--pink .price-box__img{
+  background-image: url("https://preview.ibb.co/nDRpmw/3.png");
 }
 
 .price-box__title{
@@ -152,6 +153,10 @@ background-image: url("https://image.ibb.co/de6JzG/bitmap_1_1.png");
 
 .price-box--blue .price-box__dollar{
   color: #3a9fff;
+}
+
+.price-box--pink .price-box__dollar{
+  color: #b03aff;
 }
 
 .price-box__discount--light{
@@ -206,6 +211,10 @@ background-image: url("https://image.ibb.co/de6JzG/bitmap_1_1.png");
 
 .price-box--blue .price-box__list-el:before{
   color: #3a9fff;
+}
+
+.price-box--pink .price-box__list-el:before{
+  color: #b03aff;
 }
 
 .price-box__wrap:hover {
