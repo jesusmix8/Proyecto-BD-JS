@@ -347,5 +347,5 @@ module.exports = {
   pantalladeahorro,
   logout,
   cargarPantallaServicios,
-  mostrarServicios
+  mostrarServicios,
 };

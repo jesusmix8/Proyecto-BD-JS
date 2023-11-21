@@ -72,8 +72,50 @@ const crearCuentaEmpleado = async (req, res) => {
   } catch (error) {}
 };
 
+const login = async (req, res) => {
+  try {
+    const { idEmpleado, correo } = req.body;
+    console.log(req.body);
+    const resultEmpleado = await pool.query(
+      "SELECT * FROM empleado WHERE empleado_id = $1 AND correo = $2",
+      [idEmpleado, correo]
+    );
+    if (resultEmpleado.rows.length > 0) {
+      const clienteJSON = JSON.stringify(resultEmpleado["rows"]);
+      req.session.usuario = JSON.parse(clienteJSON);
+
+      res.status(200).json({ message: "OK" });
+    } else {
+      res.status(400).json({ message: "Usuario o contraseña incorrectos" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const loaddashboardEmpleado = async (req, res) => {
+  try {
+    const usuario = req.session.usuario;
+    console.log(usuario);
+    const resultEmpleado = await pool.query(
+      "SELECT * FROM empleado WHERE empleado_id = $1",
+      [usuario.idEmpleado]
+    );
+    console.log("Aca");
+    const empleado = resultEmpleado.rows[0];
+    console.log("AY");
+    res.render("dashboardempleado", {
+      empleado: empleado,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   inicioEmpleado,
   formularioCuentaEmpleado,
   crearCuentaEmpleado,
+  loaddashboardEmpleado,
+  login,
 };
