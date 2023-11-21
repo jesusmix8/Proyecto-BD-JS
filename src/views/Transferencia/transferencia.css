@@ -8,7 +8,7 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
-.container_t {
+.container_transferencia {
     background-color: #fff;
     width: 80%;
     height: 80%;
@@ -20,7 +20,7 @@ input[type="number"] {
     flex-direction: row;
 }
 
-.transferencia {
+.seccion__transferencia{
     display: grid;
     flex-direction: column;
     align-items: center;
@@ -29,10 +29,10 @@ input[type="number"] {
     height: 100%;
     background-color: #fff;
     padding-right: 5rem;
-    padding-top: 5rem;
+    padding-top: 2rem;
 }
 
-.deposito {
+.txt{
     width: 360px;
     background: #fff;
     color: #a3a3a3;
@@ -42,11 +42,6 @@ input[type="number"] {
     outline: 0;
     padding: 22px 18px;
 }
-
-.uppercase {
-    text-transform: uppercase;
-}
-
 
 .btnt {
     display: inline-block;
@@ -81,10 +76,10 @@ input[type="number"] {
     color: #fff;
 }
 
+input, button{
+    display: block;
+}
 
-
-@media screen and (max-width:991px) {}
-
-@media screen and (max-width:767px) {}
-
-@media screen and (max-width:480px) {}
+input, button{
+    margin: 5px 0 30px 0;
+}
