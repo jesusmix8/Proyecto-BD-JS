@@ -1,9 +1,23 @@
-const pool = require('../db');
+const pool = require("../db");
 
-const inicio = (req, res) => {
-    res.sendFile("views/inicio/index.html", { root: __dirname + "/../" });
-}
+const inicioEmpleado = (req, res) => {
+  res.sendFile("views/viewsEmpleado/loginEmpleado/index.html", {
+    root: __dirname + "/../",
+  });
+};
+
+const formularioCuentaEmpleado = (req, res) => {
+  res.sendFile(
+    "views/viewsEmpleado/crearCuentaEmpleado/formCrearEmpleado.html",
+    {
+      root: __dirname + "/../",
+    }
+  );
+};
+
+const crearCuentaEmpleado = async (req, res) => {};
 
 module.exports = {
-    inicio
-}
+  inicioEmpleado,
+  formularioCuentaEmpleado,
+};

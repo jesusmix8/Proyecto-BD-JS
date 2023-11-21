@@ -1,10 +1,12 @@
-const {Router} = require('express');
+const { Router } = require("express");
 const router = Router();
-const {inicio} = require('../controllers/employee.controler');
+const {
+  inicioEmpleado,
+  formularioCuentaEmpleado,
+} = require("../controllers/employee.controler");
 
+router.get("/employee", inicioEmpleado);
 
-router.get('/employee', inicio);
-
-
+router.get("/nuevoEmpleado", formularioCuentaEmpleado);
 
 module.exports = router;
