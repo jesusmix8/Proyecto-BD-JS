@@ -7,8 +7,10 @@
   </head>
   <body>
     <form action="/loginEmpleado" id="formlogin" method="post">
-      <input type="text" name="usernameEmpleado" placeholder="username" />
-      <input type="password" name="passwordEmpleado" placeholder="password" />
+      <label for="emailEmplado">Correo</label>
+      <input type="email" name="emailEmplado" placeholder="Correo" />
+      <label for="emailEmplado">ID empleado</label>
+      <input type="text" name="idEmpleado" placeholder="idEmpleado" />
       <button type="submit">Enviar</button>
     </form>
     <script src="/static/viewsEmpleado/loginEmpleado/fetch.js"></script>
