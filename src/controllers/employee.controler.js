@@ -96,6 +96,7 @@ const loaddashboardEmpleado = async (req, res) => {
   try {
     const usuario = req.session.usuario;
     const id = usuario[0].empleado_id;
+    const idSucursal = usuario[0].sucursal_id;
 
     const sucursal = await pool.query(
       "SELECT s.nomsucursal FROM sucursal s JOIN empleado e ON s.sucursal_id = e.sucursal_id WHERE e.empleado_id = $1",
@@ -103,13 +104,17 @@ const loaddashboardEmpleado = async (req, res) => {
     );
 
     const clientesEnSucursal = await pool.query(
-      "SELECT COUNT(*) FROM cliente WHERE sucursal_id = $1",
-      [id]
+      "SELECT * FROM cliente WHERE sucursal_id = $1",
+      [idSucursal]
     );
-    console.log(clientesEnSucursal.rows[0].count);
+
+    console.log(clientesEnSucursal.rows);
 
     usuario[0].sucursal = sucursal.rows[0].nomsucursal;
+    usuario[0].clientes = clientesEnSucursal.rows;
+
     console.log(usuario);
+
     res.render("dashboardempleado", {
       usuario: usuario,
     });
@@ -118,10 +123,43 @@ const loaddashboardEmpleado = async (req, res) => {
   }
 };
 
+const clientesEnSucursal = (req, res) => {
+  const usuario = req.session.usuario;
+  res.render("clientesenSucursal", {
+    usuario: usuario,
+  });
+};
+
+const updateCliente = async (req, res) => {
+  const clienteId = req.params.cliente_id;
+  console.log(clienteId);
+  const cliente = await pool.query(
+    "SELECT * FROM cliente WHERE cliente_id = $1",
+    [clienteId]
+  );
+  const direccioncliente = await pool.query(
+    "SELECT * FROM direccion WHERE direccion_id = $1",
+    [cliente.rows[0].direccion_id]
+  );
+  console.log(direccioncliente.rows[0]);
+  cliente.rows[0].direccion = direccioncliente.rows[0];
+  console.log(cliente.rows[0]);
+  res.render("editarCliente", {
+    cliente: cliente.rows[0],
+  });
+};
+
+const updatedatosClientes = async (req, res) => {
+  console.log(req.body);
+};
+
 module.exports = {
   inicioEmpleado,
   formularioCuentaEmpleado,
   crearCuentaEmpleado,
   loaddashboardEmpleado,
   login,
+  clientesEnSucursal,
+  updateCliente,
+  updatedatosClientes,
 };

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar informacion de cliente</title>
+  </head>
+  <body>
+    <h1>Editar cliente</h1>
+    <!-- editarCliente.ejs -->
+
+    <form method="POST" action="/actualizarCliente/<%= cliente.cliente_id %>">
+
+
+      <label for="direccion">Correo:</label>
+      <input type="text"
+      name="direccion"
+      value="<%= cliente.correo %>"> </input>
+
+
+        <label for="telefono">Telefono:</label>
+        <input type="text"
+        name="telefono"
+        value="<%= cliente.numerodetelefono %>"> </input>
+
+        <label for="direccion">Direccion:</label>
+        <input type="text"
+        name="direccion"
+        value="<%= cliente.direccion.calle %>"> </input>
+
+ 
+
+
+      <!-- Agrega otros campos del cliente según sea necesario -->
+
+      <button type="submit">Actualizar cliente</button>
+    </form>
+  </body>
+</html>
