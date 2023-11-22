@@ -75,7 +75,6 @@ const crearCuentaEmpleado = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { idEmpleado, correo } = req.body;
-    console.log(req.body);
     const resultEmpleado = await pool.query(
       "SELECT * FROM empleado WHERE empleado_id = $1 AND correo = $2",
       [idEmpleado, correo]
@@ -96,16 +95,23 @@ const login = async (req, res) => {
 const loaddashboardEmpleado = async (req, res) => {
   try {
     const usuario = req.session.usuario;
-    console.log(usuario);
-    const resultEmpleado = await pool.query(
-      "SELECT * FROM empleado WHERE empleado_id = $1",
-      [usuario.idEmpleado]
+    const id = usuario[0].empleado_id;
+
+    const sucursal = await pool.query(
+      "SELECT s.nomsucursal FROM sucursal s JOIN empleado e ON s.sucursal_id = e.sucursal_id WHERE e.empleado_id = $1",
+      [id]
     );
-    console.log("Aca");
-    const empleado = resultEmpleado.rows[0];
-    console.log("AY");
+
+    const clientesEnSucursal = await pool.query(
+      "SELECT COUNT(*) FROM cliente WHERE sucursal_id = $1",
+      [id]
+    );
+    console.log(clientesEnSucursal.rows[0].count);
+
+    usuario[0].sucursal = sucursal.rows[0].nomsucursal;
+    console.log(usuario);
     res.render("dashboardempleado", {
-      empleado: empleado,
+      usuario: usuario,
     });
   } catch (error) {
     console.log(error);

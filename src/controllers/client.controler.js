@@ -172,7 +172,8 @@ const loaddashboard = async (req, res) => {
     );
     usuario[0].servicios = servicios.rows;
 
-    console.log(usuario[0]);
+    console.log(usuario);
+
     res.render("dashboard", { usuario: usuario });
   } else {
     res.redirect("/login");
