@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clientes en sucursal</title>
+  </head>
+  <body>
+    <h2>Clientes:</h2>
+    <ul>
+      <% usuario[0].clientes.forEach(function(cliente) { %>
+      <li>cliente ID: <%= cliente.cliente_id %></li>
+      <li>Nombre de cliente: <%= cliente.nombre %> <%= cliente.apellido %></li>
+      <a href="/editarCliente/<%= cliente.cliente_id %>"
+        ><button>Editar cliente</button></a
+      >
+      <% }); %>
+    </ul>
+  </body>
+</html>
