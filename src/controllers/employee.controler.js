@@ -151,6 +151,11 @@ const updateCliente = async (req, res) => {
 
 const updatedatosClientes = async (req, res) => {
   console.log(req.body);
+  const updateCliente = await pool.query(
+    "UPDATE cliente SET correo = $1, numerodetelefono = $2 WHERE cliente_id = $3",
+    [req.body.correo, req.body.telefono, req.body.id]
+  );
+  console.log(updateCliente);
 };
 
 module.exports = {

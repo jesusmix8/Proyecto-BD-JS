@@ -9,12 +9,27 @@
     <h1>Editar cliente</h1>
     <!-- editarCliente.ejs -->
 
-    <form method="POST" action="/actualizarCliente/<%= cliente.cliente_id %>">
+    <form method="POST" action="/actualizarCliente/<%= cliente.cliente_id %>" id="formupdate">
+      <!-- Id imput descativadp-->
+      <label for="nombre">Id Cliente:</label>
+      <input type="text"
+      name="id"
+      value="<%= cliente.cliente_id %>"
+      disabled> </input>
+
+      <label for="nombre">Nombre de cliente :</label>
+      <input type="text"
+      name="nombre"
+      value="<%= cliente.nombre %> <%= cliente.apellido %>"
+      disabled> </input>
+    
+
+      
 
 
       <label for="direccion">Correo:</label>
       <input type="text"
-      name="direccion"
+      name="correo"
       value="<%= cliente.correo %>"> </input>
 
 
@@ -35,5 +50,7 @@
 
       <button type="submit">Actualizar cliente</button>
     </form>
+
+    <script src = "/static/edicionCliente/updateFetch.js"></script>
   </body>
 </html>
