@@ -54,16 +54,7 @@
         </nav> -->
       </div>
     </header>
-<!--     
-    <h2>Servicios:</h2>
-    <ul>
-      <% usuario[0].servicios.forEach(function(servicio) { %>
-        <li>Servicio ID: <%= servicio.servicio_id %></li>
-        <li>Nombre de Servicio: <%= servicio.nombredeservicio %></li>
-        <li>Concepto: <%= servicio.concepto %></li>
-      <% }); %>
-<<<<<<< HEAD
-    </ul> -->
+
     <div class="container">
       <div class="section1">
         <div class="subsec1">
@@ -175,8 +166,8 @@
         </div>
       </div>
       <div class="section3">
-        <h5>TOTAL BALANCE</h5>
-        <p class="balance"><b>$11,166.</b>73</p>
+        <h5>Balance total</h5>
+        <p class="balance"><b>$<%= usuario[0].saldo %>.</b>73</p>
         <div class="sel-btn">
           <button  class="btn btn-active">Income</button>
           <button class="btn btn-inactive">Spent</button>
@@ -198,7 +189,7 @@
           <div class="sec-tran">
             <div class="data-transaction">
             <img class="img-tran" src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/1200px-Starbucks_Corporation_Logo_2011.svg.png" alt="">
-            <p>Starbucks Coffe</p>
+            <p>Mcdonnalds Coffe</p>
           </div>
             <div class="data-trans">
               <p class="cost">+$2.5</p>
@@ -211,6 +202,29 @@
 
  
     </ul>
+
+       
+    <h2>Servicios:</h2>
+    <ul>
+      <% usuario[0].servicios.forEach(function(servicio) { %>
+        <li>Servicio ID: <%= servicio.servicio_id %></li>
+        <li>Nombre de Servicio: <%= servicio.nombredeservicio %></li>
+        <li>Concepto: <%= servicio.concepto %></li>
+      <% }); %>
+    </ul> 
+
+    <h2>Servicios:</h2>
+    <ul>
+      <% usuario[0].transacciones.forEach(function(transaccion) { %>
+        <li>Cuenta destino: <%= transaccion.cuentaorigen %></li>
+        <li>Monto: <%= transaccion.monto %></li>
+        <li>Fecha: <%= transaccion.fechadetransaccion %></li>
+        <li>Concepto de transaccion: <%= transaccion.concepto %></li>
+      <% }); %>
+    </ul> 
+
+
+
     
     <!-- 
     ¿SERVICIOS? Si servicios

@@ -128,7 +128,6 @@ const getDataClient = async (req, res) => {
       "SELECT * FROM cliente WHERE Usuario = $1 AND Contrasena = $2",
       [Usuario, Contraseña]
     );
-    console.log(result.rows);
     if (result.rows.length > 0) {
       const dataclient = await pool.query(
         "SELECT * FROM Cliente WHERE Usuario = $1",
@@ -172,7 +171,10 @@ const loaddashboard = async (req, res) => {
     );
     usuario[0].servicios = servicios.rows;
 
-    console.log(usuario);
+    console.log(usuario[0].servicios[0].servicio_id);
+    //4915664587330136
+
+    console.log(usuario[0].transacciones[0]);
 
     res.render("dashboard", { usuario: usuario });
   } else {
@@ -212,9 +214,13 @@ const realizarTransferenciaCliente = async (req, res) => {
     const noCuentaOrigen = cuentaOrigen.rows[0].notarjeta;
     const noCuentaDestino = idCuentaDestino.rows[0].notarjeta;
     console.log("Cuenta destino: " + noCuentaDestino);
+    // fecha y hora de la transaccion
+    const fecha = new Date();
+    console.log(fecha);
     const result = await pool.query(
-      "INSERT INTO transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) values (NOW(),$1,$2,$3,$4,$5,$6)",
+      "INSERT INTO transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) values ($1,$2,$3,$4,$5,$6,$7)",
       [
+        fecha,
         tipo,
         noCuentaOrigen,
         noCuentaDestino,
