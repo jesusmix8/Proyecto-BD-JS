@@ -29,4 +29,14 @@ router.get("/editarCliente/:cliente_id", updateCliente);
 
 router.post("/actualizarCliente/:cliente_id", updatedatosClientes);
 
+router.get("/logoutEmpleado", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.redirect("/perfilEmpleado");
+    }
+    res.clearCookie("sid");
+    res.redirect("/loginEmpleado");
+  });
+});
+
 module.exports = router;

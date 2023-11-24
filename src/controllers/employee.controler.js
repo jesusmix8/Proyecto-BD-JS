@@ -186,7 +186,7 @@ const updatedatosClientes = async (req, res) => {
     "UPDATE cliente SET correo = $1, numerodetelefono = $2 WHERE cliente_id = $3",
     [req.body.correo, req.body.telefono, req.body.id]
   );
-  console.log(updateCliente);
+  res.status(200).json({ message: "OK" });
 };
 
 module.exports = {

@@ -4,17 +4,61 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Clientes en sucursal</title>
+    <!-- Agrega el enlace a Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyDX..."
+      crossorigin="anonymous"
+    />
   </head>
   <body>
-    <h2>Clientes:</h2>
-    <ul>
-      <% usuario[0].clientes.forEach(function(cliente) { %>
-      <li>cliente ID: <%= cliente.cliente_id %></li>
-      <li>Nombre de cliente: <%= cliente.nombre %> <%= cliente.apellido %></li>
-      <a href="/editarCliente/<%= cliente.cliente_id %>"
-        ><button>Editar cliente</button></a
-      >
-      <% }); %>
-    </ul>
+    <div class="container">
+      <h2>Clientes:</h2>
+      <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% usuario[0].clientes.forEach(function(cliente) { %>
+          <tr>
+            <td><%= cliente.cliente_id %></td>
+            <td><%= cliente.nombre %></td>
+            <td><%= cliente.apellido %></td>
+            <td>
+              <a
+                href="/editarCliente/<%= cliente.cliente_id %>"
+                class="btn btn-primary"
+              >
+                Editar cliente
+              </a>
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Agrega el enlace a Bootstrap JS y Popper.js al final del cuerpo -->
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-TwQF/ZIB8sxtAad2fLtPDpK8fGnd6ZqLH5bDhrCbYANe9zJfV8dU8+dCS0eMCw"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyDX..."
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

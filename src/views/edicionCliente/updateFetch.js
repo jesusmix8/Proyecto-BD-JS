@@ -1,3 +1,6 @@
+const mensajeExito = document.getElementById("mensajeExito");
+const mensajeError = document.getElementById("mensajeError");
+
 console.log("updateFetch.js cargado");
 document.getElementById("formupdate").addEventListener("submit", function (e) {
   e.preventDefault();
@@ -19,5 +22,23 @@ document.getElementById("formupdate").addEventListener("submit", function (e) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
+  }).then((response) => {
+    if (response.status === 200) {
+      mensajeExito.textContent = "Cliente actualizado con exito";
+      mensajeExito.style.display = "block";
+
+      setTimeout(function () {
+        window.history.back();
+      }, 2000);
+    }
+    if (response.status === 400) {
+      return response.json().then((data) => {
+        mensajeError.textContent = " Cliente no encontrado";
+        mensajeError.style.display = "block";
+      });
+    }
+    if (response.status === 404) {
+      mensajeError.textContent = "Error desconocido";
+    }
   });
 });
