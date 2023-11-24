@@ -209,7 +209,9 @@ const realizarTransferenciaCliente = async (req, res) => {
   if (idCuentaDestino.rows.length > 0) {
     const noCuentaOrigen = cuentaOrigen.rows[0].notarjeta;
     const noCuentaDestino = idCuentaDestino.rows[0].notarjeta;
-    // fecha y hora de la transaccion
+
+    console.log(noCuentaOrigen);
+    console.log(noCuentaDestino);
 
     const result = await pool.query(
       "INSERT INTO transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) values (NOW(),$1,$2,$3,$4,$5,$6)",
@@ -237,6 +239,8 @@ const pantallaDeposito = (req, res) => {
 
 const realizarDeposito = async (req, res) => {
   const usuario = req.session.usuario;
+
+  const cuentaorigen = usuario[0].servicios[0].notarjeta;
   try {
     // revissar si hay usuario en sesion
     if (usuario) {
@@ -245,8 +249,15 @@ const realizarDeposito = async (req, res) => {
       const cuenta_ID = usuario[0].id_cuenta;
 
       const result = await pool.query(
-        "UPDATE cuenta SET saldo = saldo + $1 WHERE cuenta_id = $2",
-        [cantidad, cuenta_ID]
+        "INSERT INTO Transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) values (NOW(),$1,$2,$3,$4,$5,$6)",
+        [
+          "Deposito",
+          cuentaorigen,
+          cuentaorigen,
+          cantidad,
+          "Deposito",
+          cuenta_ID,
+        ]
       );
       res.status(200).json({ message: "Deposito exitoso" });
     }

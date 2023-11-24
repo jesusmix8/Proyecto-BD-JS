@@ -73,6 +73,7 @@ const crearCuentaEmpleado = async (req, res) => {
 };
 
 const login = async (req, res) => {
+  console.log(req.body);
   try {
     const { idEmpleado, correo } = req.body;
     const resultEmpleado = await pool.query(
@@ -89,6 +90,7 @@ const login = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.status(400).json({ message: "Error desconocido" });
   }
 };
 

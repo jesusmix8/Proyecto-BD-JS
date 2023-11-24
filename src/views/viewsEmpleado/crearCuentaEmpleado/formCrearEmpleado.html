@@ -17,32 +17,31 @@
     <link rel="stylesheet" href="/static/inicio/indexcss.css" />
   </head>
   <body class="bg-light text-light">
-    <header class="header text-secondary">
-      <div class="container header__container">
-        <div class="header__logo">
-          <img
-            class="header__img"
-            src="https://image.ibb.co/kcVou6/path3000.png"
-          />
-          <h1 class="header__title">
-            Banca<span class="header__light"> Facil</span>
-          </h1>
-        </div>
-
-        <div class="header__menu text-secondary">
-          <ul class="nav justify-content-end header__elenco" id="navbar">
-            <li class="nav-item"></li>
+    <header class="header text-secondary bg-light py-3">
+      <!-- Updated header structure with navbar -->
+      <nav class="navbar navbar-light">
+        <div class="container">
+          <a class="navbar-brand" href="#">
+            <img
+              class="header__img"
+              src="https://image.ibb.co/kcVou6/path3000.png"
+            />
+            <span class="header__title"
+              >Banca<span class="header__light"> Facil</span></span
+            >
+          </a>
+          <ul class="nav justify-content-end header__elenco">
             <li class="nav-item">
               <a class="nav-link" href="/">Home</a>
             </li>
             <li class="header__el header__el--blue">
-              <a href="http://localhost:3000/login" class="btn btn--white"
+              <a href="http://localhost:3000/login" class="btn btn-primary"
                 >Log in →</a
               >
             </li>
           </ul>
         </div>
-      </div>
+      </nav>
     </header>
 
     <p id="mensaje" class="text-secondary"></p>
