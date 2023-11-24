@@ -110,6 +110,37 @@ const loaddashboardEmpleado = async (req, res) => {
 
     console.log(clientesEnSucursal.rows);
 
+    const query = `
+    WITH TransferenciasPorEstado AS (
+        SELECT
+            ce.nombreEstado AS Estado,
+            EXTRACT(YEAR FROM t.fechaDeTransaccion) AS Año,
+            COUNT(*) AS NumeroDeTransferencias
+        FROM
+            fact_transferencia ft
+        JOIN
+            catalogoEstado ce ON ft.codigoPostal = ce.codigoPostal
+        JOIN
+            transaccion t ON ft.transaccion_ID = t.transaccion_ID
+        WHERE
+            EXTRACT(YEAR FROM t.fechaDeTransaccion) = EXTRACT(YEAR FROM CURRENT_DATE)  -- Filtrar por el año actual
+        GROUP BY
+            ce.nombreEstado, Año
+    )
+    SELECT
+        Estado,
+        NumeroDeTransferencias,
+        RANK() OVER (ORDER BY NumeroDeTransferencias DESC) AS Ranking
+    FROM
+        TransferenciasPorEstado
+    ORDER BY
+        NumeroDeTransferencias DESC;
+    `;
+
+    const datamart = await pool.query(query);
+
+    console.log(datamart.rows);
+
     usuario[0].sucursal = sucursal.rows[0].nomsucursal;
     usuario[0].clientes = clientesEnSucursal.rows;
 

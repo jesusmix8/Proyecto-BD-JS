@@ -59,11 +59,7 @@
       <div class="section1">
         <div class="subsec1">
           <div class="item0">
-            <img
-              class="img"
-              src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29uYXxlbnwwfHwwfHx8MA%3D%3D"
-              alt=""
-            />
+            <i class="img bi bi-person-circle"></i>
             <div class="data-user">
               <p class="name"><%= usuario[0].nombre %></p>
               <p class="tpu"><%= usuario[0].tipo_cuenta%></p>
@@ -103,6 +99,7 @@
         <div class="tarjeta">
           <p class="cuenta">$<%= usuario[0].saldo %></p>
           <div class="tarjeta-data">
+            
             <p class="data" id="tarjeta"><%= usuario[0].servicios[0].notarjeta %></p>
             <p class="Id-tarjeta">VISA</p>
           </div>
@@ -173,30 +170,35 @@
           <button class="btn btn-inactive">Spent</button>
         </div>
         <canvas id="myChart" width="400" height="200"></canvas>
-        <h3>Esta semana</h3>
+        <h3>Ultimas transacciones</h3>
         <hr />
-        <div class="transaction">
-          <div class="sec-tran">
-            <div class="data-transaction">
-            <img class="img-tran" src="https://play-lh.googleusercontent.com/s7slUGiae9bq7XuYur0GWd_qDp_UXgo_5BIpzOT_BvKGg17TYG5QDr3ckqPcpq20jVU" alt="">
-            <p>place</p>
+        <% usuario[0].transacciones.forEach(function(transaccion) { %>
+          <div class="transaction">
+              <div class="sec-tran">
+                  <div class="data-transaction">
+                      <i class="bi bi-person-fill"></i>
+                      <p>Cuenta destino: <%= transaccion.cuentaorigen %></p>
+                  </div>
+                  <div class="data-trans">
+                      <p class="cost">-$<%= transaccion.monto %> </p>
+                      <% 
+                          const fechaCompleta = new Date(transaccion.fechadetransaccion);
+                          const dia = fechaCompleta.getDate().toString().padStart(2, '0');
+                          const mes = (fechaCompleta.getMonth() + 1).toString().padStart(2, '0');
+                          const anio = fechaCompleta.getFullYear();
+                          const horas = fechaCompleta.getHours().toString().padStart(2, '0');
+                          const minutos = fechaCompleta.getMinutes().toString().padStart(2, '0');
+                          const segundos = fechaCompleta.getSeconds().toString().padStart(2, '0');
+      
+                          const fechaHoraFormateada = `${anio}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
+                      %>
+      
+                      <li>Fecha y Hora: <%= fechaHoraFormateada %></li>
+                  </div>
+              </div>
           </div>
-            <div class="data-trans">
-              <p class="cost">+$1,200</p>
-              <p>4:32PM</p>
-            </div>
-          </div>
-          <div class="sec-tran">
-            <div class="data-transaction">
-            <img class="img-tran" src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/1200px-Starbucks_Corporation_Logo_2011.svg.png" alt="">
-            <p>Mcdonnalds Coffe</p>
-          </div>
-            <div class="data-trans">
-              <p class="cost">+$2.5</p>
-              <p>4:32PM</p>
-            </div>
-          </div>
-        </div>
+      <% }); %>
+      
       </div>
     </div>
 
@@ -204,25 +206,16 @@
     </ul>
 
        
-    <h2>Servicios:</h2>
+    <!-- <h2>Servicios:</h2>
     <ul>
       <% usuario[0].servicios.forEach(function(servicio) { %>
         <li>Servicio ID: <%= servicio.servicio_id %></li>
         <li>Nombre de Servicio: <%= servicio.nombredeservicio %></li>
         <li>Concepto: <%= servicio.concepto %></li>
       <% }); %>
-    </ul> 
+    </ul>  -->
 
-    <h2>Servicios:</h2>
-    <ul>
-      <% usuario[0].transacciones.forEach(function(transaccion) { %>
-        <li>Cuenta destino: <%= transaccion.cuentaorigen %></li>
-        <li>Monto: <%= transaccion.monto %></li>
-        <li>Fecha: <%= transaccion.fechadetransaccion %></li>
-        <li>Concepto de transaccion: <%= transaccion.concepto %></li>
-      <% }); %>
-    </ul> 
-
+   
 
 
     

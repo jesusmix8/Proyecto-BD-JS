@@ -49,11 +49,8 @@ const createClient = async (req, res) => {
     const numeroAleatorio = Math.floor(
       Math.random() * resultSucursal.rows.length
     );
-    console.log(resultSucursal.rows[numeroAleatorio]);
 
     const idSucursal = resultSucursal.rows[0].sucursal_id;
-    console.log(idSucursal);
-
     const {
       RFC,
       Nombre,
@@ -155,13 +152,13 @@ const loaddashboard = async (req, res) => {
   const usuario = req.session.usuario;
   if (usuario) {
     const saldo = await pool.query(
-      "SELECT saldo, cuenta_id FROM cuenta WHERE cliente_id = $1",
+      "SELECT saldo, cuenta_id FROM cuenta WHERE cliente_id = $1 ",
       [usuario[0].cliente_id]
     );
     usuario[0].saldo = saldo.rows[0].saldo;
     usuario[0].id_cuenta = saldo.rows[0].cuenta_id;
     const tranasacciones = await pool.query(
-      "SELECT * FROM transaccion WHERE cuenta_id = $1",
+      "SELECT * FROM transaccion WHERE cuenta_id = $1 order by fechadetransaccion DESC limit 2 ",
       [usuario[0].id_cuenta]
     );
     usuario[0].transacciones = tranasacciones.rows;
@@ -171,10 +168,9 @@ const loaddashboard = async (req, res) => {
     );
     usuario[0].servicios = servicios.rows;
 
-    console.log(usuario[0].servicios[0].servicio_id);
-    //4915664587330136
+    console.log(typeof usuario[0].transacciones[0].fechadetransaccion);
 
-    console.log(usuario[0].transacciones[0]);
+    console.log(usuario[0].transacciones[0].fechadetransaccion);
 
     res.render("dashboard", { usuario: usuario });
   } else {
@@ -196,7 +192,6 @@ const cargadePantallaTransferencia = (req, res) => {
 const realizarTransferenciaCliente = async (req, res) => {
   const usuario = req.session.usuario;
   const cuentaIDororigen = usuario[0].id_cuenta;
-  console.log("Cuenta origen: " + cuentaIDororigen);
   const cuentaOrigen = await pool.query(
     "SELECT * FROM catalogo_servicio WHERE cuenta_id = $1;",
     [cuentaIDororigen]
@@ -209,18 +204,16 @@ const realizarTransferenciaCliente = async (req, res) => {
     "SELECT * FROM catalogo_servicio WHERE notarjeta = $1;",
     [cuentaDestino]
   );
+  //4915664587330136
 
   if (idCuentaDestino.rows.length > 0) {
     const noCuentaOrigen = cuentaOrigen.rows[0].notarjeta;
     const noCuentaDestino = idCuentaDestino.rows[0].notarjeta;
-    console.log("Cuenta destino: " + noCuentaDestino);
     // fecha y hora de la transaccion
-    const fecha = new Date();
-    console.log(fecha);
+
     const result = await pool.query(
-      "INSERT INTO transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) values ($1,$2,$3,$4,$5,$6,$7)",
+      "INSERT INTO transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) values (NOW(),$1,$2,$3,$4,$5,$6)",
       [
-        fecha,
         tipo,
         noCuentaOrigen,
         noCuentaDestino,
@@ -229,6 +222,7 @@ const realizarTransferenciaCliente = async (req, res) => {
         cuentaIDororigen,
       ]
     );
+
     res.status(200).json({ message: "Transferencia exitosa" });
   } else {
     res.status(404).json({ message: "Cuenta destino no encontrada" });
