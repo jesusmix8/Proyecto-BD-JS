@@ -3,18 +3,16 @@ from datetime import date
 from datetime import datetime
 import psycopg2
 from psycopg2 import sql
+import pandas as pd
 
 
+dataframe = pd.read_excel('DatosTar.xlsx')
+cuentas = dataframe['Column1']
 
-
-def obtener_numero_azar(archivo):
-    with open(archivo, 'r') as file:
-        line = next(file)
-        for number in file:
-            if rd.random() < 1/float(i+2):
-                line = number
-        return line.strip()
-
+def obtener_numero_azar():
+    global cuentas
+    numero = rd.randint(0, len(cuentas) - 1)
+    return cuentas[numero]
 
 def generar_fecha_aleatoria():
     año = rd.randint(2020, 2023)
@@ -22,18 +20,11 @@ def generar_fecha_aleatoria():
     dia = rd.randint(1, 28)
     return date(año, mes, dia)
 
-
-def cuenta_origen_destino():
-    cuenta = obtener_numero_azar('datosTar.txt')
-    return cuenta
-
- 
-
 def generar_transaccion_query():  
     tipo_movimiento = "Transferencia"
     fecha = generar_fecha_aleatoria()
-    cuenta_origen_dest = cuenta_origen_destino()
-    cuenta_destino = cuenta_origen_dest
+    cuenta_origen_dest = obtener_numero_azar()
+    cuenta_destino = obtener_numero_azar()
     monto = rd.randint(1, 99999)
     cuenta_id = rd.randint(21, 1000005)
 
