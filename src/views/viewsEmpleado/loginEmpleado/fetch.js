@@ -1,7 +1,11 @@
+const mensaje = document.getElementById("mensaje");
 document.getElementById("formlogin").addEventListener("submit", (e) => {
   e.preventDefault();
   const idEmpleado = document.querySelector('input[name="idEmpleado"]').value;
-  const correo = document.querySelector('input[name="emailEmplado"]').value;
+  const correo = document.querySelector('input[name="emailEmpleado"]').value;
+
+  console.log(idEmpleado);
+  console.log(correo);
 
   const data = {
     idEmpleado: idEmpleado,

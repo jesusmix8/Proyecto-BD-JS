@@ -209,7 +209,9 @@ const realizarTransferenciaCliente = async (req, res) => {
   if (idCuentaDestino.rows.length > 0) {
     const noCuentaOrigen = cuentaOrigen.rows[0].notarjeta;
     const noCuentaDestino = idCuentaDestino.rows[0].notarjeta;
-    // fecha y hora de la transaccion
+
+    console.log(noCuentaOrigen);
+    console.log(noCuentaDestino);
 
     const result = await pool.query(
       "INSERT INTO transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) values (NOW(),$1,$2,$3,$4,$5,$6)",
@@ -239,6 +241,8 @@ const pantallaDeposito = (req, res) => {
 
 const realizarDeposito = async (req, res) => {
   const usuario = req.session.usuario;
+
+  const cuentaorigen = usuario[0].servicios[0].notarjeta;
   try {
     // revissar si hay usuario en sesion
     if (usuario) {
@@ -247,8 +251,15 @@ const realizarDeposito = async (req, res) => {
       const cuenta_ID = usuario[0].id_cuenta;
 
       const result = await pool.query(
-        "UPDATE cuenta SET saldo = saldo + $1 WHERE cuenta_id = $2",
-        [cantidad, cuenta_ID]
+        "INSERT INTO Transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) values (NOW(),$1,$2,$3,$4,$5,$6)",
+        [
+          "Deposito",
+          cuentaorigen,
+          cuentaorigen,
+          cantidad,
+          "Deposito",
+          cuenta_ID,
+        ]
       );
       res.status(200).json({ message: "Deposito exitoso" });
     }
@@ -266,8 +277,34 @@ const crearTDC = async (req, res) => {
   console.log("Aqui ira la creacion del servicio de TDC");
 };
 
-const pantallatdc = (req, res) => {
-  console.log("Aqui ira la pantalla de info de la TDC ");
+const pantallatdc = async (req, res) => {
+
+    const noTarjeta = req.body.noTarjeta;
+    const tarjeta = null;
+  
+    try{
+
+      tarjeta = await pool.query(
+        "SELECT * FROM CatalogoDeServicios WHERE noTarjeta = $1",
+        [noTarjeta]
+      );
+
+    }catch{
+      res.status(500).send("Ocurrió un error de nuestro lado");
+    }
+
+    if(tarjeta.rows.length == 0){
+      res.status(404).send("No se encontró la tarjeta");
+    }
+
+    res.status(200).json(
+      {
+        noTarjeta: tarjeta.rows[0].noTarjeta,
+        fechaDeExpiracion: tarjeta.rows[0].fechaDeExpiracion,
+        cvv : tarjeta.rows[0].cvv
+      }
+    );
+
 };
 
 const SolicitudDeSeguro = (req, res) => {
@@ -378,7 +415,28 @@ const SolicitudDePrestamo = (req, res) => {
 };
 
 const crearPrestamo = async (req, res) => {
-  console.log("Aqui ira la creacion del servicio de Prestamo");
+  
+  const concepto = req.body.concepto;
+  const fechaDePago = req.body.fechaDePago;
+  const cuenta_id = req.body.cuenta_id
+
+  try{
+    const prestamo = await pool.query(
+      "INSERT INTO CatalogoDeServicios (nombreDeServicio, concepto, fechaDeApertura, fechaDePago,cuenta_id) VALUES ($1,$2,$3,$4,$5,$6)",
+      [
+        "Prestamo",
+        concepto,
+        new Date(),
+        fechaDePago,
+        cuenta_id
+      ]
+    );
+  }catch{
+    res.status(401).send("Prestamo rechazado");
+  }
+
+  res.status(200).send("Prestamo aprobado");
+
 };
 
 const pantallaprestamo = (req, res) => {
