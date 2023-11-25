@@ -226,6 +226,8 @@ const realizarTransferenciaCliente = async (req, res) => {
     );
 
     res.status(200).json({ message: "Transferencia exitosa" });
+
+    
   } else {
     res.status(404).json({ message: "Cuenta destino no encontrada" });
   }
@@ -294,8 +296,34 @@ const crearTDC = async (req, res) => {
   console.log("Aqui ira la creacion del servicio de TDC");
 };
 
-const pantallatdc = (req, res) => {
-  console.log("Aqui ira la pantalla de info de la TDC ");
+const pantallatdc = async (req, res) => {
+
+    const noTarjeta = req.body.noTarjeta;
+    const tarjeta = null;
+  
+    try{
+
+      tarjeta = await pool.query(
+        "SELECT * FROM CatalogoDeServicios WHERE noTarjeta = $1",
+        [noTarjeta]
+      );
+
+    }catch{
+      res.status(500).send("Ocurrió un error de nuestro lado");
+    }
+
+    if(tarjeta.rows.length == 0){
+      res.status(404).send("No se encontró la tarjeta");
+    }
+
+    res.status(200).json(
+      {
+        noTarjeta: tarjeta.rows[0].noTarjeta,
+        fechaDeExpiracion: tarjeta.rows[0].fechaDeExpiracion,
+        cvv : tarjeta.rows[0].cvv
+      }
+    );
+
 };
 
 const SolicitudDeSeguro = (req, res) => {
@@ -306,10 +334,97 @@ const SolicitudDeSeguro = (req, res) => {
 
 const crearSeguro = async (req, res) => {
   console.log("Aqui ira la creacion del servicio de Seguro");
+  /*
+  *He considerado 1 tipo de seguro
+  *
+  * 1.- Seguro de vida
+  * 
+  * He añadido un formulario de como pienso hacer para crear el seguro (esta en views/Services/services.html)
+  */
+  
+  const usuario = req.session.usuario;
+
+  const tipoDeServicio = "Seguro de vida";
+
+  const idCuenta = usuario[0].cuenta_id;
+
+  const fechaDeNacimiento = usuario[0].fechadenacimiento;
+
+  /* Seria mejor manejar esto desde el archivo .js para unicamente recuperar cual es la suma sugerida
+  *  y no tener que recuperar todos los datos del formulario
+
+  //Recuperamos que opcion selecciono el usuario del combobox
+  const rangoDeIngresos = req.body.rangoDeIngresos;
+
+  //Recuperamos la cantidad de casillas que selecciono el usuario en el checkbox 
+  const cantidadDeCasillas = req.body.cantidadDeCasillas;
+  */
+
+  //Recuperamos la suma sugerida del formulario
+  const saldo = req.body.sumaSugerida;
+
+  //Recuperamos la cantidad de dinero por cada pago mensual
+  const pagoMinimo = req.body.pagoMensual;
+
+  const saldoCuenta = await pool.query("SELECT saldo FROM cuenta WHERE cuenta_id = $1",
+  [idCuenta]);
+
+  const saldoActual = saldoCuenta.rows[0].saldo;
+
+  //La expiracion es en 80 años despues de la fecha de apertura 
+  const fechaDeExpiracion = new Date();
+  fechaDeExpiracion.setFullYear(fechaDeExpiracion.getFullYear() + 80);
+
+  //Su primer pago es dos meses despues de la fecha de apertura
+  const fechaDePago = new Date();
+  fechaDePago.setMonth(fechaDePago.getMonth() + 2);
+
+  if(saldoActual >= pagoMinimo){
+    
+    const result = await pool.query("INSERT INTO catalogo_servicio (nombredeservicio, fechadeexpiracion, fechadeapertura, pagominimo, pagoparanogenerarintereses, fechadepago, intereses, saldo) VALUES ($1, $2, CURRENT_DATE, $3, $4, $5, $6, $7)",
+    [
+      tipoDeServicio,
+      fechaDeExpiracion,
+      pagoMinimo,
+      pagoMinimo,
+      fechaDePago,
+      0,
+      saldo
+    ]
+    )
+  }else{
+    res.status(400).json({message : "No se puede crear el seguro, saldo insuficiente"});
+  }
+
 };
 
 const pantallaseguro = (req, res) => {
   console.log("Aqui ira la pantalla de info del Seguro ");
+
+  const usuario = req.session.usuario;
+
+  const idCuenta = usuario[0].id_cuenta;
+
+  const tipoDeServicio = "Seguro de vida";
+
+  const result = await.pool.query("SELECT * FROM catalogo_servicio WHERE cuenta_id = $1 AND nombredeservicio = $2",
+  [idCuenta], [tipoDeServicio]);
+
+  if(result.rows.length > 0){
+    res.status(200).json({
+      TipoDeSeguro: result.rows[0].nombredeservicio,
+      FechaDeExpiracion: result.rows[0].fechadeexpiracion,
+      FechaDeApertura: result.rows[0].fechadeapertura,
+      PagoMinimo: result.rows[0].pagominimo,
+      PagoParaNogenerarIntereses: result.rows[0].pagoparanogenerarintereses,
+      FechaDePago: result.rows[0].fechadepago,
+      Intereses: result.rows[0].intereses,
+      Saldo: result.rows[0].saldo
+    })
+  }else{
+    res.status(404).json({message: "No se encontro el seguro"});
+  }
+
 };
 
 const SolicitudDePrestamo = (req, res) => {
@@ -319,7 +434,28 @@ const SolicitudDePrestamo = (req, res) => {
 };
 
 const crearPrestamo = async (req, res) => {
-  console.log("Aqui ira la creacion del servicio de Prestamo");
+  
+  const concepto = req.body.concepto;
+  const fechaDePago = req.body.fechaDePago;
+  const cuenta_id = req.body.cuenta_id
+
+  try{
+    const prestamo = await pool.query(
+      "INSERT INTO CatalogoDeServicios (nombreDeServicio, concepto, fechaDeApertura, fechaDePago,cuenta_id) VALUES ($1,$2,$3,$4,$5,$6)",
+      [
+        "Prestamo",
+        concepto,
+        new Date(),
+        fechaDePago,
+        cuenta_id
+      ]
+    );
+  }catch{
+    res.status(401).send("Prestamo rechazado");
+  }
+
+  res.status(200).send("Prestamo aprobado");
+
 };
 
 const pantallaprestamo = (req, res) => {
