@@ -275,8 +275,34 @@ const crearTDC = async (req, res) => {
   console.log("Aqui ira la creacion del servicio de TDC");
 };
 
-const pantallatdc = (req, res) => {
-  console.log("Aqui ira la pantalla de info de la TDC ");
+const pantallatdc = async (req, res) => {
+
+    const noTarjeta = req.body.noTarjeta;
+    const tarjeta = null;
+  
+    try{
+
+      tarjeta = await pool.query(
+        "SELECT * FROM CatalogoDeServicios WHERE noTarjeta = $1",
+        [noTarjeta]
+      );
+
+    }catch{
+      res.status(500).send("Ocurrió un error de nuestro lado");
+    }
+
+    if(tarjeta.rows.length == 0){
+      res.status(404).send("No se encontró la tarjeta");
+    }
+
+    res.status(200).json(
+      {
+        noTarjeta: tarjeta.rows[0].noTarjeta,
+        fechaDeExpiracion: tarjeta.rows[0].fechaDeExpiracion,
+        cvv : tarjeta.rows[0].cvv
+      }
+    );
+
 };
 
 const SolicitudDeSeguro = (req, res) => {
