@@ -13,9 +13,34 @@
     <div class="container mt-4">
       <h2 class="mb-4">Historial De Transacciones</h2>
       <div class="table-responsive">
+        <div class="row mb-3">
+          <div class="col">
+            <button id="sort-asc-btn" class="btn btn-secondary mt-4">
+              Ordenar Ascendente
+            </button>
+            <button id="sort-desc-btn" class="btn btn-secondary mt-4">
+              Ordenar Descendente
+            </button>
+          </div>
+          <div class="col">
+            <label for="startDate" class="form-label">Fecha de inicio:</label>
+            <input type="date" class="form-control" id="startDate" />
+          </div>
+          <div class="col">
+            <label for="endDate" class="form-label">Fecha de fin:</label>
+            <input type="date" class="form-control" id="endDate" />
+          </div>
+          <div class="col">
+            <button id="filter-btn" class="btn btn-success mt-4">
+              Filtrar
+            </button>
+          </div>
+        </div>
+
         <button id="download-pdf" class="btn btn-primary my-2">
           Descargar PDF
         </button>
+
         <table class="table table-bordered" id="transaction-table">
           <thead class="table-dark">
             <tr>
@@ -73,7 +98,76 @@
           var element = document.getElementById("transaction-table");
           html2pdf(element);
         });
+
+        // Agrega un evento de clic al botón de filtrar
+        $("#filter-btn").on("click", function () {
+          // Obtiene las fechas de inicio y fin
+          var startDate = $("#startDate").val();
+          var endDate = $("#endDate").val();
+
+          // Filtra las transacciones por fecha
+          filterTransactionsByDate(startDate, endDate);
+        });
       });
+
+      function filterTransactionsByDate(startDate, endDate) {
+        // Obtén todas las filas de la tabla
+        var rows = $("#transaction-table tbody tr");
+
+        // Itera sobre las filas y muestra u oculta según el rango de fechas
+        rows.each(function () {
+          var transactionDate = $(this).find("td:nth-child(2)").text(); // La fecha está en la segunda columna
+
+          // Compara la fecha de la transacción con el rango seleccionado
+          if (isDateInRange(transactionDate, startDate, endDate)) {
+            $(this).show();
+          } else {
+            $(this).hide();
+          }
+        });
+      }
+
+      $("#sort-asc-btn").on("click", function () {
+        sortTransactionsByAmount("asc");
+      });
+
+      // Agrega un evento de clic al botón de ordenar descendente
+      $("#sort-desc-btn").on("click", function () {
+        sortTransactionsByAmount("desc");
+      });
+
+      function isDateInRange(date, startDate, endDate) {
+        // Convierte las fechas a objetos de fecha
+        var transactionDate = new Date(date);
+        var start = new Date(startDate);
+        var end = new Date(endDate);
+
+        // Verifica si la fecha de la transacción está en el rango
+        return transactionDate >= start && transactionDate <= end;
+      }
+
+      function sortTransactionsByAmount(order) {
+        // Obtén todas las filas de la tabla
+        var rows = $("#transaction-table tbody tr");
+
+        // Ordena las filas según el monto
+        rows.sort(function (a, b) {
+          var amountA = parseFloat($(a).find("td:nth-child(6)").text()); // El monto está en la sexta columna
+          var amountB = parseFloat($(b).find("td:nth-child(6)").text());
+
+          if (order === "asc") {
+            return amountA - amountB;
+          } else {
+            return amountB - amountA;
+          }
+        });
+
+        // Elimina todas las filas de la tabla
+        $("#transaction-table tbody").empty();
+
+        // Agrega las filas ordenadas de nuevo a la tabla
+        $("#transaction-table tbody").append(rows);
+      }
     </script>
   </body>
 </html>
