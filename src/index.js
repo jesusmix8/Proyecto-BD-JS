@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const app = express();
 const crypto = require("crypto");
+const bodyParser = require('body-parser');
 
 const generateRandomKey = (length) => {
   return crypto.randomBytes(Math.ceil(length / 2)).toString("hex");
@@ -12,6 +13,7 @@ const path = require("path");
 const session = require("express-session");
 
 app.set("view engine", "ejs");
+app.use( bodyParser.json() );
 
 app.set("views", path.join(__dirname, "views"));
 
