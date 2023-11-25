@@ -314,6 +314,7 @@ const SolicitudDeSeguro = (req, res) => {
 };
 
 const crearSeguro = async (req, res) => {
+  console.log("Aqui ira la creacion del servicio de Seguro");
   /*
   *He considerado 1 tipo de seguro
   *
@@ -376,7 +377,6 @@ const crearSeguro = async (req, res) => {
     res.status(400).json({message : "No se puede crear el seguro, saldo insuficiente"});
   }
 
-  console.log("Aqui ira la creacion del servicio de Seguro");
 };
 
 const pantallaseguro = (req, res) => {
