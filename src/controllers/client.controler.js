@@ -449,9 +449,26 @@ const SolicitudDeAhorro = (req, res) => {
   });
 };
 
-const crearAhorro = async (req, res) => {
+/* Crear ahorro revisar */
+  const crearAhorro = async (req, res) => {
   console.log("Aqui ira la creacion del servicio de Ahorro");
   const { NombreDelAhorro, Plazo, Monto } = req.body;
+
+  try {
+    const ahorro = await pool.query(
+      "INSERT INTO CatalogoDeServicios (nombreDeServicio, concepto, fechaDeApertura,cuenta_id) VALUES ($1,$2,$3,$4,$5)",
+      [
+        "Ahorro",
+        NombreDelAhorro,
+        Monto,
+        Plazo,
+        cuenta_id
+      ]
+    );
+    
+  }catch{
+    res.status(401).send("Ahorro rechazado");
+  }
 
   res.status(200).json({ message: "Ahorro exitoso" });
 };
