@@ -300,7 +300,28 @@ const SolicitudDePrestamo = (req, res) => {
 };
 
 const crearPrestamo = async (req, res) => {
-  console.log("Aqui ira la creacion del servicio de Prestamo");
+  
+  const concepto = req.body.concepto;
+  const fechaDePago = req.body.fechaDePago;
+  const cuenta_id = req.body.cuenta_id
+
+  try{
+    const prestamo = await pool.query(
+      "INSERT INTO CatalogoDeServicios (nombreDeServicio, concepto, fechaDeApertura, fechaDePago,cuenta_id) VALUES ($1,$2,$3,$4,$5,$6)",
+      [
+        "Prestamo",
+        concepto,
+        new Date(),
+        fechaDePago,
+        cuenta_id
+      ]
+    );
+  }catch{
+    res.status(401).send("Prestamo rechazado");
+  }
+
+  res.status(200).send("Prestamo aprobado");
+
 };
 
 const pantallaprestamo = (req, res) => {
