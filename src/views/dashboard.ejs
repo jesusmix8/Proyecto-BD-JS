@@ -11,6 +11,17 @@
   />
     <link rel="stylesheet" href="./public/css/dashboardStyles.css">
     <link rel="stylesheet" href="/static/format.css">
+    <style>
+      .red-text {
+        color: red;
+      }
+  
+      .green-text {
+        color: green;
+      }
+  
+      /* Otros estilos aquí... */
+    </style>
   </head>
   <body>
     <header class="header">
@@ -115,7 +126,7 @@
             <div class="icon">
               <i class="opt-icon bi bi-receipt-cutoff"></i>
             </div>
-            <a href=""> Historial</a>
+            <a href="/Historial"> Historial</a>
           </div>
           <div class="option">
             <div class="icon">
@@ -174,30 +185,36 @@
         <hr />
         <% usuario[0].transacciones.forEach(function(transaccion) { %>
           <div class="transaction">
-              <div class="sec-tran">
-                  <div class="data-transaction">
-                      <i class="bi bi-person-fill"></i>
-                      <p>Cuenta destino: <%= transaccion.cuentaorigen %></p>
-                  </div>
-                  <div class="data-trans">
-                      <p class="cost">-$<%= transaccion.monto %> </p>
-                      <% 
-                          const fechaCompleta = new Date(transaccion.fechadetransaccion);
-                          const dia = fechaCompleta.getDate().toString().padStart(2, '0');
-                          const mes = (fechaCompleta.getMonth() + 1).toString().padStart(2, '0');
-                          const anio = fechaCompleta.getFullYear();
-                          const horas = fechaCompleta.getHours().toString().padStart(2, '0');
-                          const minutos = fechaCompleta.getMinutes().toString().padStart(2, '0');
-                          const segundos = fechaCompleta.getSeconds().toString().padStart(2, '0');
-      
-                          const fechaHoraFormateada = `${anio}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
-                      %>
-      
-                      <li>Fecha y Hora: <%= fechaHoraFormateada %></li>
-                  </div>
+            <div class="sec-tran">
+              <div class="data-transaction">
+                <i class="bi bi-person-fill"></i>
+                <p>Cuenta destino: <%= transaccion.cuentadestino %></p>
               </div>
+              <div class="data-trans">
+                <% if (transaccion.tipodemovimiento === 'Transferencia') { %>
+                  <p class="cost red-text">-$<%= transaccion.monto %> </p>
+                <% } else if (transaccion.tipodemovimiento === 'Deposito') { %>
+                  <p class="cost green-text">+$<%= transaccion.monto %> </p>
+                <% } else { %>
+                  <p class="cost">-$<%= transaccion.monto %> </p>
+                <% } %>
+                <% 
+                  const fechaCompleta = new Date(transaccion.fechadetransaccion);
+                  const dia = fechaCompleta.getDate().toString().padStart(2, '0');
+                  const mes = (fechaCompleta.getMonth() + 1).toString().padStart(2, '0');
+                  const anio = fechaCompleta.getFullYear();
+                  const horas = fechaCompleta.getHours().toString().padStart(2, '0');
+                  const minutos = fechaCompleta.getMinutes().toString().padStart(2, '0');
+                  const segundos = fechaCompleta.getSeconds().toString().padStart(2, '0');
+          
+                  const fechaHoraFormateada = `${anio}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
+                %>
+                <li>Fecha y Hora: <%= fechaHoraFormateada %></li>
+              </div>
+            </div>
           </div>
-      <% }); %>
+        <% }); %>
+        
       
       </div>
     </div>

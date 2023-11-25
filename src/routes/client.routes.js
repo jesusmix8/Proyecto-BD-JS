@@ -26,6 +26,8 @@ const {
   realizarDeposito,
   cargarPantallaServicios,
   mostrarServicios,
+  Historial,
+  historialdetransacciones,
 } = require("../controllers/client.controler");
 
 //Ruta inicial para cliente
@@ -74,5 +76,7 @@ router.post("/deposito", realizarDeposito);
 //router.delete('/client', deleteClient);
 
 // router.put('/client', updateClient);
+
+router.get("/historial", Historial);
 
 module.exports = router;

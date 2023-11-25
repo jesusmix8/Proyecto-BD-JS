@@ -268,6 +268,25 @@ const realizarDeposito = async (req, res) => {
   }
 };
 
+const Historial = async (req, res) => {
+  //revisamos si hay usuario en sesion
+  const usuario = req.session.usuario;
+  if (usuario) {
+    const cuenta_ID = usuario[0].id_cuenta;
+    const historial = await pool.query(
+      "SELECT * FROM transaccion WHERE cuenta_id = $1 order by fechadetransaccion DESC",
+      [cuenta_ID]
+    );
+    res.render("historial", { historial: historial.rows });
+  } else {
+    res.redirect("/login");
+  }
+};
+
+const historialdetransacciones = async (req, res) => {
+  const usuario = req.session.usuario;
+};
+
 const SolicitudDeTdc = (req, res) => {
   res.sendFile("views/TDC/FormTDC.html", {
     root: __dirname + "/../",
@@ -513,4 +532,6 @@ module.exports = {
   logout,
   cargarPantallaServicios,
   mostrarServicios,
+  Historial,
+  historialdetransacciones,
 };
