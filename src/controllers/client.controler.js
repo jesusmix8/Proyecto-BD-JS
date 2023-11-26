@@ -343,59 +343,69 @@ const crearSeguro = async (req, res) => {
   */
   
   const usuario = req.session.usuario;
-
-  console.log(usuario);
-
-  const tipoDeServicio = "Seguro de vida";
-
-  const idCuenta = usuario[0].id_cuenta;
-
-  const fechaDeNacimiento = usuario[0].fechadenacimiento;
-
-  //Recuperamos la fecha de nacimiento del formulario 
-  const fechaNacimiento = req.body.fechaNacimiento;
-
-  //Recuperamos que opcion selecciono el usuario del combobox
-  const rangoDeIngresos = req.body.rangoIngresos;
   
 
-  //Recuperamos la suma sugerida del formulario
-  const saldo = req.body.sumaAsegurada;
+  if(usuario){
+    console.log(usuario);
+    const tipoDeServicio = "Seguro de vida";
 
-  //Recuperamos la cantidad de dinero por cada pago mensual
-  const pagoMinimo = req.body.pagoMensual;
+    const idCuenta = usuario[0].id_cuenta;
 
-  const saldoCuenta = await pool.query("SELECT saldo FROM cuenta WHERE cliente_id = $1",
-  [idCuenta]);
+    const fechaDeNacimiento = usuario[0].fechadenacimiento;
 
-  const saldoActual = saldoCuenta.rows[0].saldo;
+    //Recuperamos la fecha de nacimiento del formulario 
+    const fechaNacimiento = req.body.fechaNacimiento;
 
-
-  //La expiracion es en 80 años despues de la fecha de apertura 
-  const fechaDeExpiracion = new Date();
-  fechaDeExpiracion.setFullYear(fechaDeExpiracion.getFullYear() + 80);
-
-  //Su primer pago es dos meses despues de la fecha de apertura
-  const fechaDePago = new Date();
-  fechaDePago.setMonth(fechaDePago.getMonth() + 2);
-
-  if(saldoActual >= pagoMinimo){
+    //Recuperamos que opcion selecciono el usuario del combobox
+    const rangoDeIngresos = req.body.rangoIngresos;
     
-    const result = await pool.query("INSERT INTO catalogo_servicio (nombredeservicio, fechadeexpiracion, fechadeapertura, pagominimo, pagoparanogenerarintereses, fechadepago, intereses, saldo) VALUES ($1, $2, CURRENT_DATE, $3, $4, $5, $6, $7)",
-    [
-      tipoDeServicio,
-      fechaDeExpiracion,
-      pagoMinimo,
-      pagoMinimo,
-      fechaDePago,
-      0,
-      saldo
-    ]
-    )
-  }else{
-    res.status(400).json({message : "No se puede crear el seguro, saldo insuficiente"});
-  }
 
+    //Recuperamos la suma sugerida del formulario
+    const saldo = req.body.sumaAsegurada;
+
+    //Recuperamos la cantidad de dinero por cada pago mensual
+    const pagoMinimo = req.body.pagoMensual;
+
+    const saldoCuenta = await pool.query("SELECT saldo FROM cuenta WHERE  cuenta_id = $1",
+    [idCuenta]);
+
+    const saldoActual = saldoCuenta.rows[0].saldo;
+    
+
+    //La expiracion es en 80 años despues de la fecha de apertura 
+    const fechaDeExpiracion = new Date();
+    fechaDeExpiracion.setFullYear(fechaDeExpiracion.getFullYear() + 80);
+
+
+    //Su primer pago es dos meses despues de la fecha de apertura
+    const fechaDePago = new Date();
+    fechaDePago.setMonth(fechaDePago.getMonth() + 2);
+
+
+    if(saldoActual >= pagoMinimo){
+      try{
+        const result = await pool.query("INSERT INTO catalogo_servicio (nombredeservicio, fechadeexpiracion, fechadeapertura, pagominimo, pagoparanogenerarintereses, fechadepago, intereses, saldo) VALUES ($1, $2, CURRENT_DATE, $3, $4, $5, $6, $7)",
+        [
+          tipoDeServicio,
+          fechaDeExpiracion,
+          pagoMinimo,
+          pagoMinimo,
+          fechaDePago,
+          0,
+          saldo
+        ]
+      );
+      res.status(200).json({message:"Seguro creado exitosamente"});
+      }catch (error){
+        res.status(400).json({message:"No se ha podido crear el seguro"});
+        console.log(error);
+      }
+    }else {
+        res.status(400).json({message : "No se puede crear el seguro, saldo insuficiente"});
+    }
+  }else{
+    logout(req, res);
+  }
 };
 
 const pantallaseguro = (req, res) => {

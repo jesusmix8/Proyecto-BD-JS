@@ -7,14 +7,7 @@ document.getElementById('seguro-form').addEventListener('submit', function(e) {
     const fechaNacimiento = document.querySelector('input[name="fechaNacimiento"]').value;
     const rangoIngresos = document.getElementById('rangoIngreso').value;
     const sumaAsegurada = document.querySelector('input[name=sumaAsegurada]').value;
-    const pagoMensual = document.getElementById('pagoMensual').value;
-
-
-    console.log(Nombre);
-    console.log(fechaNacimiento);
-    console.log(rangoIngresos);
-    console.log(sumaAsegurada);
-    console.log(pagoMensual);
+    const pagoMensual = document.getElementById('pagoMensual').textContent;
 
     const data = {
         Nombre: Nombre,
