@@ -13,7 +13,7 @@ const {
   SolicitudDeTdc,
   crearTDC,
   pantallatdc,
-  SolicitudDeSeguro,
+  cargarPantallaSeguro,
   crearSeguro,
   pantallaseguro,
   SolicitudDePrestamo,
@@ -27,7 +27,6 @@ const {
   cargarPantallaServicios,
   mostrarServicios,
   Historial,
-  historialdetransacciones,
 } = require("../controllers/client.controler");
 
 //Ruta inicial para cliente
@@ -46,7 +45,7 @@ router.get("/logout", logout);
 router.get("/transferencia", cargadePantallaTransferencia);
 router.post("/transfer", realizarTransferenciaCliente);
 
-router.get("/servicios", cargarPantallaServicios);
+router.get("/servicios");
 router.post("/services", mostrarServicios);
 
 //Tarjeta de credito
@@ -60,10 +59,9 @@ router.get("/tdcDetalles", pantallatdc);
  *
  */
 
-router.get("/Seguro", SolicitudDeSeguro);
+router.get("/Seguro", cargarPantallaSeguro);
 router.post("/solicitudSeguro", crearSeguro);
 router.get("/seguroDetalle", pantallaseguro);
-
 
 //prestamo
 router.get("/prestamo", SolicitudDePrestamo);
