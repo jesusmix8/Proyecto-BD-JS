@@ -1,47 +1,15 @@
-<!-- Inicio del comentado  
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Servicios</title>
+    <title>Solicitar seguro</title>
     <link rel="stylesheet" href="/src/views/services/services.css" />
     <link rel="stylesheet" href="/static/format.css">
 </head>
 <body>
-    <header class="header">
-        <div class="container header__container">
-            <h1>Servicios</h1>
-        </div>
-    </header>
-</body>
-</html>  
 
-Fin del comentado -->
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario de Seguro</title>
-    <link rel="stylesheet" href="/src/views/services/services.css" />
-    <link rel="stylesheet" href="/static/format.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        label {
-            display: block;
-            margin-top: 10px;
-        }
-    </style>
-</head>
-<body>
-
-<h1>Formulario de Seguro</h1>
-
+<h1>Solicita un seguro</h1>
 
 <form action ="/solicitudSeguro" method ="post" id="seguro-form">
     <label for="nombre">Tu nombre:</label>
@@ -69,8 +37,6 @@ Fin del comentado -->
     <input type="checkbox" id="enfermedad4" name="enfermedades" value="pulmonar">
     
 
-    <!-- Agrega más opciones según sea necesario -->
-
     <label for="sumaAsegurada">Suma asegurada sugerida:</label>
     <input type="text" id="sumaAsegurada" name="sumaAsegurada" value="500000" readonly> MXN
     <p>Modifícalo hasta por <span id="maxSumaAsegurada">3,000,000</span> MXN según tus necesidades.</p>
@@ -86,6 +52,7 @@ Fin del comentado -->
     <button type="submit">Proceder con el pago</button>
 </form>
 <p id = "mensaje"></p>
+
 <script src="/static/services/services.js"></script>
 </body>
 </html>
