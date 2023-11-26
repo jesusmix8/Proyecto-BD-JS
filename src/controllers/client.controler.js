@@ -172,18 +172,16 @@ const loaddashboard = async (req, res) => {
 
     console.log(usuario[0].transacciones[0].fechadetransaccion);
 
-    res.render("dashboard", { usuario: usuario });
+    res.render("Dashboard/dashboard", { usuario: usuario });
   } else {
     res.redirect("/login");
   }
 };
 
-const cargadePantallaTransferencia = (req, res) => {
+const cargadePantallaTransferencia = async (req, res) => {
   const usuario = req.session.usuario;
   if (usuario) {
-    res.sendFile("views/Transferencia/formtransferencia.html", {
-      root: __dirname + "/../",
-    });
+    res.render("Transferencia/formtransferencia", { usuario: usuario });
   } else {
     res.redirect("/login");
   }
@@ -234,9 +232,12 @@ const realizarTransferenciaCliente = async (req, res) => {
 };
 
 const pantallaDeposito = (req, res) => {
-  res.sendFile("views/deposito/deposito.html", {
-    root: __dirname + "/../",
-  });
+  const usuario = req.session.usuario;
+  if (usuario) {
+    res.render("deposito/deposito", { usuario: usuario });
+  } else {
+    res.redirect("/login");
+  }
 };
 
 const realizarDeposito = async (req, res) => {
@@ -277,7 +278,7 @@ const Historial = async (req, res) => {
       "SELECT * FROM transaccion WHERE cuenta_id = $1 order by fechadetransaccion DESC",
       [cuenta_ID]
     );
-    res.render("historial", { historial: historial.rows });
+    res.render("historial", { historial: historial.rows ,usuario: usuario });
   } else {
     res.redirect("/login");
   }
@@ -507,9 +508,12 @@ const pantalladeahorro = (req, res) => {
 };
 
 const cargarPantallaServicios = (req, res) => {
-  res.sendFile("views/services/services.html", {
-    root: __dirname + "/../",
-  });
+  const usuario = req.session.usuario;
+  if (usuario) {
+    res.render("services/services", { usuario: usuario });
+  } else {
+    res.redirect("/login");
+  }
 };
 
 const mostrarServicios = (req, res) => {

@@ -1,6 +1,6 @@
 const mensaje = document.getElementById('mensaje');
 
-document.getElementById('seguro-form').addEventListener('submit', function(e) {
+document.getElementById('seguro-form').addEventListener('submit', function (e) {
     e.preventDefault();
 
     const Nombre = document.querySelector('input[name="nombre"]').value;
@@ -16,7 +16,7 @@ document.getElementById('seguro-form').addEventListener('submit', function(e) {
         sumaAsegurada: sumaAsegurada,
         pagoMensual: pagoMensual
     };
-    
+
     fetch('/solicitudSeguro', {
         method: 'POST',
         headers: {
@@ -25,24 +25,26 @@ document.getElementById('seguro-form').addEventListener('submit', function(e) {
         body: JSON.stringify(data)
 
     })
-    .then(response => {
-        if(response.status == 200){
-            mensaje.textContent = 'Seguro registrado exitosamente';
-            mensaje.style.display = 'block';
+        .then(response => {
+            if (response.status == 200) {
+                mensaje.textContent = 'Seguro registrado exitosamente';
+                mensaje.style.display = 'block';
 
-            setTimeout(function(){
-                window.location.href = '/perfil';
-            }, 2000);
-        
-        } else if(response.status == 400){
-            return response.json().then(data => {
-                mensajeerror.textContent = data.message;
-                mensajeerror.style.display = 'block';
-            });
-        
-        } else if (response.status == 404){
-            mensajeerror.textContent = 'Error desconocido';
-        }
-    })
+                setTimeout(function () {
+                    window.location.href = '/perfil';
+                }, 2000);
+
+            } else if (response.status == 400) {
+                return response.json().then(data => {
+                    mensajeerror.textContent = data.message;
+                    mensajeerror.style.display = 'block';
+                });
+
+            } else if (response.status == 404) {
+                mensajeerror.textContent = 'Error desconocido';
+            }
+        })
 
 });
+
+

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitar seguro</title>
+    <link rel="stylesheet" href="static/services/services.css">
+    <link rel="stylesheet" href="/static/format.css">
+    <link rel="stylesheet" href="./public/css/dashboardStyles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" </head>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container2 header__container">
+            <div class="header__logo">
+                <img class="header__img" src="https://image.ibb.co/kcVou6/path3000.png" />
+                <h1 class="header__title">
+                    Banca<span class="header__light"> Facil</span>
+                </h1>
+            </div>
+        </div>
+    </header>
+
+    <div class="container__nav">
+        <div class="section1">
+            <div class="subsec1">
+                <div class="item0">
+                    <i class="img bi bi-person-circle"></i>
+                    <div class="data-user">
+                        <p class="name"><%= usuario[0].nombre %></p>
+                        <p class="tpu"><%= usuario[0].tipo_cuenta%></p>
+                    </div>
+                </div>
+                <div class="item1" id="item">
+                    <i class="inactive bi bi-house"></i>
+                    <a href="/perfil" class="inactive">Inicio</a>
+                </div>
+                <div class="item1 id=" item"">
+                    <i class="inactive bi bi-credit-card"></i>
+                    <a href="#" class="inactive">Pagos</a>
+                </div>
+                <div class="item1" id="item">
+                    <i class="inactive bi bi bi-cash-coin"></i>
+                    <a href="/depositar" class="inactive">Depósitos</a>
+                </div>
+                <div class="item1" id="item">
+                    <i class="inactive bi bi-lungs"></i>
+                    <a href="/servicios" class="inactive">Seguro</a>
+                </div>
+                <div class="item1" id="item">
+                    <i class="inactive bi bi-gear"></i>
+                    <a href="#" class="inactive">Configuración</a>
+                </div>
+            </div>
+            <div class="subsec2">
+                <div class="item2">
+                    <i class="inactive bi bi-box-arrow-left"></i>
+                    <a href="/logout" class="inactive">Cerrar sesión</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="container__seguro">
+            <h1>Solicita un seguro</h1>
+            <form action="/solicitudSeguro" method="post" id="seguro-form">
+                <label for="nombre">Tu nombre:</label>
+                <input class="txt" type="text" id="nombre" name="nombre" readonly value="<%= usuario[0].nombre + ' ' +usuario[0].apellido %>">
+
+                <label for="fechaNacimiento">Tu fecha de nacimiento:</label>
+                <input class="txt" type="date" id="fechaNacimiento" name="fechaNacimiento">
+
+                <label for="rangoIngreso">Elige tu rango de ingreso mensual:</label>
+                <select class="txt" id="rangoIngreso" name="rangoIngreso" required>
+                    <option value="0-20000">De 0 a 20,000 MXN</option>
+                    <option value="20001-50000">De 20,001 a 50,000 MXN</option>
+                    <option value="50001+">Mayor a 50,000 MXN</option>
+                </select>
+                
+                <div class="checkbox-container">
+                    <label for="enfermedad1">Diabetes, hipertensión arterial u obesidad mórbida.</label>
+                    <input class="checkbox" type="checkbox" id="enfermedad1" name="enfermedades" value="diabetes">
+                </div>
+                
+                <div class="checkbox-container">
+                    <label for="enfermedad2">Cáncer, tumores malignos, leucemia o lupus.</label>
+                    <input class="checkbox" type="checkbox" id="enfermedad2" name="enfermedades" value="cancer">
+                </div>
+                
+                <div class="checkbox-container">
+                    <label for="enfermedad3">Insuficiencia hepática, cirrosis hepática, hepatitis B o C, insuficiencia
+                        renal o pancreatitis.</label>
+                    <input class="checkbox" type="checkbox" id="enfermedad3" name="enfermedades" value="insuficiencia">
+                </div>
+                
+                <div class="checkbox-container">
+                    <label for="enfermedad4">Enfisema, bronquitis, tuberculosis, enfermedad pulmonar obstructiva crónica
+                        (EPOC) o enfermedades infecciosas relacionadas al aparato respiratorio</label>
+                    <input class="checkbox" type="checkbox" id="enfermedad4" name="enfermedades" value="pulmonar">
+                </div>
+
+
+                <label for="sumaAsegurada">Suma asegurada sugerida:</label>
+                <input class="txt" type="text" id="sumaAsegurada" name="sumaAsegurada" value="500000" readonly> MXN
+                <p>Modifícalo hasta por <span id="maxSumaAsegurada">3,000,000</span> MXN según tus necesidades.</p>
+
+                <h2>Resumen de compra</h2>
+
+                <p>12 pagos mensuales de <span id="pagoMensual">385.23</span> MXN</p>
+                <p>Total anual: <span id="totalAnual">4,622.76</span> MXN</p>
+                <p>Quedas protegido por <span id="proteccion">500,000</span> MXN</p>
+
+                <p>Puedes elegir la forma de pago que más te convenga.</p>
+
+                <button class="btns btns--inside uppercase" type="submit">Solicitar</button>
+            </form>
+            <p id="mensaje"></p>
+        </div>
+    </div>
+
+    <script src="/static/services/services.js"></script>
+</body>
+
+</html>

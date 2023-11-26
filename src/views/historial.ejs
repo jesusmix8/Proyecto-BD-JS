@@ -1,173 +1,233 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <!-- Add Bootstrap CDN link or download and include the Bootstrap CSS file -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous"
-    />
-  </head>
-  <body>
-    <div class="container mt-4">
-      <h2 class="mb-4">Historial De Transacciones</h2>
-      <div class="table-responsive">
-        <div class="row mb-3">
-          <div class="col">
-            <button id="sort-asc-btn" class="btn btn-secondary mt-4">
-              Ordenar Ascendente
-            </button>
-            <button id="sort-desc-btn" class="btn btn-secondary mt-4">
-              Ordenar Descendente
-            </button>
-          </div>
-          <div class="col">
-            <label for="startDate" class="form-label">Fecha de inicio:</label>
-            <input type="date" class="form-control" id="startDate" />
-          </div>
-          <div class="col">
-            <label for="endDate" class="form-label">Fecha de fin:</label>
-            <input type="date" class="form-control" id="endDate" />
-          </div>
-          <div class="col">
-            <button id="filter-btn" class="btn btn-success mt-4">
-              Filtrar
-            </button>
-          </div>
-        </div>
 
-        <button id="download-pdf" class="btn btn-primary my-2">
-          Descargar PDF
-        </button>
+<head>
+  <link rel="shortcut icon" type="image/x-icon" href="https://image.ibb.co/fOur3b/favicon.png" />
+  <meta name="theme-color" content="#1885ed" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" </head>
+  <link rel="stylesheet" href="/static/format.css">
+  <link rel="stylesheet" href="./public/css/dashboardStyles.css">
+  <link rel="stylesheet" href="/static/Transferencia/transferencia.css" />
+</head>
 
-        <table class="table table-bordered" id="transaction-table">
-          <thead class="table-dark">
-            <tr>
-              <th>Transaction ID</th>
-              <th>Date</th>
-              <th>Transaction Type</th>
-              <th>From Account</th>
-              <th>To Account</th>
-              <th>Amount</th>
-              <th>Concept</th>
-              <th>Account ID</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% historial.forEach(transaction => { %>
-            <tr>
-              <td><%= transaction.transaccion_id %></td>
-              <td>
-                <%= transaction.fechadetransaccion.toISOString().split('T')[0]
-                %>
-              </td>
-              <td><%= transaction.tipodemovimiento %></td>
-              <td><%= transaction.cuentaorigen %></td>
-              <td><%= transaction.cuentadestino %></td>
-              <!-- Apply conditional classes based on transaction type -->
-              <td
-                class="<%= transaction.tipodemovimiento === 'Deposito' ? 'text-success' : 'text-danger' %>"
-              >
-                <%= transaction.monto %>
-              </td>
-              <td><%= transaction.concepto %></td>
-              <td><%= transaction.cuenta_id %></td>
-            </tr>
-            <% }) %>
-          </tbody>
-        </table>
+<body>
+
+  <header class="header">
+    <div class="container2 header__container">
+      <div class="header__logo">
+        <img class="header__img" src="https://image.ibb.co/kcVou6/path3000.png" />
+        <h1 class="header__title">
+          Banca<span class="header__light"> Facil</span>
+        </h1>
       </div>
     </div>
+  </header>
 
-    <!-- Add Bootstrap JS and Popper.js if needed -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-      crossorigin="anonymous"
-    ></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+  <div class="container__nav">
+    <div class="section1">
+      <div class="subsec1">
+        <div class="item0">
+          <i class="img bi bi-person-circle"></i>
+          <div class="data-user">
+            <p class="name"><%= usuario[0].nombre %></p>
+            <p class="tpu"><%= usuario[0].tipo_cuenta%></p>
+          </div>
+        </div>
+        <div class="item1" id="item">
+          <i class="inactive bi bi-house"></i>
+          <a href="/perfil" class="inactive">Inicio</a>
+        </div>
+        <div class="item1 id=" item"">
+          <i class="inactive bi bi-credit-card"></i>
+          <a href="#" class="inactive">Pagos</a>
+        </div>
+        <div class="item1" id="item">
+          <i class="inactive bi bi bi-cash-coin"></i>
+          <a href="/depositar" class="inactive">Depósitos</a>
+        </div>
+        <div class="item1" id="item">
+          <i class="inactive bi bi-lungs"></i>
+          <a href="/servicios" class="inactive">Seguro</a>
+        </div>
+        <div class="item1" id="item">
+          <i class="inactive bi bi-gear"></i>
+          <a href="#" class="inactive">Configuración</a>
+        </div>
+      </div>
+      <div class="subsec2">
+        <div class="item2">
+          <i class="inactive bi bi-box-arrow-left"></i>
+          <a href="/logout" class="inactive">Cerrar sesión</a>
+        </div>
+      </div>
+    </div>
+  
+  
+    <!--<h2 class="mb-4">Historial De Transacciones</h2>-->
+    <div class="table-responsive">
+      <div class="row mb-3">
+        <div class="col">
+          <button id="sort-asc-btn" class="btn btn-secondary mt-4">
+            Ordenar Ascendente
+          </button>
+          <button id="sort-desc-btn" class="btn btn-secondary mt-4">
+            Ordenar Descendente
+          </button>
+        </div>
+        <div class="col">
+          <label for="startDate" class="form-label">Fecha de inicio:</label>
+          <input type="date" class="form-control" id="startDate" />
+        </div>
+        <div class="col">
+          <label for="endDate" class="form-label">Fecha de fin:</label>
+          <input type="date" class="form-control" id="endDate" />
+        </div>
+        <div class="col">
+          <button id="filter-btn" class="btn btn-success mt-4">
+            Filtrar
+          </button>
+        </div>
+      </div>
 
-    <script>
-      $(document).ready(function () {
-        // Agrega un evento de clic al botón de descarga
-        $("#download-pdf").on("click", function () {
-          // Convierte el contenido de la tabla a PDF
-          var element = document.getElementById("transaction-table");
-          html2pdf(element);
-        });
+      <button id="download-pdf" class="btn btn-primary my-2">
+        Descargar PDF
+      </button>
 
-        // Agrega un evento de clic al botón de filtrar
-        $("#filter-btn").on("click", function () {
-          // Obtiene las fechas de inicio y fin
-          var startDate = $("#startDate").val();
-          var endDate = $("#endDate").val();
+      <table class="table table-bordered" id="transaction-table">
+        <thead class="table-dark">
+          <tr>
+            <!-- <th>Transaction ID</th> -->
+            <th>Fecha</th>
+            <th>Tipo de transacción</th>
+            <th>Cuenta de origen</th>
+            <th>Cuenta de destino</th>
+            <th>Cantidad</th>
+            <th>Concepto</th>
+            <!--<th>Account ID</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <% historial.forEach(transaction=> { %>
+            <tr>
+              <!-- <td>
+                <%= transaction.transaccion_id %>
+              </td> -->
+              <td>
+                <%= transaction.fechadetransaccion.toISOString().split('T')[0] %>
+              </td>
+              <td>
+                <%= transaction.tipodemovimiento %>
+              </td>
+              <td>
+                <%= transaction.cuentaorigen %>
+              </td>
+              <td>
+                <%= transaction.cuentadestino %>
+              </td>
+              <!-- Apply conditional classes based on transaction type -->
+              <td class="<%= transaction.tipodemovimiento === 'Deposito' ? 'text-success' : 'text-danger' %>">
+                <%= transaction.monto %>
+              </td>
+              <td>
+                <%= transaction.concepto %>
+              </td>
+              <!-- <td> <td>
+                <%= transaction.cuenta_id %>
+              </td> -->
+            </tr>
+            <% }) %>
+        </tbody>
+      </table>
+    </div>
 
-          // Filtra las transacciones por fecha
-          filterTransactionsByDate(startDate, endDate);
-        });
+  <!-- Add Bootstrap JS and Popper.js if needed -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+  
+
+  <script>
+    $(document).ready(function () {
+      // Agrega un evento de clic al botón de descarga
+      $("#download-pdf").on("click", function () {
+        // Convierte el contenido de la tabla a PDF
+        var element = document.getElementById("transaction-table");
+        html2pdf(element);
       });
 
-      function filterTransactionsByDate(startDate, endDate) {
-        // Obtén todas las filas de la tabla
-        var rows = $("#transaction-table tbody tr");
+      // Agrega un evento de clic al botón de filtrar
+      $("#filter-btn").on("click", function () {
+        // Obtiene las fechas de inicio y fin
+        var startDate = $("#startDate").val();
+        var endDate = $("#endDate").val();
 
-        // Itera sobre las filas y muestra u oculta según el rango de fechas
-        rows.each(function () {
-          var transactionDate = $(this).find("td:nth-child(2)").text(); // La fecha está en la segunda columna
+        // Filtra las transacciones por fecha
+        filterTransactionsByDate(startDate, endDate);
+      });
+    });
 
-          // Compara la fecha de la transacción con el rango seleccionado
-          if (isDateInRange(transactionDate, startDate, endDate)) {
-            $(this).show();
-          } else {
-            $(this).hide();
-          }
-        });
-      }
+    function filterTransactionsByDate(startDate, endDate) {
+      // Obtén todas las filas de la tabla
+      var rows = $("#transaction-table tbody tr");
 
-      $("#sort-asc-btn").on("click", function () {
-        sortTransactionsByAmount("asc");
+      // Itera sobre las filas y muestra u oculta según el rango de fechas
+      rows.each(function () {
+        var transactionDate = $(this).find("td:nth-child(2)").text(); // La fecha está en la segunda columna
+
+        // Compara la fecha de la transacción con el rango seleccionado
+        if (isDateInRange(transactionDate, startDate, endDate)) {
+          $(this).show();
+        } else {
+          $(this).hide();
+        }
+      });
+    }
+
+    $("#sort-asc-btn").on("click", function () {
+      sortTransactionsByAmount("asc");
+    });
+
+    // Agrega un evento de clic al botón de ordenar descendente
+    $("#sort-desc-btn").on("click", function () {
+      sortTransactionsByAmount("desc");
+    });
+
+    function isDateInRange(date, startDate, endDate) {
+      // Convierte las fechas a objetos de fecha
+      var transactionDate = new Date(date);
+      var start = new Date(startDate);
+      var end = new Date(endDate);
+
+      // Verifica si la fecha de la transacción está en el rango
+      return transactionDate >= start && transactionDate <= end;
+    }
+
+    function sortTransactionsByAmount(order) {
+      // Obtén todas las filas de la tabla
+      var rows = $("#transaction-table tbody tr");
+
+      // Ordena las filas según el monto
+      rows.sort(function (a, b) {
+        var amountA = parseFloat($(a).find("td:nth-child(6)").text()); // El monto está en la sexta columna
+        var amountB = parseFloat($(b).find("td:nth-child(6)").text());
+
+        if (order === "asc") {
+          return amountA - amountB;
+        } else {
+          return amountB - amountA;
+        }
       });
 
-      // Agrega un evento de clic al botón de ordenar descendente
-      $("#sort-desc-btn").on("click", function () {
-        sortTransactionsByAmount("desc");
-      });
+      // Elimina todas las filas de la tabla
+      $("#transaction-table tbody").empty();
 
-      function isDateInRange(date, startDate, endDate) {
-        // Convierte las fechas a objetos de fecha
-        var transactionDate = new Date(date);
-        var start = new Date(startDate);
-        var end = new Date(endDate);
+      // Agrega las filas ordenadas de nuevo a la tabla
+      $("#transaction-table tbody").append(rows);
+    }
+  </script>
+</body>
 
-        // Verifica si la fecha de la transacción está en el rango
-        return transactionDate >= start && transactionDate <= end;
-      }
-
-      function sortTransactionsByAmount(order) {
-        // Obtén todas las filas de la tabla
-        var rows = $("#transaction-table tbody tr");
-
-        // Ordena las filas según el monto
-        rows.sort(function (a, b) {
-          var amountA = parseFloat($(a).find("td:nth-child(6)").text()); // El monto está en la sexta columna
-          var amountB = parseFloat($(b).find("td:nth-child(6)").text());
-
-          if (order === "asc") {
-            return amountA - amountB;
-          } else {
-            return amountB - amountA;
-          }
-        });
-
-        // Elimina todas las filas de la tabla
-        $("#transaction-table tbody").empty();
-
-        // Agrega las filas ordenadas de nuevo a la tabla
-        $("#transaction-table tbody").append(rows);
-      }
-    </script>
-  </body>
 </html>
