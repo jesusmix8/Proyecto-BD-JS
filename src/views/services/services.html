@@ -25,6 +25,8 @@ Fin del comentado -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de Seguro</title>
+    <link rel="stylesheet" href="/src/views/services/services.css" />
+    <link rel="stylesheet" href="/static/format.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -40,12 +42,13 @@ Fin del comentado -->
 
 <h1>Formulario de Seguro</h1>
 
-<form id="formularioSeguro">
+
+<form action ="/solicitudSeguro" method ="post" id="seguro-form">
     <label for="nombre">Tu nombre:</label>
     <input type="text" id="nombre" name="nombre" required>
 
     <label for="fechaNacimiento">Tu fecha de nacimiento:</label>
-    <input type="text" id="fechaNacimiento" name="fechaNacimiento" placeholder="DD/MM/AAAA" required>
+    <input type="date" id="fechaNacimiento" name="fechaNacimiento" placeholder="DD/MM/AAAA" required>
 
     <label for="rangoIngreso">Elige tu rango de ingreso mensual:</label>
     <select id="rangoIngreso" name="rangoIngreso" required>
@@ -80,8 +83,10 @@ Fin del comentado -->
 
     <p>Puedes elegir la forma de pago que más te convenga.</p>
 
-    <button type="button" onclick="procederConElPago()">Proceder con el pago</button>
+    <button type="submit">Proceder con el pago</button>
 </form>
+<p id = "mensaje"></p>
+<script src="/static/services/services.js"></script>
 </body>
 </html>
 

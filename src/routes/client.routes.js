@@ -55,9 +55,15 @@ router.post("/solicitudTDC", crearTDC);
 router.get("/tdcDetalles", pantallatdc);
 
 //Seguro
+/*
+ *Lo comento porque estoy usando el formulario desde la ruta de Servicios
+ *
+ */
+
 router.get("/Seguro", SolicitudDeSeguro);
 router.post("/solicitudSeguro", crearSeguro);
 router.get("/seguroDetalle", pantallaseguro);
+
 
 //prestamo
 router.get("/prestamo", SolicitudDePrestamo);

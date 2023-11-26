@@ -344,32 +344,32 @@ const crearSeguro = async (req, res) => {
   
   const usuario = req.session.usuario;
 
+  console.log(usuario);
+
   const tipoDeServicio = "Seguro de vida";
 
-  const idCuenta = usuario[0].cuenta_id;
+  const idCuenta = usuario[0].id_cuenta;
 
   const fechaDeNacimiento = usuario[0].fechadenacimiento;
 
-  /* Seria mejor manejar esto desde el archivo .js para unicamente recuperar cual es la suma sugerida
-  *  y no tener que recuperar todos los datos del formulario
+  //Recuperamos la fecha de nacimiento del formulario 
+  const fechaNacimiento = req.body.fechaNacimiento;
 
   //Recuperamos que opcion selecciono el usuario del combobox
-  const rangoDeIngresos = req.body.rangoDeIngresos;
-
-  //Recuperamos la cantidad de casillas que selecciono el usuario en el checkbox 
-  const cantidadDeCasillas = req.body.cantidadDeCasillas;
-  */
+  const rangoDeIngresos = req.body.rangoIngresos;
+  
 
   //Recuperamos la suma sugerida del formulario
-  const saldo = req.body.sumaSugerida;
+  const saldo = req.body.sumaAsegurada;
 
   //Recuperamos la cantidad de dinero por cada pago mensual
   const pagoMinimo = req.body.pagoMensual;
 
-  const saldoCuenta = await pool.query("SELECT saldo FROM cuenta WHERE cuenta_id = $1",
+  const saldoCuenta = await pool.query("SELECT saldo FROM cuenta WHERE cliente_id = $1",
   [idCuenta]);
 
   const saldoActual = saldoCuenta.rows[0].saldo;
+
 
   //La expiracion es en 80 años despues de la fecha de apertura 
   const fechaDeExpiracion = new Date();
