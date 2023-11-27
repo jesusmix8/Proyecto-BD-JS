@@ -9,6 +9,7 @@
 
 .config-form-container:hover{
     cursor: pointer;
+    background-color: rgb(215, 229, 240);
 }
 
 .form-group input[type="file"] {
