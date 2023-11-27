@@ -6,6 +6,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="https://image.ibb.co/fOur3b/favicon.png" />
     <meta name="theme-color" content="#1885ed" />
     <title>Configuración</title>
+    <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.min.css">
     <link rel="stylesheet" href="/static/format.css">
     <link rel="stylesheet" href="/static/Configuracion/configuracion.css" />
     <link rel="stylesheet" href="./public/css/dashboardStyles.css">
@@ -63,10 +64,63 @@
             </div>
         </div>
         
-        <div class="seccion_config">
-            <!-- 
-            Aquí debe ir la sección para la configuración, formularios y así xd
-            -->
+        <div class="seccion__config">
+            <h2 class="uppercase">Configuración de la cuenta</h2>
+
+            <div class="config-form-container">
+                <h3 class="h3__config" >Cambiar foto de perfil</h3>
+                <form id="cambiarFotoForm" class="config-form" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="lbl" for="nuevaFoto">Subir nueva foto de perfil:</label>
+                        <input type="file" id="nuevaFoto" name="nuevaFoto" accept="image/*" required>
+                    </div>
+                    <button class="btn__all btn__all--inside uppercase" type="submit">Cambiar Foto de Perfil</button>
+                </form>
+            </div>
+
+            <div class="config-form-container">
+                <h3 class="h3__config">Cambiar contraseña</h3>
+                <form id="cambiarContrasenaForm" class="config-form">
+                    <div class="form-group">
+                        <label class="lbl" for="actualContrasena">Contraseña actual:</label>
+                        <input class="txt__all" type="password" id="actualContrasena" name="actualContrasena" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="lbl" for="nuevaContrasena">Nueva contraseña:</label>
+                        <input class="txt__all" type="password" id="nuevaContrasena" name="nuevaContrasena" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="lbl" for="confirmarContrasena">Confirmar nueva contraseña:</label>
+                        <input class="txt__all" type="password" id="confirmarContrasena" name="confirmarContrasena" required>
+                    </div>
+                    
+                    <button class="btn__all btn__all--inside uppercase" type="submit">Cambiar Contraseña</button>
+                </form>
+            </div>
+            
+            <div class="config-form-container">
+                <h3 class="h3__config">Cambiar correo</h3>
+                <form id="cambiarCorreoForm" class="config-form">
+                    <div class="form-group">
+                        <label class="lbl" for="nuevoCorreo">Nuevo correo electrónico:</label>
+                        <input class="txt__all" type="email" id="nuevoCorreo" name="nuevoCorreo" required>
+                    </div>
+                    <button class="btn__all btn__all--inside uppercase" type="submit">Cambiar Correo Electrónico</button>
+                </form>
+            </div>
+            
+            <div class="config-form-container">
+                <h3 class="h3__config">Cambiar número de teléfono</h3>
+                <form id="cambiarTelefonoForm" class="config-form">
+                    <div class="form-group">
+                        <label class="lbl" for="nuevoTelefono">Nuevo número de teléfono:</label>
+                        <input class="txt__all" type="tel" id="nuevoTelefono" name="nuevoTelefono" pattern="[0-9]{10}" placeholder="Ingrese un número de teléfono de 10 dígitos" required>
+                    </div>
+                    <button class="btn__all btn__all--inside uppercase" type="submit">Cambiar Número de Teléfono</button>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -78,7 +132,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/Javascript/Home.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="/static/deposito/depositofetch.js"></script>
+    <script src="https://unpkg.com/cropperjs"></script>
 </body>
 
 </html>

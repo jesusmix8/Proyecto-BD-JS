@@ -1,0 +1,48 @@
+.form-group input[type="file"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: hsl(0, 0%, 98%);
+    cursor: pointer;
+    width: 150px;
+}
+
+.form-group input[type="file"]::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+.form-group input[type="file"]::before {
+    content: 'Seleccionar archivo';
+    display: inline-block;
+    background-color: #7f8ff4;
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 125px;
+}
+
+.form-group input[type="file"]:focus,
+.form-group input[type="file"]:valid {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+.h3__config{
+    text-transform: uppercase;
+}
+
+h2{
+    display: flex;
+    justify-content: center;
+}
+
+.config-form-container {
+    margin-bottom: 2rem;
+}
+
+.lbl{
+    margin-right: 2rem;
+}
