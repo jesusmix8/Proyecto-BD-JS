@@ -46,11 +46,14 @@ const createClient = async (req, res) => {
       "SELECT s.sucursal_id FROM sucursal s JOIN direccion d ON s.direccion_ID = d.direccion_ID JOIN catalogoEstado ce ON d.codigoPostal = ce.codigoPostal WHERE ce.codigoPostal = $1",
       [Codigopostal]
     );
+
+    //Seleccionar una sucursal aleatoria
     const numeroAleatorio = Math.floor(
       Math.random() * resultSucursal.rows.length
     );
 
-    const idSucursal = resultSucursal.rows[0].sucursal_id;
+    const idSucursal = resultSucursal.rows[numeroAleatorio].sucursal_id;
+
     const {
       RFC,
       Nombre,
@@ -167,10 +170,6 @@ const loaddashboard = async (req, res) => {
       [usuario[0].id_cuenta]
     );
     usuario[0].servicios = servicios.rows;
-
-    console.log(typeof usuario[0].transacciones[0].fechadetransaccion);
-
-    console.log(usuario[0].transacciones[0].fechadetransaccion);
 
     res.render("Dashboard/dashboard", { usuario: usuario });
   } else {
@@ -567,5 +566,4 @@ module.exports = {
   cargadePantallaConfiguracion,
   cargadePantallaLimite,
   cargadePantallaMasServicios,
-
 };
