@@ -1,0 +1,309 @@
+.red-text {
+    color: red;
+}
+
+.green-text {
+    color: green;
+}
+
+.header {
+    padding: 20px 0px;
+}
+
+.header__elenco {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.header__menu {
+    float: right;
+}
+
+.header__el {
+    padding: 0 25px;
+    display: inline-block;
+}
+
+.header__img {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.header__logo,
+.header__menu {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.header__title {
+    font-size: 18px;
+    margin: 0;
+    margin-left: 10px;
+    display: inline-block;
+    line-height: 18px;
+    vertical-align: middle;
+}
+
+.header__light {
+    color: #8198ae;
+}
+
+.header__link {
+    color: #1f4568;
+    font-size: 14px;
+
+}
+
+.header__link:hover {
+    text-decoration: none;
+    color: #3a9fff;
+}
+
+.navbar-toggle .icon-bar {
+    background-color: #8198ae;
+}
+
+.navbar-toggle {
+    margin: 5px 0;
+}
+
+.partner {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.container2 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-nav {
+    width: 100%;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+body{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.container {
+    background-color: #fff;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    border-radius: 30px;
+    padding: 2rem 2rem;
+    box-shadow: 0px 100px 50px rgb(0, 0, 0, .1);
+    display: flex;
+    flex-direction: row;
+}
+
+.section1 {
+    width: 18%;
+    justify-content: space-between;
+
+}
+
+.subsec1 {
+    width: 100%;
+    height: 50%;
+}
+
+.subsec2 {
+    width: 100%;
+    height: 50%;
+    text-align: start;
+    display: flex;
+    align-items: end;
+}
+
+.item0 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.img {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.data-user {
+
+    display: flex;
+    flex-direction: column;
+}
+
+.data-user p {
+    width: 100px;
+    height: 20px;
+    margin: -2px;
+    padding: 0px 5px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.name {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.tpu {
+    font-size: 10px;
+}
+
+.active {
+    color: #000;
+    font-weight: bold;
+}
+
+.item1 {
+    width: 100%;
+    height: auto;
+    margin: 1rem 0rem;
+}
+
+.item1 a {
+    text-decoration: none;
+}
+
+.item2 {
+    margin-bottom: 2rem;
+}
+
+.item2 a {
+    text-decoration: none;
+
+}
+
+.inactive {
+    color: #b3afaf;
+}
+
+.section2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    padding-right: 7rem;
+    padding-top: 3.2rem;
+}
+
+.options {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.option {
+    margin-left: 10px;
+    width: 60px;
+    height: auto;
+    text-align: center;
+}
+
+.icon {
+    margin: 0 auto;
+    background-color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon i {
+    color: #000;
+}
+
+.option a {
+    color: #000;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.option a:hover {
+    color: #b3afaf;
+}
+
+.shortcuts {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+}
+
+.shor {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    width: 100px;
+    text-align: center;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1;
+    box-shadow: 0px 0px 100px rgba(56, 9, 145, 0.3);
+}
+
+.shor a {
+    margin-bottom: 1rem;
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+.shor p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-weight: bold;
+    margin: 0;
+
+}
+
+.sh {
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 3rem 0rem 1rem 3rem;
+}
+
+.img-short {
+    width: 40px;
+    height: 40px;
+    margin: 10px auto;
+    border-radius: 50%;
+}
+
+
+
+
+h1{
+    text-align: center;
+}
+.sucursal{
+    display: flex;
+}
