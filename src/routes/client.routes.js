@@ -27,6 +27,11 @@ const {
   cargarPantallaServicios,
   mostrarServicios,
   Historial,
+  cargadePantallaPago,
+  cargadePantallaConfiguracion,
+  cargadePantallaLimite,
+  cargadePantallaMasServicios,
+
 } = require("../controllers/client.controler");
 
 //Ruta inicial para cliente
@@ -47,6 +52,18 @@ router.post("/transfer", realizarTransferenciaCliente);
 
 router.get("/servicios");
 router.post("/services", mostrarServicios);
+
+router.get("/pagos", cargadePantallaPago);
+//router.post("/pago", realizarPago);
+
+router.get("/config", cargadePantallaConfiguracion);
+//router.post("/pago", realizarConfiguracion);
+
+router.get("/limites", cargadePantallaLimite);
+//router.post("/pago", realizarLimites);
+
+router.get("/mas", cargadePantallaMasServicios);
+//router.post("/pago", realizarOtrosServicios);
 
 //Tarjeta de credito
 router.get("/solicitarTDC", SolicitudDeTdc);

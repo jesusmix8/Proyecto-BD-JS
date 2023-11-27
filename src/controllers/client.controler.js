@@ -187,6 +187,42 @@ const cargadePantallaTransferencia = async (req, res) => {
   }
 };
 
+const cargadePantallaPago = async (req, res) => {
+  const usuario = req.session.usuario;
+  if (usuario) {
+    res.render("Pago/pago", { usuario: usuario });
+  } else {
+    res.redirect("/login");
+  }
+};
+
+const cargadePantallaConfiguracion = async (req, res) => {
+  const usuario = req.session.usuario;
+  if (usuario) {
+    res.render("Configuracion/configuracion", { usuario: usuario });
+  } else {
+    res.redirect("/login");
+  }
+};
+
+const cargadePantallaLimite = async (req, res) => {
+  const usuario = req.session.usuario;
+  if (usuario) {
+    res.render("Limite/limite", { usuario: usuario });
+  } else {
+    res.redirect("/login");
+  }
+};
+
+const cargadePantallaMasServicios = async (req, res) => {
+  const usuario = req.session.usuario;
+  if (usuario) {
+    res.render("Mas/otrosServicios", { usuario: usuario });
+  } else {
+    res.redirect("/login");
+  }
+};
+
 const realizarTransferenciaCliente = async (req, res) => {
   const usuario = req.session.usuario;
   const cuentaIDororigen = usuario[0].id_cuenta;
@@ -527,4 +563,9 @@ module.exports = {
   mostrarServicios,
   Historial,
   historialdetransacciones,
+  cargadePantallaPago,
+  cargadePantallaConfiguracion,
+  cargadePantallaLimite,
+  cargadePantallaMasServicios,
+
 };
