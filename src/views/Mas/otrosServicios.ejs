@@ -30,8 +30,12 @@
                 <div class="item0">
                     <i class="img bi bi-person-circle"></i>
                     <div class="data-user">
-                        <p class="name"><%= usuario[0].nombre %></p>
-                        <p class="tpu"><%= usuario[0].tipo_cuenta%></p>
+                        <p class="name">
+                            <%= usuario[0].nombre %>
+                        </p>
+                        <p class="tpu">
+                            <%= usuario[0].tipo_cuenta%>
+                        </p>
                     </div>
                 </div>
                 <div class="item1" id="item">
@@ -62,11 +66,48 @@
                 </div>
             </div>
         </div>
-        
-        <div class="seccion_otros">
-            <!-- 
-            Aquí debe ir la sección para los demás servicios, formularios y así xd
-            -->
+
+        <div class="seccion__otros">
+            <div class="container__otros">
+                <h2 class="uppercase">Solicita un préstamo</h2>
+                <label class="uppercase" for="nombre">Nombre:</label>
+                <input class="txt__all" type="text" id="nombre" name="nombre" readonly
+                    value="<%= usuario[0].nombre + ' ' +usuario[0].apellido %>">
+
+                <label class="uppercase" for="monto">Monto solicitado:</label>
+                <input class="txt__all" type="number" id="monto" name="monto" required
+                    placeholder="Desde $3,000 a $1,500,000">
+
+                <label class="uppercase" for="plazo">Plazo de pago:</label>
+                <select class="txt__all" id="plazo" name="plazo" required>
+                    <option value="3">3 meses sin intereses</option>
+                    <option value="6">6 meses sin intereses</option>
+                    <option value="9">9 meses sin intereses</option>
+                    <option value="12">12 meses sin intereses</option>
+                </select>
+                <button class="btn__all btn__all--inside uppercase" type="submit">Enviar Solicitud</button>
+            </div>
+            <div class="container__otros">
+                <h2 class="uppercase">Solicitar un Préstamo Hipotecario</h2>
+                    <label class="uppercase" for="nombre_hipoteca">Nombre:</label>
+                    <input class="txt__all" type="text" id="nombre_hipoteca" name="nombre_hipoteca" required readonly value="<%= usuario[0].nombre + ' ' +usuario[0].apellido %>">
+
+                    <label class="uppercase" for="monto_hipoteca">Monto solicitado:</label>
+                    <input class="txt__all" type="number" id="monto_hipoteca" name="monto_hipoteca" required>
+
+                    <label class="uppercase" for="plazo_hipoteca">Plazo de pago (en años):</label>
+                    <input class="txt__all" type="number" id="plazo_hipoteca" name="plazo_hipoteca" required>
+
+                    <label class="uppercase" for="propiedad_hipoteca">Tipo de propiedad:</label>
+                    <select class="txt__all" id="propiedad_hipoteca" name="propiedad_hipoteca" required>
+                        <option value="casa">Casa</option>
+                        <option value="apartamento">Apartamento</option>
+                        <option value="terreno">Terreno</option>
+                    </select>
+
+                    <button class="btn__all btn__all--inside uppercase" type="submit">Enviar Solicitud</button>
+                </form>
+            </div>
         </div>
     </div>
 
