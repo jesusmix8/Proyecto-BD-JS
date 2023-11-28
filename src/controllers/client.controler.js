@@ -204,6 +204,44 @@ const cargadePantallaConfiguracion = async (req, res) => {
   }
 };
 
+const cambiarContrasena = async (req, res) => {
+  const usuario = req.session.usuario;
+
+  if(usuario){
+    const { contrasenaActual, contrasenaNueva, contrasenaConfirmada } = req.body;
+
+    const contrasenaCuenta = usuario[0].contrasena;
+
+    console.log(contrasenaNueva);
+    console.log(contrasenaActual);
+    if (contrasenaActual == contrasenaCuenta){
+      if (contrasenaNueva == contrasenaConfirmada){
+        //Realizo el UPDATE de la contrasena 
+      
+        const cuentaID = usuario[0].cliente_id;
+        const result = await pool.query(
+          "UPDATE cliente SET contrasena = $1 WHERE cliente_id = $2 AND contrasena = $3",
+          [
+            contrasenaNueva,
+            cuentaID,
+            contrasenaActual
+          ]
+        );
+        res.status(200).json({ message: "Contrasena cambiada exitosamente" });
+      }else{
+        res.status(400).json({ message: "No coincide la contrasena nueva" });
+      }
+    }else{
+      res.status(400).json({ message: "No coincide la contrasena actual" });
+    }
+
+
+  }else {
+    res.redirect("/login");
+  }
+
+};
+
 const cargadePantallaLimite = async (req, res) => {
   const usuario = req.session.usuario;
   if (usuario) {
@@ -587,6 +625,7 @@ module.exports = {
   historialdetransacciones,
   cargadePantallaPago,
   cargadePantallaConfiguracion,
+  cambiarContrasena,
   cargadePantallaLimite,
   cargadePantallaMasServicios,
   cargadePantallaRetiro,
