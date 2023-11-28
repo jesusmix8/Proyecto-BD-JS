@@ -29,6 +29,7 @@ const {
   Historial,
   cargadePantallaPago,
   cargadePantallaConfiguracion,
+  cambiarContrasena,
   cargadePantallaLimite,
   cargadePantallaMasServicios,
 
@@ -58,6 +59,8 @@ router.get("/pagos", cargadePantallaPago);
 
 router.get("/config", cargadePantallaConfiguracion);
 //router.post("/pago", realizarConfiguracion);
+
+router.post("/cambiarContrasena", cambiarContrasena);
 
 router.get("/limites", cargadePantallaLimite);
 //router.post("/pago", realizarLimites);
