@@ -293,6 +293,57 @@ const cambiarTelefono = async (req, res) => {
   }
 };
 
+const realizarRetiro = async (req, res) => {
+  const usuario = req.session.usuario;
+
+  if(usuario){
+    const tipoMovimiento = "Retiro";
+    const cuentaID = usuario[0].id_cuenta;
+    const cantidad = req.body.cantidad;
+    const saldoDisponible = usuario[0].saldo; 
+
+    if(cantidad <= saldoDisponible){
+      if(cantidad > 0){
+        const buscarNoTarjeta = await pool.query(
+          "SELECT * FROM catalogo_servicio WHERE cuenta_id = $1",
+          [
+            cuentaID
+          ]
+        );         
+        try{
+          const noTarjeta = buscarNoTarjeta.rows[0].notarjeta;
+          const updateSaldo = await pool.query(
+            "UPDATE cuenta SET saldo = saldo - $1 WHERE cuenta_id = $2",
+            [
+              cantidad,
+              cuentaID
+            ]
+          );
+          const transaccion = await pool.query(
+            "INSERT INTO transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) VALUES (NOW(), $1, $2, $3, $4, $5, $6)",
+            [
+              tipoMovimiento,
+              noTarjeta,  
+              noTarjeta,
+              cantidad,
+              tipoMovimiento,
+              cuentaID
+            ]
+          );
+          res.status(200).json({ message: "Retiro exitoso" });
+        }catch(error){
+          console.log(error);
+        }
+      }else{
+        res.status(400).json({ message: "No se puede retirar una cantidad negativa"});
+      }
+    }else{
+      res.status(400).json({ message: "Usted no cuenta con suficiente saldo disponible"});
+    }
+  }else{
+    res.redirect("/login");
+  }
+}
 
 const cargadePantallaLimite = async (req, res) => {
   const usuario = req.session.usuario;
@@ -680,6 +731,7 @@ module.exports = {
   cambiarContrasena,
   cambiarCorreo,
   cambiarTelefono,
+  realizarRetiro,
   cargadePantallaLimite,
   cargadePantallaMasServicios,
   cargadePantallaRetiro,
