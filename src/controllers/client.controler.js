@@ -260,6 +260,15 @@ const cargadePantallaMasServicios = async (req, res) => {
   }
 };
 
+const cargadePantallaRetiro = async (req, res) => {
+  const usuario = req.session.usuario;
+  if (usuario) {
+    res.render("Retiro/retiro", { usuario: usuario });
+  } else {
+    res.redirect("/login");
+  }
+};
+
 const realizarTransferenciaCliente = async (req, res) => {
   const usuario = req.session.usuario;
   const cuentaIDororigen = usuario[0].id_cuenta;
@@ -619,4 +628,5 @@ module.exports = {
   cambiarContrasena,
   cargadePantallaLimite,
   cargadePantallaMasServicios,
+  cargadePantallaRetiro,
 };

@@ -61,8 +61,8 @@ body {
     }
 }
 
-.btn__all:hover{
-    box-shadow: 0px 25px 18px -6px rgba(0, 0, 0,0.2);
+.btn__all:hover {
+    box-shadow: 0px 25px 18px -6px rgba(0, 0, 0, 0.2);
     background-color: #0e59a0;
     color: #fff;
 }
@@ -77,4 +77,14 @@ body {
     outline: 0;
     padding: 0.5rem 0.5rem;
     margin-top: 2rem;
-  }
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
