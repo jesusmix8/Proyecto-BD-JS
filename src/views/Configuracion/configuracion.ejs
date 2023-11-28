@@ -107,7 +107,7 @@
             
             <div class="config-form-container">
                 <h3 class="h3__config">Cambiar correo</h3>
-                <form id="cambiarCorreoForm" class="config-form">
+                <form action="/cambiarCorreo" method="post" id="cambiarCorreoForm" class="config-form">
                     <div class="form-group">
                         <label class="lbl" for="nuevoCorreo">Nuevo correo electrónico:</label>
                         <input class="txt__all" type="email" id="nuevoCorreo" name="nuevoCorreo" required>
@@ -119,7 +119,7 @@
             
             <div class="config-form-container">
                 <h3 class="h3__config">Cambiar número de teléfono</h3>
-                <form id="cambiarTelefonoForm" class="config-form">
+                <form action="/cambiarTelefono" method="post" id="cambiarTelefonoForm" class="config-form">
                     <div class="form-group">
                         <label class="lbl" for="nuevoTelefono">Nuevo número de teléfono:</label>
                         <input class="txt__all" type="tel" id="nuevoTelefono" name="nuevoTelefono" pattern="[0-9]{10}" placeholder="Ingrese un número de teléfono de 10 dígitos" required>

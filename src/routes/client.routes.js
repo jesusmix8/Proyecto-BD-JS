@@ -30,6 +30,8 @@ const {
   cargadePantallaPago,
   cargadePantallaConfiguracion,
   cambiarContrasena,
+  cambiarCorreo,
+  cambiarTelefono,
   cargadePantallaLimite,
   cargadePantallaMasServicios,
   cargadePantallaRetiro
@@ -62,6 +64,10 @@ router.get("/config", cargadePantallaConfiguracion);
 //router.post("/pago", realizarConfiguracion);
 
 router.post("/cambiarContrasena", cambiarContrasena);
+
+router.post("/cambiarCorreo", cambiarCorreo); 
+
+router.post("/cambiarTelefono", cambiarTelefono);
 
 router.get("/limites", cargadePantallaLimite);
 //router.post("/pago", realizarLimites);

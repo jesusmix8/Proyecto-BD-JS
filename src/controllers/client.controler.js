@@ -242,6 +242,58 @@ const cambiarContrasena = async (req, res) => {
 
 };
 
+const cambiarCorreo = async (req, res) => {
+  const usuario = req.session.usuario;
+
+  if(usuario){
+    try{
+      const nuevoCorreo = req.body.nuevoCorreo;
+      const cuentaID = usuario[0].cliente_id;
+
+      const result = await pool.query(
+        "UPDATE cliente SET correo = $1 WHERE cliente_id = $2",
+        [
+          nuevoCorreo,
+          cuentaID
+        ]
+      );
+      res.status(200).json({ message: "Correo electronico cambiado exitosamente"});
+    }catch(error){
+      res.status(400).json({ message: "Error al cambiar el correo electronico"});
+      console.log(error);
+    }
+  }else{
+    res.redirect("/login");
+  }
+};
+
+
+const cambiarTelefono = async (req, res) => {
+  const usuario = req.session.usuario;
+
+  if(usuario){
+    try{
+      const nuevoTelefono = req.body.nuevoTelefono;
+      const cuentaID = usuario[0].cliente_id;
+
+      const result = await pool.query(
+        "UPDATE cliente SET numerodetelefono = $1 WHERE cliente_id = $2",
+        [
+          nuevoTelefono,
+          cuentaID
+        ]
+      );
+      res.status(200).json({ message: "Correo electronico cambiado exitosamente" });
+    }catch(error){
+      res.status(400).json({ message: "Error al cambiar el correo electronico" });
+      console.log(error);
+    }
+  }else{
+    res.redirect("/login");
+  }
+};
+
+
 const cargadePantallaLimite = async (req, res) => {
   const usuario = req.session.usuario;
   if (usuario) {
@@ -626,6 +678,8 @@ module.exports = {
   cargadePantallaPago,
   cargadePantallaConfiguracion,
   cambiarContrasena,
+  cambiarCorreo,
+  cambiarTelefono,
   cargadePantallaLimite,
   cargadePantallaMasServicios,
   cargadePantallaRetiro,
