@@ -284,18 +284,32 @@ const realizarDeposito = async (req, res) => {
       const usuario = req.session.usuario;
       const cuenta_ID = usuario[0].id_cuenta;
 
-      const result = await pool.query(
-        "INSERT INTO Transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) values (NOW(),$1,$2,$3,$4,$5,$6)",
-        [
-          "Deposito",
-          cuentaorigen,
-          cuentaorigen,
-          cantidad,
-          "Deposito",
-          cuenta_ID,
-        ]
-      );
-      res.status(200).json({ message: "Deposito exitoso" });
+      if (cantidad >= 0){
+        //Hacemos el deposito haciendo un UPDATE 
+        const deposito = await pool.query(
+          "UPDATE cuenta SET saldo = saldo + $1 WHERE cuenta_id = $2",
+          [
+            cantidad, 
+            cuenta_ID
+          ]
+        );
+        
+        //Hacemos el registro de la transaccion
+        const result = await pool.query(
+          "INSERT INTO Transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) values (NOW(),$1,$2,$3,$4,$5,$6)",
+          [
+            "Deposito",
+            cuentaorigen,
+            cuentaorigen,
+            cantidad,
+            "Deposito",
+            cuenta_ID,
+          ]
+        );
+        res.status(200).json({ message: "Deposito exitoso" });
+      }else{
+        res.status(400).json({ message: "No se puede depositar una cantidad negativa"});
+      }
     }
   } catch (error) {
     res.status(400).json({ message: "Error desconocido" });
