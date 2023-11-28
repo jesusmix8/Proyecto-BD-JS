@@ -30,8 +30,12 @@
                 <div class="item0">
                     <i class="img bi bi-person-circle"></i>
                     <div class="data-user">
-                        <p class="name"><%= usuario[0].nombre %></p>
-                        <p class="tpu"><%= usuario[0].tipo_cuenta%></p>
+                        <p class="name">
+                            <%= usuario[0].nombre %>
+                        </p>
+                        <p class="tpu">
+                            <%= usuario[0].tipo_cuenta%>
+                        </p>
                     </div>
                 </div>
                 <div class="item1" id="item">
@@ -66,11 +70,30 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="seccion_pagos">
-            <!-- 
-            Aquí debe ir la sección para los pagos o cosas, formularios y así xd
-            -->
+            <div class="container__pagos">
+                <h2>SEGURO</h2>
+                <h3>Total a pagar</h3>
+                <p>$10</p>
+                <button class="btn__all btn__all--inside uppercase" type="submit">PAGAR</button>
+            </div>
+            <div class="container__pagos">
+                <h2>PRÉSTAMO</h2>
+                <h3>Total a pagar</h3>
+                <p>$5</p>
+                <button class="btn__all btn__all--inside uppercase" type="submit">PAGAR</button>
+            </div>
+            <div class="container__pagos">
+                <h2>HIPOTECA</h2>
+                <h3>Total a pagar</h3>
+                <p>$15</p>
+                <button class="btn__all btn__all--inside uppercase" type="submit">PAGAR</button>
+            </div>
+            <div class="container__pagos">
+                <h2>TUS PAGOS</h2>
+                <canvas id="myPieChart" width="100" height="100"></canvas>
+            </div>
         </div>
     </div>
 

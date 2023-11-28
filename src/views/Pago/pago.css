@@ -1,0 +1,21 @@
+.seccion_pagos{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.container__pagos{
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    width: 150px;
+    height: 400px;
+    text-align: center;
+    align-items: center;
+    justify-content: space-around;
+    padding: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    border-radius: 5px;
+    z-index: 1;
+}
