@@ -31,6 +31,7 @@ const {
   cargadePantallaConfiguracion,
   cargadePantallaLimite,
   cargadePantallaMasServicios,
+  cargadePantallaRetiro
 
 } = require("../controllers/client.controler");
 
@@ -64,6 +65,9 @@ router.get("/limites", cargadePantallaLimite);
 
 router.get("/mas", cargadePantallaMasServicios);
 //router.post("/pago", realizarOtrosServicios);
+
+router.get("/retirar", cargadePantallaRetiro);
+//router.post("/retiro", realizarPago);
 
 //Tarjeta de credito
 router.get("/solicitarTDC", SolicitudDeTdc);
