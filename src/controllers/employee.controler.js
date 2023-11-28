@@ -148,7 +148,7 @@ const loaddashboardEmpleado = async (req, res) => {
 
     console.log(usuario);
 
-    res.render("dashboardempleado", {
+    res.render("viewsEmpleado/dashboardEmpleado/dashboardempleado", {
       usuario: usuario,
     });
   } catch (error) {
@@ -158,7 +158,7 @@ const loaddashboardEmpleado = async (req, res) => {
 
 const clientesEnSucursal = (req, res) => {
   const usuario = req.session.usuario;
-  res.render("clientesenSucursal", {
+  res.render("viewsEmpleado/ClientesSucursal/clientesenSucursal", {
     usuario: usuario,
   });
 };
