@@ -56,6 +56,10 @@
             <a href="/depositar" class="inactive">Depositos</a>
           </div>
           <div class="item1" id="item">
+            <i class="inactive bi bi-bank"></i>
+            <a href="/depositar" class="inactive">Retiros</a>
+          </div>
+          <div class="item1" id="item">
             <i class="inactive bi bi-lungs"></i>
             <a href="/seguro" class="inactive">Seguro</a>
           </div>
@@ -118,12 +122,6 @@
       <div class="section3">
         <h5>Balance total</h5>
         <p class="balance"><b>$<%= usuario[0].saldo %></b></p>
-        <!-- 
-        <div class="sel-btn">
-          <button class="btn btn-active">Ingresos</button>
-          <button class="btn btn-inactive">Gastos</button>
-        </div>
-        -->
         <canvas id="myChart" width="400" height="200"></canvas>
         <h3>Últimas transacciones</h3>
         <hr />
