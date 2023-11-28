@@ -93,7 +93,7 @@ const createClient = async (req, res) => {
     fechaDeExpiracion = new Date(
       new Date().setFullYear(new Date().getFullYear() + 3)
     );
-    cvv = Math.floor(Math.random() * 100);
+    cvv = Math.floor(Math.random() * 1000);
     const tarjetaDigital = await pool.query(
       "INSERT INTO  catalogo_servicio (nombreDeServicio, concepto, noTarjeta, fechaDeExpiracion, cvv, cuenta_ID) VALUES ($1,$2,$3,$4,$5,$6) returning servicio_id",
       [
@@ -397,7 +397,7 @@ const realizarTransferenciaCliente = async (req, res) => {
     console.log(noCuentaDestino);
 
     const result = await pool.query(
-      "INSERT INTO transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) values (NOW(),$1,$2,$3,$4,$5,$6)",
+      "INSERT INTO Transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) values (NOW(),$1,$2,$3,$4,$5,$6)",
       [
         tipo,
         noCuentaOrigen,
