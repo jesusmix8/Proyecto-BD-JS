@@ -96,11 +96,24 @@
                     <label class="uppercase" for="nombre_hipoteca">Nombre:</label>
                     <input class="txt__all" type="text" id="nombre_hipoteca" name="nombre_hipoteca" required readonly value="<%= usuario[0].nombre + ' ' +usuario[0].apellido %>">
 
-                    <label class="uppercase" for="monto_hipoteca">Monto solicitado:</label>
-                    <input class="txt__all" type="number" id="monto_hipoteca" name="monto_hipoteca" required>
+                    <label class="uppercase" for="monto_hipoteca" >Monto solicitado:</label>
+                    <input class="txt__all" type="number" id="monto_hipoteca" placeholder="Desde $30,000 a $10,500,000" name="monto_hipoteca" required>
 
-                    <label class="uppercase" for="plazo_hipoteca">Plazo de pago (en años):</label>
-                    <input class="txt__all" type="number" id="plazo_hipoteca" name="plazo_hipoteca" required>
+                    <label class="uppercase" for="plazo_hipoteca">Plazo de pago:</label>
+                    <select class="txt__all" id="propiedad_hipoteca" name="propiedad_hipoteca" required>
+                        <option value="1">1 año</option>
+                        <option value="2">2 años</option>
+                        <option value="3">3 años</option>
+                        <option value="4">4 año</option>
+                        <option value="5">5 años</option>
+                        <option value="6">6 años</option>
+                        <option value="7">7 año</option>
+                        <option value="8">8 años</option>
+                        <option value="9">9 años</option>
+                        <option value="10">10 años</option>
+                        <option value="20">20 años</option>
+                        <option value="30">30 años</option>
+                    </select>
 
                     <label class="uppercase" for="propiedad_hipoteca">Tipo de propiedad:</label>
                     <select class="txt__all" id="propiedad_hipoteca" name="propiedad_hipoteca" required>

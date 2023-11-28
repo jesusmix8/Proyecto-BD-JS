@@ -4,3 +4,4 @@ node_modules
 #enviroment variables
 .env
 src/db.js
+src/db.js
