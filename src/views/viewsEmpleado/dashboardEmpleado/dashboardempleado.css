@@ -1,0 +1,17 @@
+p, h1, h2, h3{
+    color: black;
+}
+
+.section_report{
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    text-align: center;
+    align-items: center;
+    justify-content: space-around;
+    padding: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    border-radius: 5px;
+    z-index: 1;
+}
