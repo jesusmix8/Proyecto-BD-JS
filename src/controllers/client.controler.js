@@ -302,6 +302,8 @@ const realizarRetiro = async (req, res) => {
     const cantidad = req.body.cantidad;
     const saldoDisponible = usuario[0].saldo; 
 
+    
+
     if(cantidad <= saldoDisponible){
       if(cantidad > 0){
         const buscarNoTarjeta = await pool.query(
@@ -311,7 +313,10 @@ const realizarRetiro = async (req, res) => {
           ]
         );         
         try{
+          console.log(cantidad);
           const noTarjeta = buscarNoTarjeta.rows[0].notarjeta;
+          /*
+           * No es necesario el update ya que el trigger descuenta por si solo el dinero
           const updateSaldo = await pool.query(
             "UPDATE cuenta SET saldo = saldo - $1 WHERE cuenta_id = $2",
             [
@@ -319,6 +324,7 @@ const realizarRetiro = async (req, res) => {
               cuentaID
             ]
           );
+          */
           const transaccion = await pool.query(
             "INSERT INTO transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) VALUES (NOW(), $1, $2, $3, $4, $5, $6)",
             [
@@ -338,7 +344,7 @@ const realizarRetiro = async (req, res) => {
         res.status(400).json({ message: "No se puede retirar una cantidad negativa"});
       }
     }else{
-      res.status(400).json({ message: "Usted no cuenta con suficiente saldo disponible"});
+      res.status(400).json({ message: "Usted no cuenta con suficiente saldo disponible" });
     }
   }else{
     res.redirect("/login");
@@ -388,29 +394,26 @@ const realizarTransferenciaCliente = async (req, res) => {
     [cuentaDestino]
   );
   //4915664587330136
-
-  if (idCuentaDestino.rows.length > 0) {
-    const noCuentaOrigen = cuentaOrigen.rows[0].notarjeta;
-    const noCuentaDestino = idCuentaDestino.rows[0].notarjeta;
-
-    console.log(noCuentaOrigen);
-    console.log(noCuentaDestino);
-
-    const result = await pool.query(
-      "INSERT INTO transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) values (NOW(),$1,$2,$3,$4,$5,$6)",
-      [
-        tipo,
-        noCuentaOrigen,
-        noCuentaDestino,
-        monto,
-        descripcion,
-        cuentaIDororigen,
-      ]
-    );
-
-    res.status(200).json({ message: "Transferencia exitosa" });
-  } else {
-    res.status(404).json({ message: "Cuenta destino no encontrada" });
+  const noCuentaOrigen = cuentaOrigen.rows[0].notarjeta;
+  const noCuentaDestino = idCuentaDestino.rows[0].notarjeta;
+  if(noCuentaOrigen !== noCuentaDestino){
+    if (idCuentaDestino.rows.length > 0) {
+      const result = await pool.query(
+        "INSERT INTO transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) values (NOW(),$1,$2,$3,$4,$5,$6)",
+        [
+          tipo,
+          noCuentaOrigen,
+          noCuentaDestino,
+          monto,
+          descripcion,
+          cuentaIDororigen,
+        ]
+      );
+  
+      res.status(200).json({ message: "Transferencia exitosa" });
+    } else {
+      res.status(404).json({ message: "Cuenta destino no encontrada" });
+    }
   }
 };
 

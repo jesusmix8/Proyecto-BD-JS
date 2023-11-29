@@ -32,7 +32,7 @@ BEGIN
         -- Restar el saldo cuentaOrigen y sumar cuentaDestino
         UPDATE cuenta SET saldo = saldo - NEW.monto WHERE cuenta_ID = NEW.cuenta_ID;
         UPDATE cuenta SET saldo = saldo + NEW.monto WHERE cuenta_ID = id_cuentaDestino;
-    ELSIF NEW.tipoDeMovimiento = 'Retiro' THEN
+        ELSIF NEW.tipoDeMovimiento = 'Retiro' THEN
         UPDATE cuenta SET saldo = saldo - NEW.monto WHERE cuenta_ID = NEW.cuenta_ID;
     END IF;
     RETURN NEW;

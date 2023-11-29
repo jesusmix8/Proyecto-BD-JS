@@ -20,7 +20,7 @@ document.getElementById("retiro-form").addEventListener("submit", function (e) {
                 window.location.href = "/perfil";
             }, 2000);
         }else if(response.status == 400){
-            return response.json.then(data => {
+            return response.json().then(data => {
                 mensajeRetiro.textContent = data.message;
                 mensajeRetiro.style.display = "block";
             });
