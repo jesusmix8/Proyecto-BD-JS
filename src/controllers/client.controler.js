@@ -698,8 +698,8 @@ const crearAhorro = async (req, res) => {
       const fechaExpiracion = new Date();
       let intereses = 0;
       switch (plazo) {
-        case "1 mes":
-          fechaExpiracion.setMonth(fechaExpiracion.getMonth() + 1);
+        case "2 meses":
+          fechaExpiracion.setMonth(fechaExpiracion.getMonth() + 2);
           intereses = 0.03;
           break;
 
