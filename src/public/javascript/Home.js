@@ -73,35 +73,23 @@ const myChart = new Chart(ctx, {
     },
   },
 });
+const ctxPie = document.getElementById("myPieChart").getContext("2d");
 
-const ctxBar = document.getElementById("myBarChart").getContext("2d");
-const dias = [
-  "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"
-];
+const transaccionesDiaActual = {
+  Transferencia: 5,
+  Deposito: 10,
+  Retiro: 3,
+};
 
-const semanas = [
-  [10, 20, 15, 30, 25, 40, 35]
-];
-
-const gastosSemanal = semanas.map(semana => semana.map(dia => dia * 0.6)); // suponiendo que los gastos son el 60% de los ingresos xd
-
-const myBarChart = new Chart(ctxBar, {
-  type: "bar",
+const myPieChart = new Chart(ctxPie, {
+  type: "pie",
   data: {
-    labels: dias,
+    labels: Object.keys(transaccionesDiaActual),
     datasets: [
       {
-        label: "Gastos",
-        data: gastosSemanal.flat(),
-        backgroundColor: "#9ee6df",
-        borderColor: "#9ee6df",
-        borderWidth: 1,
-      },
-      {
-        label: "Ingresos",
-        data: semanas.flat(),
-        backgroundColor: "#22997d",
-        borderColor: "#22997d",
+        data: Object.values(transaccionesDiaActual),
+        backgroundColor: ["#9ee6df", "#22997d", "#ffcc00"],
+        borderColor: "#fff",
         borderWidth: 1,
       },
     ],
@@ -109,21 +97,12 @@ const myBarChart = new Chart(ctxBar, {
   options: {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {
-      x: {
-        stacked: true,
-      },
-      y: {
-        stacked: true,
-        beginAtZero: true,
-      },
-    },
     legend: {
       position: "top",
     },
     title: {
       display: true,
-      text: "Gastos e Ingresos Semanales",
+      text: "Transacciones de hoy",
     },
   },
 });
