@@ -396,26 +396,42 @@ const realizarTransferenciaCliente = async (req, res) => {
   //4915664587330136
   const noCuentaOrigen = cuentaOrigen.rows[0].notarjeta;
   const noCuentaDestino = idCuentaDestino.rows[0].notarjeta;
-  if(noCuentaOrigen !== noCuentaDestino){
-    if (idCuentaDestino.rows.length > 0) {
-      const result = await pool.query(
-        "INSERT INTO Transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) values (NOW(),$1,$2,$3,$4,$5,$6)",
+  
+  if(usuario){
+    if(noCuentaOrigen !== noCuentaDestino){
+      //Verificamos si cuenta con saldo suficiente 
+      const saldoDisponible = await pool.query(
+        "SELECT * FROM cuenta WHERE cuenta_id = $1",
         [
-          tipo,
-          noCuentaOrigen,
-          noCuentaDestino,
-          monto,
-          descripcion,
-          cuentaIDororigen,
+          cuentaIDororigen
         ]
       );
-  
-      res.status(200).json({ message: "Transferencia exitosa" });
-    } else {
-      res.status(404).json({ message: "Cuenta destino no encontrada" });
+      if(saldoDisponible.rows[0].saldo >= monto){
+        if (idCuentaDestino.rows.length > 0) {
+          const result = await pool.query(
+            "INSERT INTO Transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) values (NOW(),$1,$2,$3,$4,$5,$6)",
+            [
+              tipo,
+              noCuentaOrigen,
+              noCuentaDestino,
+              monto,
+              descripcion,
+              cuentaIDororigen,
+            ]
+          );
+      
+          res.status(200).json({ message: "Transferencia exitosa" });
+        } else {
+          res.status(404).json({ message: "Cuenta destino no encontrada" });
+        }
+      }else{
+        res.status(400).json({ message: "No cuenta con saldo suficiente"});
+      }
+    }else{
+      res.status(400).json({ message: "No se puede transferir a la misma cuenta" });  
     }
   }else{
-    res.status(400).json({ message: "No se puede transferir a la misma cuenta" });  
+    res.redirect("/login");
   }
 };
 
@@ -693,12 +709,12 @@ const crearAhorro = async (req, res) => {
           break;
         
         case "1 ano":
-          fechaExpiracion.setFullYear(fechaExpiracion.getFullYear + 1);
+          fechaExpiracion.setFullYear(fechaExpiracion.getFullYear() + 1);
           intereses = 0.15;
           break;
         
         case "2 anos":
-          fechaExpiracion.setFullYear(fechaExpiacion.getFullYear() + 2);
+          fechaExpiracion.setFullYear(fechaExpiracion.getFullYear() + 2);
           intereses = 0.3;
           break;
 
