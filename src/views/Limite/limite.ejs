@@ -78,18 +78,19 @@
                 <label for="nombre">Ahorro:</label>
                 <input class="txt__all" type="text" name="NombreDelAhorro" id="NombreDelAhorro" placeholder="Nombre del ahorro">
                 <label for="Plazo">Plazo</label>
-                <select class="txt__all name="plazos" id="plazos">
-                    <option value="1 mes">1 mes</option>
-                    <option value="6 meses">6 meses</option>
-                    <option value="3 meses">1 año</option>
-                    <option value="4 meses">2 años</option>
-                    <option value="5 meses">5 años</option>
-                </select>
+                <select class="txt__all" name="plazos" id="plazos">
+                    <option value = "1 mes">2 mes (con una tasa de interes del 3%)</option>
+                    <option value = "6 meses">6 meses (con una tasa de interes del 8%)</option>
+                    <option value = "1 ano">1 año (con una tasa de interes del 15%)</option>
+                    <option value = "2 anos">2 años (con una tasa de interes del 30%)</option>
+                    <option value = "5 anos">5 años (con una tasa de interes del 45%)</option>
+                    </select>
 
                 <label for="monto">Monto:</label>
-                <input class="txt__all type="number" name="monto" placeholder="Desde $1000 a $1,000,000" id="monto">
+                <input class="txt__all" type="number" name="monto" placeholder="Desde $1000 a $1,000,000" id="monto">
                 <button class="btn__all btn__all--inside uppercase" type="submit">Crear ahorro</button>
             </form>
+            <p id="mensajeAhorro"></p>
         </div>
     </div>
 
@@ -101,7 +102,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/Javascript/Home.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src ="/static/ahorro/ahorrofetch.js"></script>
+    <script src ="/static/limite/limite.js"></script>
 </body>
 
 </html>
