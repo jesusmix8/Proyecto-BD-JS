@@ -414,6 +414,8 @@ const realizarTransferenciaCliente = async (req, res) => {
     } else {
       res.status(404).json({ message: "Cuenta destino no encontrada" });
     }
+  }else{
+    res.status(400).json({ message: "No se puede transferir a la misma cuenta" });  
   }
 };
 
