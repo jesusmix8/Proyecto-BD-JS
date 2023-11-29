@@ -79,6 +79,7 @@ const transaccionesDiaActual = {
   Transferencia: 5,
   Deposito: 10,
   Retiro: 3,
+  Ahorro: 7
 };
 
 const myPieChart = new Chart(ctxPie, {
@@ -88,7 +89,7 @@ const myPieChart = new Chart(ctxPie, {
     datasets: [
       {
         data: Object.values(transaccionesDiaActual),
-        backgroundColor: ["#9ee6df", "#22997d", "#ffcc00"],
+        backgroundColor: ["#9ee6df", "#22997d", "#ffcc00","#d35400"],
         borderColor: "#fff",
         borderWidth: 1,
       },
