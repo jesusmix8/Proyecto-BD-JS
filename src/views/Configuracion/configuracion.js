@@ -62,7 +62,7 @@ document.getElementById("cambiarCorreoForm").addEventListener("submit", function
                 window.location.href = "/perfil";
             }, 2000);
         }else if(response.status == 400){
-            return response.json.then((data) => {
+            return response.json().then((data) => {
                 mensajeCorreo.textContent = data.message;
                 mensajeCorreo.style.display = "block";
             });
@@ -95,7 +95,7 @@ document.getElementById("cambiarTelefonoForm").addEventListener("submit", functi
                 window.location.href = "/perfil";   
             }, 2000);
         }else if(response.status == 400){
-            return response.json.then((data) => {
+            return response.json().then((data) => {
                 mensajeTelefono.textContent = data.message;
                 mensajeTelefono.style.display = "block";
             });

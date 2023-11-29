@@ -414,6 +414,8 @@ const realizarTransferenciaCliente = async (req, res) => {
     } else {
       res.status(404).json({ message: "Cuenta destino no encontrada" });
     }
+  }else{
+    res.status(400).json({ message: "No se puede transferir a la misma cuenta" });  
   }
 };
 
@@ -669,19 +671,94 @@ const SolicitudDeAhorro = (req, res) => {
 
 /* Crear ahorro revisar */
 const crearAhorro = async (req, res) => {
-  console.log("Aqui ira la creacion del servicio de Ahorro");
-  const { NombreDelAhorro, Plazo, Monto } = req.body;
+  const usuario = req.session.usuario;
+  const { nombreDelAhorro, plazo, monto } = req.body;
+  const nombreServicio = "Ahorro";
+  const id_cuenta = usuario[0].id_cuenta;
 
-  try {
-    const ahorro = await pool.query(
-      "INSERT INTO CatalogoDeServicios (nombreDeServicio, concepto, fechaDeApertura,cuenta_id) VALUES ($1,$2,$3,$4,$5)",
-      ["Ahorro", NombreDelAhorro, Monto, Plazo, cuenta_id]
-    );
-  } catch {
-    res.status(401).send("Ahorro rechazado");
+  if(usuario){
+    const saldoDisponible = usuario[0].saldo;
+    if(monto > 0 &&  saldoDisponible >= monto){
+      const fechaExpiracion = new Date();
+      let intereses = 0;
+      switch (plazo) {
+        case "1 mes":
+          fechaExpiracion.setMonth(fechaExpiracion.getMonth() + 1);
+          intereses = 0.03;
+          break;
+
+        case "6 meses":
+          fechaExpiracion.setMonth(fechaExpiracion.getMonth() + 6);
+          intereses = 0.08;
+          break;
+        
+        case "1 ano":
+          fechaExpiracion.setFullYear(fechaExpiracion.getFullYear + 1);
+          intereses = 0.15;
+          break;
+        
+        case "2 anos":
+          fechaExpiracion.setFullYear(fechaExpiacion.getFullYear() + 2);
+          intereses = 0.3;
+          break;
+
+        case "5 anos":
+          fechaExpiracion.setFullYear(fechaExpiracion.getFullYear() + 5);
+          intereses = 0.45; 
+          break;
+      }
+      try {
+        //Creamos el ahorro
+        const insertAhorro = await pool.query(
+          "INSERT INTO catalogo_servicio (nombreDeServicio, concepto, fechaDeExpiracion, fechaDeApertura, intereses, saldo, cuenta_id) VALUES ($1,$2,$3,NOW(),$4,$5,$6)",
+          [
+            nombreServicio, 
+            nombreDelAhorro, 
+            fechaExpiracion,
+            intereses,
+            monto,  
+            id_cuenta
+          ]
+        );
+        //Buscamos el numero de tarjeta de la cuenta
+        const buscarNoTarjeta = await pool.query(
+          "SELECT * FROM catalogo_servicio WHERE cuenta_id = $1",
+          [
+            id_cuenta
+          ]
+        );
+        console.log(buscarNoTarjeta.rows[0].notarjeta)
+        //Creamos la transaccion
+        const transaccion = await pool.query(
+          "INSERT INTO transaccion (fechaDeTransaccion, tipoDeMovimiento, cuentaOrigen, cuentaDestino, monto, concepto, cuenta_id) VALUES (NOW(),$1,$2,$3,$4,$5,$6)",
+          [
+            "Ahorro",
+            buscarNoTarjeta.rows[0].notarjeta,
+            buscarNoTarjeta.rows[0].notarjeta,
+            monto,
+            "Creacion de ahorro",
+            id_cuenta
+          ]
+        );
+        //Descontamos desde el saldo de la cuenta
+        const descuentoAhorro = await pool.query(
+          "UPDATE cuenta SET saldo = saldo - $1 WHERE cuenta_id = $2",
+          [
+            monto, 
+            id_cuenta
+          ]
+        );
+        res.status(200).json({ message: "Ahorro creado exitosamente" });
+      } catch(error) {
+        res.status(400).json({ message: "No se ha podido crear el ahorro" });
+        console.log(error);
+      }
+    }else{
+      res.status(400).json({ message: "No se puede crear un ahorro con un monto negativo o mayor al saldo disponible" });
+    }
+  }else{
+    res.redirect("/login");
   }
-
-  res.status(200).json({ message: "Ahorro exitoso" });
 };
 
 const pantalladeahorro = (req, res) => {
