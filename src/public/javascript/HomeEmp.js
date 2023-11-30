@@ -25,13 +25,13 @@ boton.forEach(btn => {
         btn.classList.add('btn-active')
 }) })
 
-document.addEventListener('DOMContentLoaded', function () {
-  var tarjetaElement = document.getElementById('tarjeta');
-  var numeroTarjeta = tarjetaElement.textContent.trim();
-  // Separar cada cuatro dígitos con un espacio
-  var tarjetaFormateada = numeroTarjeta.replace(/\s/g, '').replace(/(\d{4}(?=\d))/g, '$1 ');
-  tarjetaElement.textContent = tarjetaFormateada;
-});
+// document.addEventListener('DOMContentLoaded', function () {
+//   var tarjetaElement = document.getElementById('tarjeta');
+//   var numeroTarjeta = tarjetaElement.textContent.trim();
+//   // Separar cada cuatro dígitos con un espacio
+//   var tarjetaFormateada = numeroTarjeta.replace(/\s/g, '').replace(/(\d{4}(?=\d))/g, '$1 ');
+//   tarjetaElement.textContent = tarjetaFormateada;
+// });
 
    // Datos
    const data = [
