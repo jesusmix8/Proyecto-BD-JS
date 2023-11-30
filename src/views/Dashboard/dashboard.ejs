@@ -1,179 +1,180 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Inicio</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
-    />
-    <link rel="stylesheet" href="./public/css/dashboardStyles.css" />
-    <link rel="stylesheet" href="/static/format.css" />
-  </head>
 
-  <body>
-    <header class="header">
-      <div class="container2 header__container">
-        <div class="header__logo">
-          <img
-            class="header__img"
-            src="https://image.ibb.co/kcVou6/path3000.png"
-          />
-          <h1 class="header__title">
-            Banca<span class="header__light"> Facil</span>
-          </h1>
-        </div>
-      </div>
-    </header>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inicio</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="./public/css/dashboardStyles.css" />
+  <link rel="stylesheet" href="/static/format.css" />
+</head>
 
-    <div class="container">
-      <div class="section1">
-        <div class="subsec1">
-          <div class="item0">
-            <i class="img bi bi-person-circle"></i>
-            <div class="data-user">
-              <p class="name"><%= usuario[0].nombre %></p>
-            </div>
-          </div>
-          <div class="item1" id="item">
-            <i class="active bi bi-house"></i>
-            <a href="/perfil" class="active">Inicio</a>
-          </div>
-          <div class="item1" id="item">
-            <i class="inactive bi bi-credit-card"></i>
-            <a href="/pagos" class="inactive">Pagos</a>
-          </div>
-          <div class="item1" id="item">
-            <i class="inactive bi bi bi-cash-coin"></i>
-            <a href="/depositar" class="inactive">Depositos</a>
-          </div>
-          <div class="item1" id="item">
-            <i class="inactive bi bi-bank"></i>
-            <a href="/retirar" class="inactive">Retiros</a>
-          </div>
-          <div class="item1" id="item">
-            <i class="inactive bi bi-lungs"></i>
-            <a href="/seguro" class="inactive">Seguro</a>
-          </div>
-          <div class="item1" id="item">
-            <i class="inactive bi bi-gear"></i>
-            <a href="/config" class="inactive">Configuración</a>
-          </div>
-        </div>
-        <div class="subsec2">
-          <div class="item2">
-            <i class="inactive bi bi-box-arrow-left"></i>
-            <a href="/logout" class="inactive">Cerrar sesión</a>
-          </div>
-        </div>
+<body>
+  <header class="header">
+    <div class="container2 header__container">
+      <div class="header__logo">
+        <img class="header__img" src="https://image.ibb.co/kcVou6/path3000.png" />
+        <h1 class="header__title">
+          Banca<span class="header__light"> Facil</span>
+        </h1>
       </div>
-      <div class="section2">
-        <div class="tarjeta">
-          <p class="cuenta">$<%= usuario[0].saldo %></p>
-          <div class="tarjeta-data">
-            <p class="data" id="tarjeta">
-              <%= usuario[0].servicios[0].notarjeta %>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="section1">
+      <div class="subsec1">
+        <div class="item0">
+          <i class="img bi bi-person-circle"></i>
+          <div class="data-user">
+            <p class="name">
+              <%= usuario[0].nombre %>
             </p>
-            <p class="Id-tarjeta">VISA</p>
           </div>
         </div>
-        <div class="options">
-          <div class="option">
-            <div class="icon">
-              <i class="opt-icon bi bi-arrow-left-right"></i>
-            </div>
-            <a href="/transferencia">Transferir</a>
-          </div>
-          <div class="option">
-            <div class="icon">
-              <i class="opt-icon bi bi-receipt-cutoff"></i>
-            </div>
-            <a href="/Historial"> Historial</a>
-          </div>
-          <div class="option">
-            <div class="icon">
-              <i class="bi bi-piggy-bank"></i>
-            </div>
-            <a href="/limites">Ahorros</a>
-          </div>
-          <div class="option">
-            <div class="icon">
-              <i class="bi bi-coin"></i>
-            </div>
-            <a href="/mas">Préstamos</a>
-          </div>
+        <div class="item1" id="item">
+          <i class="active bi bi-house"></i>
+          <a href="/perfil" class="active">Inicio</a>
         </div>
-
-        <h1 class="sh">Reporte diario de tus gastos</h1>
-        <div class="shortcuts">
-          <div class="shor">
-            <canvas id="myPieChart" width="600" height="300"></canvas>
-          </div>
+        <div class="item1" id="item">
+          <i class="inactive bi bi-credit-card"></i>
+          <a href="/pagos" class="inactive">Pagos</a>
+        </div>
+        <div class="item1" id="item">
+          <i class="inactive bi bi bi-cash-coin"></i>
+          <a href="/depositar" class="inactive">Depositos</a>
+        </div>
+        <div class="item1" id="item">
+          <i class="inactive bi bi-bank"></i>
+          <a href="/retirar" class="inactive">Retiros</a>
+        </div>
+        <div class="item1" id="item">
+          <i class="inactive bi bi-lungs"></i>
+          <a href="/seguro" class="inactive">Seguro</a>
+        </div>
+        <div class="item1" id="item">
+          <i class="inactive bi bi-gear"></i>
+          <a href="/config" class="inactive">Configuración</a>
         </div>
       </div>
-      <div class="section3">
-        <h5>Balance total</h5>
-        <p class="balance"><b>$<%= usuario[0].saldo %></b></p>
-        <h3>Últimas transacciones</h3>
-        <hr />
-        <% usuario[0].transacciones.forEach(function(transaccion) { %>
+      <div class="subsec2">
+        <div class="item2">
+          <i class="inactive bi bi-box-arrow-left"></i>
+          <a href="/logout" class="inactive">Cerrar sesión</a>
+        </div>
+      </div>
+    </div>
+    <div class="section2">
+      <div class="tarjeta">
+        <p class="cuenta">$<%= usuario[0].saldo %>
+        </p>
+        <div class="tarjeta-data">
+          <p class="data" id="tarjeta">
+            <%= usuario[0].servicios[0].notarjeta %>
+          </p>
+          <p class="Id-tarjeta">VISA</p>
+        </div>
+      </div>
+      <div class="options">
+        <div class="option">
+          <div class="icon">
+            <i class="opt-icon bi bi-arrow-left-right"></i>
+          </div>
+          <a href="/transferencia">Transferir</a>
+        </div>
+        <div class="option">
+          <div class="icon">
+            <i class="opt-icon bi bi-receipt-cutoff"></i>
+          </div>
+          <a href="/Historial"> Historial</a>
+        </div>
+        <div class="option">
+          <div class="icon">
+            <i class="bi bi-piggy-bank"></i>
+          </div>
+          <a href="/limites">Ahorros</a>
+        </div>
+        <div class="option">
+          <div class="icon">
+            <i class="bi bi-coin"></i>
+          </div>
+          <a href="/mas">Préstamos</a>
+        </div>
+      </div>
+      <!-- 
+      <div class="shortcuts">
+        <h4><strong>Tu dinero</strong></h4>
+        <canvas id="myPieChart" width="10" height="10"></canvas>
+      </div>
+      -->
+    </div>
+
+    <div class="section3">
+      <!-- 
+      <h5>Balance total</h5>
+      <p class="balance"><b>$<%= usuario[0].saldo %></b></p>
+    -->
+      <h5>Últimas transacciones</h3>
+      <hr />
+      <% usuario[0].transacciones.forEach(function(transaccion) { %>
         <div class="transaction">
           <div class="sec-tran">
             <div class="data-transaction">
               <i class="bi bi-person-fill"></i>
-              <p>Cuenta destino: <%= transaccion.cuentadestino %></p>
+              <p>Cuenta destino: <%= transaccion.cuentadestino %>
+              </p>
             </div>
             <div class="data-trans">
               <% if (transaccion.tipodemovimiento==='Transferencia' ) { %>
-              <p class="cost red-text">-$<%= transaccion.monto %></p>
-              <% } else if (transaccion.tipodemovimiento==='Deposito' ) { %>
-              <p class="cost green-text">+$<%= transaccion.monto %></p>
-              <% } else if (transaccion.tipodemovimiento==='Retiro' ) { %>
-              <p class="cost red-text">-$<%= transaccion.monto %></p>
-              <% } else if (transaccion.tipodemovimiento==='Ahorro' ) { %>
-              <p class="cost red-text">-$<%= transaccion.monto %></p>
-              <% } else if (transaccion.tipodemovimiento==='Prestamo' ) { %>
-              <p class="cost green-text">+$<%= transaccion.monto %></p>
-              <% } else if (transaccion.tipodemovimiento==='Hipoteca' ) { %>
-              <p class="cost green-text">+$<%= transaccion.monto %></p>
-              <% } else { %>
-              <p class="cost">-$<%= transaccion.monto %></p>
-              <% } %> <% const fechaCompleta=new
-              Date(transaccion.fechadetransaccion); const
-              dia=fechaCompleta.getDate().toString().padStart(2, '0' ); const
-              mes=(fechaCompleta.getMonth() + 1).toString().padStart(2, '0' );
-              const anio=fechaCompleta.getFullYear(); const
-              horas=fechaCompleta.getHours().toString().padStart(2, '0' ); const
-              minutos=fechaCompleta.getMinutes().toString().padStart(2, '0' );
-              const segundos=fechaCompleta.getSeconds().toString().padStart(2,
-              '0' ); const fechaHoraFormateada=`${anio}-${mes}-${dia}
-              ${horas}:${minutos}:${segundos}`; %>
-              <li>Fecha y Hora: <%= fechaHoraFormateada %></li>
+                <p class="cost red-text">-$<%= transaccion.monto %>
+                </p>
+                <% } else if (transaccion.tipodemovimiento==='Deposito' ) { %>
+                  <p class="cost green-text">+$<%= transaccion.monto %>
+                  </p>
+                  <% } else if (transaccion.tipodemovimiento==='Retiro' ) { %>
+                    <p class="cost red-text">-$<%= transaccion.monto %>
+                    </p>
+                    <% } else if (transaccion.tipodemovimiento==='Ahorro' ) { %>
+                      <p class="cost red-text">-$<%= transaccion.monto %>
+                      </p>
+                      <% } else if (transaccion.tipodemovimiento==='Prestamo' ) { %>
+                        <p class="cost green-text">+$<%= transaccion.monto %>
+                        </p>
+                        <% } else if (transaccion.tipodemovimiento==='Hipoteca' ) { %>
+                          <p class="cost green-text">+$<%= transaccion.monto %>
+                          </p>
+                          <% } else { %>
+                            <p class="cost">-$<%= transaccion.monto %>
+                            </p>
+                            <% } %>
+                              <% const fechaCompleta=new Date(transaccion.fechadetransaccion); const
+                                dia=fechaCompleta.getDate().toString().padStart(2, '0' ); const
+                                mes=(fechaCompleta.getMonth() + 1).toString().padStart(2, '0' ); const
+                                anio=fechaCompleta.getFullYear(); const
+                                horas=fechaCompleta.getHours().toString().padStart(2, '0' ); const
+                                minutos=fechaCompleta.getMinutes().toString().padStart(2, '0' ); const
+                                segundos=fechaCompleta.getSeconds().toString().padStart(2, '0' ); const
+                                fechaHoraFormateada=`${anio}-${mes}-${dia} ${horas}:${minutos}:${segundos}`; %>
+                                <li>Fecha y Hora: <%= fechaHoraFormateada %>
+                                </li>
             </div>
           </div>
         </div>
         <% }); %>
-      </div>
     </div>
+  </div>
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-      crossorigin="anonymous"
-    ></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="./javascript/Home.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="./javascript/Home.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+</body>
+
 </html>
