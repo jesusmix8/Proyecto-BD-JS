@@ -44,7 +44,7 @@
           <i class="img bi bi-person-circle"></i>
           <div class="data-user">
             <p class="name"><%= usuario[0].nombre %></p>
-            <p class="tpu"><%= usuario[0].puesto %></p>
+            <p class="tpu">Puesto: <%= usuario[0].puesto %></p>
           </div>
         </div>
         <div class="item1" id="item">
@@ -54,14 +54,6 @@
         <div class="item1" id="item">
           <i class="inactive bi bi-person-bounding-box"></i>
           <a href="/clientesEnSucursal" class="inactive">Clientes</a>
-        </div>
-        <div class="item1" id="item">
-          <i class="inactive bi bi-person-gear"></i>
-          <a href="#" class="inactive">Administración</a>
-        </div>
-        <div class="item1" id="item">
-          <i class="inactive bi bi-hdd-stack"></i>
-          <a href="#" class="inactive">Servicios</a>
         </div>
       </div>
       <div class="subsec2">
@@ -73,13 +65,13 @@
     </div>
     <div class="section2">
       <div class="sucursal">
-        <p> <strong>Nombre de la Sucursal:</strong> </p>
+        <p> <strong>Sucursal:</strong> </p>
         <p>
           <%= usuario[0].sucursal %>
         </p>
       </div>
       <hr>
-      <h3>Información de Empelado</h3>
+      <h3>Empelado</h3>
       <p><strong>Nombre:</strong>
         <%= usuario[0].nombre %>
       </p>
@@ -95,9 +87,8 @@
     </div>
     <div class="section_report">
       <h1>Reporte diario</h1>
-      <canvas id="myBarChart" width="400" height="200"></canvas>
       <label for="inputFecha">Selecciona un mes y año:</label>
-      <input type="date" id="inputFecha" />
+      <input class="txt__all" type="date" id="inputFecha" />
       <canvas id="grafica" width="600" height="400"></canvas>
     </div>
   </div>
