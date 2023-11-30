@@ -161,7 +161,7 @@ const loaddashboard = async (req, res) => {
     usuario[0].saldo = saldo.rows[0].saldo;
     usuario[0].id_cuenta = saldo.rows[0].cuenta_id;
     const tranasacciones = await pool.query(
-      "SELECT * FROM transaccion WHERE cuenta_id = $1 order by fechadetransaccion DESC limit 2 ",
+      "SELECT * FROM transaccion WHERE cuenta_id = $1 order by fechadetransaccion DESC limit 4 ",
       [usuario[0].id_cuenta]
     );
     usuario[0].transacciones = tranasacciones.rows;
@@ -189,7 +189,30 @@ const cargadePantallaTransferencia = async (req, res) => {
 const cargadePantallaPago = async (req, res) => {
   const usuario = req.session.usuario;
   if (usuario) {
-    res.render("Pago/pago", { usuario: usuario });
+
+    const serviciosABuscar = ["Pago de seguro", "Prestamo", "Hipoteca"];
+
+    const transacciones = await pool.query(
+      "SELECT tipodemovimiento, monto FROM transaccion WHERE cuenta_id = $1",
+      [usuario[0].id_cuenta]
+    );
+    
+    const transaccionesFiltradas = transacciones.rows.filter((transaccion) =>
+      serviciosABuscar.includes(transaccion.tipodemovimiento)
+    );
+    
+    const sumasPorServicio = {};
+    transaccionesFiltradas.forEach((transaccion) => {
+      const tipoMovimiento = transaccion.tipodemovimiento;
+      const monto = transaccion.monto;
+
+      if (!sumasPorServicio[tipoMovimiento]) {
+        sumasPorServicio[tipoMovimiento] = 0;
+      }
+
+      sumasPorServicio[tipoMovimiento] += monto;
+    });
+    res.render("Pago/pago", { usuario: usuario, sumasPorServicio});
   } else {
     res.redirect("/login");
   }
