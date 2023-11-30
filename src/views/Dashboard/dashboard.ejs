@@ -136,6 +136,14 @@
               <p class="cost red-text">-$<%= transaccion.monto %></p>
               <% } else if (transaccion.tipodemovimiento==='Deposito' ) { %>
               <p class="cost green-text">+$<%= transaccion.monto %></p>
+              <% } else if (transaccion.tipodemovimiento==='Retiro' ) { %>
+              <p class="cost red-text">-$<%= transaccion.monto %></p>
+              <% } else if (transaccion.tipodemovimiento==='Ahorro' ) { %>
+              <p class="cost red-text">-$<%= transaccion.monto %></p>
+              <% } else if (transaccion.tipodemovimiento==='Prestamo' ) { %>
+              <p class="cost green-text">+$<%= transaccion.monto %></p>
+              <% } else if (transaccion.tipodemovimiento==='Hipoteca' ) { %>
+              <p class="cost green-text">+$<%= transaccion.monto %></p>
               <% } else { %>
               <p class="cost">-$<%= transaccion.monto %></p>
               <% } %> <% const fechaCompleta=new

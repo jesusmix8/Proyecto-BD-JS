@@ -39,7 +39,7 @@
                     <i class="inactive bi bi-house"></i>
                     <a href="/perfil" class="inactive">Inicio</a>
                 </div>
-                <div class="item1 id=" item"">
+                <div class="item1" id="item">
                     <i class="inactive bi bi-credit-card"></i>
                     <a href="/pagos" class="inactive">Pagos</a>
                 </div>
@@ -69,6 +69,8 @@
         </div>
 
         <div class="seccion__ahorro">
+            <!--Si es que NO cuenta con un ahorro-->
+            <% if(servicioAhorro.rows.length === 0){ %>
             <h1>Solicita un ahorro</h1>
             <p id="mensaje"></p>
             <form action="/crearAhorro"  method="post" id="form-ahorro">
@@ -88,6 +90,21 @@
                 <button class="btn__all btn__all--inside uppercase" type="submit">Crear ahorro</button>
             </form>
             <p id="mensajeAhorro"></p>
+
+            <!--Si es que SI cuenta con un ahorro-->
+            <% }else if(servicioAhorro.rows.length > 0 && servicioAhorro.rows[0].nombredeservicio === 'Ahorro') {%>
+            <h1>Aqui se muestra la informacion de tu ahorro</h1>
+            <form id="form-ahorro">
+                <label for="nombre">Concepto del ahorro:</label>
+                <input class="txt__all" type="text" name="NombreDelAhorro" id="NombreDelAhorro" value="Ahorro <%= servicioAhorro.rows[0].concepto %>">
+                <label for="Plazo">Plazo:</label>
+                <input class="txt__all" type="text" name="NombreDelAhorro" id="NombreDelAhorro" value="<%= servicioAhorro.rows[0].fechadeexpiracion %>">
+                <label for="Intereses">Intereses:</label>
+                <input class="txt__all" type="text" name="NombreDelAhorro" id="NombreDelAhorro" value="Usted escogio un plazo con interes del <%= (servicioAhorro.rows[0].intereses *100) %> %">
+                <label for="monto">Monto:</label>
+                <input class="txt__all" type="number" name="monto" id="monto" value="<%= servicioAhorro.rows[0].saldo %>">
+            </form>
+            <% } %>
         </div>
     </div>
 

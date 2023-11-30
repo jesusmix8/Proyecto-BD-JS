@@ -26,6 +26,7 @@ const {
   realizarDeposito,
   cargarPantallaServicios,
   mostrarServicios,
+  crearHipoteca,
   Historial,
   cargadePantallaPago,
   cargadePantallaConfiguracion,
@@ -57,6 +58,8 @@ router.post("/transfer", realizarTransferenciaCliente);
 
 router.get("/servicios");
 router.post("/services", mostrarServicios);
+
+router.post("/solicitudHipoteca", crearHipoteca);
 
 router.get("/pagos", cargadePantallaPago);
 //router.post("/pago", realizarPago);
