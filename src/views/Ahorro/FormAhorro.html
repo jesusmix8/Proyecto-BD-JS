@@ -9,21 +9,22 @@
 <body>
     <h1>Pantalla para solicitar un ahorro</h1>
         <p id = "mensaje"></p>
-        <form  method="post" id="form-ahorro">
+        <form action="/crearAhorroNoFuncional" method="post" id="form-ahorro">
             <label for="nombre">Nombre del ahorro:</label>
             <input type="text" name="NombreDelAhorro" id = "NombreDelAhorro" placeholder="Nombre">
             <label for="Plazo">Seleccione un plazo</label>
             <select name="plazos" id="plazos">
-                <option value = "1 mes">1 mes</option>
-                <option value = "6 meses">6 meses</option>
-                <option value = "3 meses">1 año</option>
-                <option value = "4 meses">2 años</option>
-                <option value = "5 meses">5 años</option>
+                <option value = "1 mes">2 mes (con una tasa de interes del 3%)</option>
+                <option value = "6 meses">6 meses (con una tasa de interes del 10%)</option>
+                <option value = "1 ano">1 año (con una tasa de interes del 20%)</option>
+                <option value = "2 anos">2 años (con una tasa de interes del 30%)</option>
+                <option value = "5 anos">5 años (con una tasa de interes del 45%)</option>
             </select>
 
             <label for="monto">Monto:</label>
             <input type="number" name="monto" placeholder="Monto" id = "monto">
             <button type = "submit">Crear ahorro</button>
+            <p id="mensajeAhorro"></p>
         </form>
 
     <script src ="/static/ahorro/ahorrofetch.js"></script>

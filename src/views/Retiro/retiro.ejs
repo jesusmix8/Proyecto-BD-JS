@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" type="image/x-icon" href="https://image.ibb.co/fOur3b/favicon.png" />
     <meta name="theme-color" content="#1885ed" />
-    <title>Pagos</title>
-    <link rel="stylesheet" href="/static/format.css">
-    <link rel="stylesheet" href="/static/Pago/pago.css" />
+    <title>Realizar un retiro</title>
     <link rel="stylesheet" href="./public/css/dashboardStyles.css">
+    <link rel="stylesheet" href="/static/Retiro/retiro.css" />
+    <link rel="stylesheet" href="/static/format.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" </head>
-</head>
 
 <body>
     <header class="header">
@@ -23,16 +22,13 @@
             </div>
         </div>
     </header>
-
     <div class="container__nav">
         <div class="section1">
             <div class="subsec1">
                 <div class="item0">
                     <i class="img bi bi-person-circle"></i>
                     <div class="data-user">
-                        <p class="name">
-                            <%= usuario[0].nombre %>
-                        </p>
+                        <p class="name"><%= usuario[0].nombre %></p>
                     </div>
                 </div>
                 <div class="item1" id="item">
@@ -40,16 +36,16 @@
                     <a href="/perfil" class="inactive">Inicio</a>
                 </div>
                 <div class="item1 id=" item"">
-                    <i class="active bi bi-credit-card"></i>
-                    <a href="/pagos" class="active">Pagos</a>
+                    <i class="inactive bi bi-credit-card"></i>
+                    <a href="/pagos" class="inactive">Pagos</a>
                 </div>
                 <div class="item1" id="item">
                     <i class="inactive bi bi bi-cash-coin"></i>
                     <a href="/depositar" class="inactive">Depósitos</a>
                 </div>
                 <div class="item1" id="item">
-                    <i class="inactive bi bi-bank"></i>
-                    <a href="/retirar" class="inactive">Retiros</a>
+                    <i class="active bi bi-bank"></i>
+                    <a href="/retirar" class="active">Retiros</a>
                 </div>
                 <div class="item1" id="item">
                     <i class="inactive bi bi-lungs"></i>
@@ -68,33 +64,17 @@
             </div>
         </div>
 
-        <div class="seccion_pagos">
-            <div class="container__pagos">
-                <h2>SEGURO</h2>
-                <h3>Saldo otorgado</h3>
-                <p>$10</p>
-                <button class="btn__all btn__all--inside uppercase" type="submit">TRANSFERIR</button>
-            </div>
-            <div class="container__pagos">
-                <h2>PRÉSTAMO</h2>
-                <h3>Saldo otorgado</h3>
-                <p>$5</p>
-                <button class="btn__all btn__all--inside uppercase" type="submit">TRANSFERIR</button>
-            </div>
-            <div class="container__pagos">
-                <h2>HIPOTECA</h2>
-                <h3>Saldo otorgado</h3>
-                <p>$15</p>
-                <button class="btn__all btn__all--inside uppercase" type="submit">TRANSFERIR</button>
-            </div>
-            <div class="container__pagos">
-                <h2>TUS PAGOS</h2>
-                <canvas id="myPieChart" width="100" height="100"></canvas>
-            </div>
+        <div class="container__retiro">
+            <h1 class="header__title">Reliza un retiro</h1>
+            <p id="mensaje"></p>
+            <form action="/retiro" method="post" id="retiro-form">
+                <input class="txt" type="number" step="any" name="cantidad" id="cantidad"
+                    placeholder="Cantidad a retirar">
+                <button class="btn__all btn__all--inside uppercase" type="submit">Retirar</button>
+            </form>
+            <p id="mensajeRetiro"></p>
         </div>
     </div>
-
-    <script src="/static/Pago/pago.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
@@ -102,7 +82,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/Javascript/Home.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="/static/deposito/depositofetch.js"></script>
+    <script src="/static/Retiro/retiro.js"></script>
 </body>
 
 </html>

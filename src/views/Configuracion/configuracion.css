@@ -8,7 +8,7 @@
 }
 
 .config-form-container:hover{
-    cursor: pointer;
+    background-color: #eaf0e881;
 }
 
 .form-group input[type="file"] {

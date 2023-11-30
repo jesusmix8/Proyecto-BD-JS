@@ -32,20 +32,23 @@
                     <i class="img bi bi-person-circle"></i>
                     <div class="data-user">
                         <p class="name"><%= usuario[0].nombre %></p>
-                        <p class="tpu"><%= usuario[0].tipo_cuenta%></p>
                     </div>
                 </div>
                 <div class="item1" id="item">
                     <i class="inactive bi bi-house"></i>
                     <a href="/perfil" class="inactive">Inicio</a>
                 </div>
-                <div class="item1 id=" item"">
+                <div class="item1 id=" item="">
                     <i class="inactive bi bi-credit-card"></i>
                     <a href="/pagos" class="inactive">Pagos</a>
                 </div>
                 <div class="item1" id="item">
                     <i class="inactive bi bi bi-cash-coin"></i>
                     <a href="/depositar" class="inactive">Depósitos</a>
+                </div>
+                <div class="item1" id="item">
+                    <i class="inactive bi bi-bank"></i>
+                    <a href="/retirar" class="inactive">Retiros</a>
                 </div>
                 <div class="item1" id="item">
                     <i class="inactive bi bi-lungs"></i>
@@ -80,7 +83,7 @@
 
             <div class="config-form-container">
                 <h3 class="h3__config">Cambiar contraseña</h3>
-                <form id="cambiarContrasenaForm" class="config-form">
+                <form action="/cambiarContrasena" method="post" id="cambiarContrasenaForm" class="config-form">
                     <div class="form-group">
                         <label class="lbl" for="actualContrasena">Contraseña actual:</label>
                         <input class="txt__all" type="password" id="actualContrasena" name="actualContrasena" required>
@@ -92,39 +95,42 @@
                     </div>
                     
                     <div class="form-group">
-                        <label class="lbl" for="confirmarContrasena">Confirmar nueva contraseña:</label>
+                        <label class="lbl" for="confirmarContrasena">Confirmar contraseña:</label>
                         <input class="txt__all" type="password" id="confirmarContrasena" name="confirmarContrasena" required>
                     </div>
                     
                     <button class="btn__all btn__all--inside uppercase" type="submit">Cambiar Contraseña</button>
                 </form>
+                <p id="mensajeContrasena"></p>
             </div>
             
             <div class="config-form-container">
                 <h3 class="h3__config">Cambiar correo</h3>
-                <form id="cambiarCorreoForm" class="config-form">
+                <form action="/cambiarCorreo" method="post" id="cambiarCorreoForm" class="config-form">
                     <div class="form-group">
                         <label class="lbl" for="nuevoCorreo">Nuevo correo electrónico:</label>
                         <input class="txt__all" type="email" id="nuevoCorreo" name="nuevoCorreo" required>
                     </div>
                     <button class="btn__all btn__all--inside uppercase" type="submit">Cambiar Correo Electrónico</button>
                 </form>
+                <p id="mensajeCorreo"></p>
             </div>
             
             <div class="config-form-container">
                 <h3 class="h3__config">Cambiar número de teléfono</h3>
-                <form id="cambiarTelefonoForm" class="config-form">
+                <form action="/cambiarTelefono" method="post" id="cambiarTelefonoForm" class="config-form">
                     <div class="form-group">
                         <label class="lbl" for="nuevoTelefono">Nuevo número de teléfono:</label>
                         <input class="txt__all" type="tel" id="nuevoTelefono" name="nuevoTelefono" pattern="[0-9]{10}" placeholder="Ingrese un número de teléfono de 10 dígitos" required>
                     </div>
                     <button class="btn__all btn__all--inside uppercase" type="submit">Cambiar Número de Teléfono</button>
                 </form>
+                <p id="mensajeTelefono"></p>
             </div>
         </div>
     </div>
 
-    <script src="/static/Configuracion/configuración.js"></script>
+    <script src="/static/Configuracion/configuracion.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

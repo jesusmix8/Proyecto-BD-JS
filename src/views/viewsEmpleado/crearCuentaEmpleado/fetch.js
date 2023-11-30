@@ -28,8 +28,6 @@ document.getElementById("client-form").addEventListener("submit", function (e) {
   //const DireccionCompleta = Direccionycasa + ' ' + Codigopostal + ' ' + Estado + ' ' + Municipio;
 
   const data = {
-    Usuario: Usuario,
-    Contraseña: Contraseña,
     Nombre: Nombre,
     Apellido: Apellido,
     Genero: Genero,
@@ -58,7 +56,7 @@ document.getElementById("client-form").addEventListener("submit", function (e) {
 
         // Mandar a la página de inicio
         setTimeout(() => {
-          window.location.href = "/loginempleado.html";
+          window.location.href = "/loginempleado";
         }, 2000);
       } else if (response.status === 400) {
         return response.json().then((data) => {
@@ -66,7 +64,7 @@ document.getElementById("client-form").addEventListener("submit", function (e) {
 
           // Limpiar el formulario
         });
-      } else if ((response.status = 409)) {
+      } else if ((response.status === 409)) {
         return response.json().then((data) => {
           mesnsajeerror.textContent = data.messageerror;
           mesnsajeerror.style.display = "block";

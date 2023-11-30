@@ -17,7 +17,6 @@ const formularioCuentaEmpleado = (req, res) => {
 
 const crearCuentaEmpleado = async (req, res) => {
   try {
-    console.log(req.body);
     const {
       Nombre,
       Apellido,
@@ -43,13 +42,8 @@ const crearCuentaEmpleado = async (req, res) => {
       "SELECT s.sucursal_id FROM sucursal s JOIN direccion d ON s.direccion_ID = d.direccion_ID JOIN catalogoEstado ce ON d.codigoPostal = ce.codigoPostal WHERE ce.codigoPostal = $1",
       [Codigopostal]
     );
-    const numeroAleatorio = Math.floor(
-      Math.random() * resultSucursal.rows.length
-    );
-    console.log(resultSucursal.rows[numeroAleatorio]);
 
     const idSucursal = resultSucursal.rows[0].sucursal_id;
-    console.log(idSucursal);
 
     const resultEmpleado = await pool.query(
       "INSERT INTO empleado (RFC, nombre, apellido, numeroDeTelefono, correo, fechadeNacimiento, genero,puesto,fechadecontratacion,direccion_ID,sucursal_id) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,NOW(),$9,$10) returning empleado_id",
@@ -68,8 +62,10 @@ const crearCuentaEmpleado = async (req, res) => {
     );
 
     const idEmpleado = resultEmpleado.rows[0].empleado_id;
-    console.log(idEmpleado);
-  } catch (error) {}
+    res.status(200).json({ message: "Se ha creado el empleado correctamente"});
+  } catch (error) {
+    res.status(400).json({ message: "No se ha podido crear la cuenta"});
+  }
 };
 
 const login = async (req, res) => {
@@ -148,7 +144,7 @@ const loaddashboardEmpleado = async (req, res) => {
 
     console.log(usuario);
 
-    res.render("dashboardempleado", {
+    res.render("viewsEmpleado/dashboardEmpleado/dashboardempleado", {
       usuario: usuario,
     });
   } catch (error) {
@@ -158,7 +154,7 @@ const loaddashboardEmpleado = async (req, res) => {
 
 const clientesEnSucursal = (req, res) => {
   const usuario = req.session.usuario;
-  res.render("clientesenSucursal", {
+  res.render("viewsEmpleado/ClientesSucursal/clientesenSucursal", {
     usuario: usuario,
   });
 };

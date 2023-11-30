@@ -179,3 +179,6 @@ ALTER TABLE transaccion ALTER COLUMN cuentaorigen TYPE NUMERIC(16,0) USING cuent
 
 --Alter para cambiar el tipo de dato de la columna cuentaDestino en la tabla Transaccion
 ALTER TABLE transaccion ALTER COLUMN cuentadestino TYPE NUMERIC(16,0) USING cuentadestino::NUMERIC(16,0);
+
+--Alter para cambiar el tipo de dato de la columna fechadetransaccion de la tabla Transaccion (ahora es TIMESTAMP)
+ALTER TABLE transaccion ALTER COLUMN fechadetransaccion TYPE TIMESTAMP USING fechadetransaccion::TIMESTAMP;

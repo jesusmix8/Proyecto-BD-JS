@@ -26,11 +26,17 @@ const {
   realizarDeposito,
   cargarPantallaServicios,
   mostrarServicios,
+  crearHipoteca,
   Historial,
   cargadePantallaPago,
   cargadePantallaConfiguracion,
+  cambiarContrasena,
+  cambiarCorreo,
+  cambiarTelefono,
+  realizarRetiro,
   cargadePantallaLimite,
   cargadePantallaMasServicios,
+  cargadePantallaRetiro
 
 } = require("../controllers/client.controler");
 
@@ -53,17 +59,30 @@ router.post("/transfer", realizarTransferenciaCliente);
 router.get("/servicios");
 router.post("/services", mostrarServicios);
 
+router.post("/solicitudHipoteca", crearHipoteca);
+
 router.get("/pagos", cargadePantallaPago);
 //router.post("/pago", realizarPago);
 
 router.get("/config", cargadePantallaConfiguracion);
 //router.post("/pago", realizarConfiguracion);
 
+router.post("/cambiarContrasena", cambiarContrasena);
+
+router.post("/cambiarCorreo", cambiarCorreo); 
+
+router.post("/cambiarTelefono", cambiarTelefono);
+
+router.post("/retiro", realizarRetiro);
+
 router.get("/limites", cargadePantallaLimite);
 //router.post("/pago", realizarLimites);
 
 router.get("/mas", cargadePantallaMasServicios);
 //router.post("/pago", realizarOtrosServicios);
+
+router.get("/retirar", cargadePantallaRetiro);
+//router.post("/retiro", realizarPago);
 
 //Tarjeta de credito
 router.get("/solicitarTDC", SolicitudDeTdc);

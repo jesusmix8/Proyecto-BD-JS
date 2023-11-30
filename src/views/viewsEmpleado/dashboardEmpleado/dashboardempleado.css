@@ -1,15 +1,11 @@
-.seccion_pagos{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+p, h1, h2, h3{
+    color: black;
 }
 
-.container__pagos{
+.section_report{
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
-    width: 150px;
-    height: 400px;
     text-align: center;
     align-items: center;
     justify-content: space-around;

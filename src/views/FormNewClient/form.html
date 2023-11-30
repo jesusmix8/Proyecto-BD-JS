@@ -13,6 +13,7 @@
       rel="stylesheet"
       href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
     />
+    <link rel="stylesheet" href="/static/FormNewClient/forms.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="/static/inicio/indexcss.css" />
   </head>
@@ -44,9 +45,7 @@
         </div>
       </div>
     </header>
-    <p id="mensaje" class="text-secondary fs-6"></p>
-    <div id="mensajeError" class="text-danger fs-6"></div>
-    <div id="mensajeErrorDetalle" class="text-danger fs-6"></div>
+
     <div class="container bg-secondary rounded-3 dark-text-primary-emphasis">
       <form id="client-form" action="/client_register" method="post" class="">
         <div class="container my-5 row">
@@ -82,8 +81,11 @@
               <label for="exampleFormControlInput1" class="form-label"
                 >Telefono</label
               >
+              <p id="mensajeTelefono" class="text-secondary fs-6"></p>
+              <div id="mensajeErrorTelefono" class="text-danger fs-6"></div>
+              <div id="mensajeErrorTelefono" class="text-danger fs-6"></div>
               <input
-                type="tel"
+                type="number"
                 name="Telefono"
                 id="telefono"
                 class="form-control"
@@ -94,6 +96,8 @@
             <label for="exampleFormControlInput1" class="form-label"
               >Correo</label
             >
+            <p id="mensajeMail" class="text-secondary fs-6"></p>
+            <div id="mensajeErrorMail" class="text-danger fs-6"></div>
             <input
               type="text"
               name="Correo"
@@ -144,7 +148,7 @@
                 aria-describedby="rfcrev"
                 disabled
               />
-              <p id="rfcrev" class="form-text text-body-emphasis">
+              <p id="rfcrev" class="text-light">
                 Tu RFC es unico y no se puede modificar.
               </p>
             </div>
@@ -160,7 +164,7 @@
                     >Codigo Postal</label
                   >
                   <input
-                    type="text"
+                    type="number"
                     name="codigopostal"
                     id="codigopostal"
                     class="form-control"
@@ -211,9 +215,10 @@
                   </label>
                   <input
                     type="text"
-                    name="Numero de casa"
+                    name="Direccion"
                     class="form-control"
                     placeholder="Direccion"
+                    id="Direccion"
                   />
                 </div>
                 <div class="col">
@@ -230,6 +235,9 @@
                 </div>
               </div>
             </div>
+            <p id="mensaje" class="text-secondary fs-6"></p>
+            <div id="mensajeError" class="text-danger fs-6"></div>
+            <div id="mensajeErrorDetalle" class="text-danger fs-6"></div>
 
             <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label"
@@ -243,7 +251,7 @@
                 placeholder="Usuario"
               />
             </div>
-            <div id="ayudaContraseña" class="form-text text-body-emphasis">
+            <div id="ayudaContraseña" class="form-text text-light">
               Tu Usuario debe contener de 8 a 20 caracteres
             </div>
 
@@ -259,9 +267,10 @@
                 placeholder="Contraseña"
                 aria-describedby="ayudaContraseña"
               />
-              <div id="ayudaContraseña" class="form-text text-body-emphasis">
-                Tu Contraseña debe contener de 8 a 20 caracteres, contender
-                letras y numeros, y no debe contener espacios o emojis.
+              <div id="ayudaContraseña" class="form-text text-light">
+                Debe tener al menos 8 caracteres, una letra mayúscula, una letra
+                minúscula, un dígito, un carácter especial y no puede contener
+                espacios en blanco.
               </div>
               <label for="exampleFormControlInput1" class="form-label"
                 >Confirma la contraseña</label
@@ -283,7 +292,7 @@
           id="submit-button"
           class="btn btn-primary w-25 position-absolute start-50 translate-middle"
         >
-          Crear Cliente
+          Crear cuenta
         </button>
       </form>
     </div>
