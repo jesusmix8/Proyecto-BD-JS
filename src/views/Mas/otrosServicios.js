@@ -81,9 +81,3 @@ document.getElementById("hipoteca-form").addEventListener("submit", function (e)
         }
     });
 });
-
-//Formateo de fecha
-function formFecha(fecha){
-    const opcionesDeFormato = {day: "2-digit", month: "long", year: "numeric"}; 
-    return new Date(fecha).toLocaleDateString("es-ES", opcionesDeFormato);
-}
