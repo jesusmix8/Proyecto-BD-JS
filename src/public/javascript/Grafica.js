@@ -8,7 +8,9 @@
   
           if (!respuesta.ok) {
             throw new Error('Error al cargar el archivo JSON');
+
           }
+          
           const datosJson = await respuesta.json();
           function actualizarGrafica() {
             const fechaSeleccionada = inputFecha.valueAsDate;
