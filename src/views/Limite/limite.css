@@ -9,3 +9,7 @@
     padding-right: 5rem;
     padding-top: 2rem;
 }
+
+label{
+    justify-content: space-around;
+}
