@@ -161,7 +161,7 @@ const loaddashboard = async (req, res) => {
     usuario[0].saldo = saldo.rows[0].saldo;
     usuario[0].id_cuenta = saldo.rows[0].cuenta_id;
     const tranasacciones = await pool.query(
-      "SELECT * FROM transaccion WHERE cuenta_id = $1 order by fechadetransaccion DESC limit 4 ",
+      "SELECT * FROM transaccion WHERE cuenta_id = $1 order by fechadetransaccion DESC limit 2 ",
       [usuario[0].id_cuenta]
     );
     usuario[0].transacciones = tranasacciones.rows;
