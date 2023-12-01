@@ -171,7 +171,15 @@ const loaddashboard = async (req, res) => {
     );
     usuario[0].servicios = servicios.rows;
 
-    res.render("Dashboard/dashboard", { usuario: usuario });
+    const servicioTarjeta = await pool.query(
+      "SELECT * FROM catalogo_servicio WHERE cuenta_id = $1 AND nombredeservicio = $2",
+      [
+        usuario[0].id_cuenta,
+        "Tarjeta Digital"
+      ]
+    );
+
+    res.render("Dashboard/dashboard", { usuario: usuario , servicioTarjeta: servicioTarjeta });
   } else {
     res.redirect("/login");
   }
