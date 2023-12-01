@@ -178,7 +178,7 @@ const loaddashboard = async (req, res) => {
         "Tarjeta Digital"
       ]
     );
-
+    console.log(servicioTarjeta.rows[0].fechadeexpiracion);
     res.render("Dashboard/dashboard", { usuario: usuario , servicioTarjeta: servicioTarjeta });
   } else {
     res.redirect("/login");
