@@ -174,3 +174,30 @@ LEFT JOIN
     transaccion t ON c.cuenta_ID = t.cuenta_ID
 ORDER BY
     c.cuenta_ID, t.fechaDeTransaccion;
+
+--Consultar la cantidad de Gastos e Ingresos por cada mes de un usuario en base a sus transacciones
+CREATE OR REPLACE FUNCTION obtenerEstadisticas(cuentaID integer)
+RETURNS TABLE (mes integer, cantidad_transacciones bigint, cantidad_gastos numeric, cantidad_ingresos numeric)
+AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    mes.m AS mes,
+    COALESCE(COUNT(*), 0) AS cantidad_transacciones,
+    COALESCE(SUM(CASE WHEN tipodemovimiento IN ('Pago de Seguro', 'Pago de Hipoteca', 'Transferencia', 'Retiro', 'Ahorro') THEN 1 ELSE 0 END)::numeric, 0) AS cantidad_gastos,
+    COALESCE(SUM(CASE WHEN tipodemovimiento IN ('Deposito', 'Prestamo', 'Hipoteca') THEN 1 ELSE 0 END)::numeric, 0) AS cantidad_ingresos
+  FROM
+    generate_series(1, 12) AS mes(m)  -- Asignar un alias a la columna generada
+  LEFT JOIN
+    transaccion AS t ON EXTRACT(MONTH FROM t.fechadetransaccion) = mes.m
+                      AND t.cuenta_id = cuentaID
+  GROUP BY
+    mes.m
+  ORDER BY
+    mes.m;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+

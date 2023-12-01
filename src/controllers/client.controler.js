@@ -179,7 +179,29 @@ const loaddashboard = async (req, res) => {
       ]
     );
     console.log(servicioTarjeta.rows[0].fechadeexpiracion);
-    res.render("Dashboard/dashboard", { usuario: usuario , servicioTarjeta: servicioTarjeta });
+
+    //Obtener la cantidad de GASTOS (Pagos, Tranferencias, Retiros, Ahorro) y de INGRESOS (Depositos, Prestamo, Hipoteca)
+    const cantidadDeTransacciones = await pool.query(
+      "SELECT obtenerEstadisticas($1)",
+      [
+        usuario[0].id_cuenta
+      ]
+      );
+    
+    const filasCantiTransacciones = cantidadDeTransacciones.rows;
+    const resultados = [];
+    filasCantiTransacciones.forEach((fila) => {
+      const arregloTransacciones = fila.obtenerestadisticas.match(/\d+/g).map(Number);
+      resultados.push(arregloTransacciones);
+    });
+    
+    /*
+    cnsole.log(resultados);
+    console.log(resultados[0][0]);
+    console.log(cantidadDeTransacciones.rows[0].obtenerestadisticas.match(/\d+/g).map(Number));
+    */
+      
+    res.render("Dashboard/dashboard", { usuario: usuario , servicioTarjeta: servicioTarjeta , resultados: resultados });
   } else {
     res.redirect("/login");
   }
