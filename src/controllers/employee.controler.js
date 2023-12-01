@@ -149,13 +149,33 @@ LEFT JOIN sucursal s ON ft.nomSucursal = s.nomSucursal
 GROUP BY ROLLUP (s.nomSucursal);
     `;
 
+    const query3 = `
+SELECT
+    s.nomSucursal AS Sucursal,
+    TO_CHAR(t.fechaDeTransaccion, 'YYYY-MM') AS Mes,
+    COUNT(*) AS NumeroDeTransferencias
+FROM fact_transferencia ft
+JOIN sucursal s ON ft.nomSucursal = s.nomSucursal
+JOIN transaccion t ON ft.transaccion_ID = t.transaccion_ID
+GROUP BY CUBE (s.nomSucursal, TO_CHAR(t.fechaDeTransaccion, 'YYYY-MM'))
+ORDER BY Sucursal, Mes;
+    `;
+
     usuario[0].sucursal = sucursal.rows[0].nomsucursal;
     usuario[0].clientes = clientesEnSucursal.rows;
     const datosSucursales = await pool.query(query2);
 
-    console.log(datosSucursales.rows);
+    const datos3 = await pool.query(query3);
+
+    console.log(datos3.rows);
 
     datosSucursales.rows.sort((a, b) => {
+      return (
+        parseInt(b.numerodetransferencias) - parseInt(a.numerodetransferencias)
+      );
+    });
+
+    datos3.rows.sort((a, b) => {
       return (
         parseInt(b.numerodetransferencias) - parseInt(a.numerodetransferencias)
       );
@@ -165,6 +185,7 @@ GROUP BY ROLLUP (s.nomSucursal);
       usuario: usuario,
       data1: datamart.rows,
       datosSucursales: datosSucursales.rows,
+      datos: datos3.rows,
     });
   } catch (error) {
     console.log(error);

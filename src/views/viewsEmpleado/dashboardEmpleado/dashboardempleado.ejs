@@ -107,6 +107,18 @@
           <% } %>
         </table>
 
+        <h3>Listado de Sucursales</h3>
+        <ul>
+          <% datos.forEach(function(sucursal) { %>
+          <li>
+            <strong>Sucursal:</strong> <%= sucursal.sucursal %><br />
+            <strong>Mes:</strong> <%= sucursal.mes || 'N/A' %><br />
+            <strong>Número de Transferencias:</strong> <%=
+            sucursal.numerodetransferencias %>
+          </li>
+          <% }); %>
+        </ul>
+
         <h3>Sucursales Ordenadas por Número de Transferencias</h3>
         <table>
           <tr>
