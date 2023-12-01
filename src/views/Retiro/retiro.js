@@ -1,14 +1,14 @@
 const mensajeRetiro = document.getElementById("mensajeRetiro");
 
 document.getElementById("retiro-form").addEventListener("submit", function (e) {
-    e.preventDefault(); 
+    e.preventDefault();
 
     const cantidad = document.querySelector('input[name="cantidad"]').value;
 
     fetch("/retiro", {
         method: "POST",
         headers: {
-            "Content-Type" : "application/json"
+            "Content-Type": "application/json"
         },
         body: JSON.stringify({ cantidad })
     }).then(response => {
@@ -30,13 +30,13 @@ document.getElementById("retiro-form").addEventListener("submit", function (e) {
         }
     }).then(data => {
         // Crear un enlace de descarga
-        const downloadLink = document.createElement('a');
-        downloadLink.href = `/static/${data.pdfPath}`;
-        downloadLink.download = 'informe.pdf';
-        downloadLink.click();
+        const openLink = document.createElement('a');
+        openLink.href = `/static/${data.pdfPath}`;
+        openLink.target = '_blank'; // Abre en una nueva ventana o pestaña
+        document.body.appendChild(openLink);
 
         // Redirigir después de 2 segundos
-        setTimeout(function() {
+        setTimeout(function () {
             window.location.href = "/perfil";
         }, 2000);
     }).catch(error => {

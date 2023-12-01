@@ -65,7 +65,7 @@
       </div>
       <div class="section__empleado">
         <div class="sucursal">
-          <p><strong>Sucursal:</strong></p>
+         <h3>Sucursal</h3>
           <p><%= usuario[0].sucursal %></p>
         </div>
         <hr />
@@ -88,10 +88,9 @@
         </p>
         <hr />
       </div>
+      
       <div class="section_report">
-        <h2>Tabla de Datos</h2>
-
-        <h3>transferencias por ESTADO:</h3>
+        <h3>Transacciones por Estado:</h3>
         <table>
           <tr>
             <th>Estado</th>
@@ -107,7 +106,8 @@
           <% } %>
         </table>
 
-        <h3>Listado de Sucursales</h3>
+        <hr>
+        <h3>Transferencias por Sucursal</h3>
         <ul>
           <% datos.forEach(function(sucursal) { %>
           <li>
@@ -119,11 +119,12 @@
           <% }); %>
         </ul>
 
-        <h3>Sucursales Ordenadas por Número de Transferencias</h3>
+        <hr>
+        <h3>Transacciones por Sucursal</h3>
         <table>
           <tr>
             <th>Sucursal</th>
-            <th>Número de Transferencias</th>
+            <th>Número de transacciones</th>
           </tr>
           <% for (let i = 0; i < datosSucursales.length; i++) { %>
           <tr>

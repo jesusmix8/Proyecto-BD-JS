@@ -132,7 +132,7 @@ const loaddashboardEmpleado = async (req, res) => {
     FROM
         TransferenciasPorEstado
     ORDER BY
-        NumeroDeTransferencias DESC;
+        NumeroDeTransferencias DESC limit 10;
     `;
 
     const datamart = await pool.query(query);
@@ -146,11 +146,12 @@ const loaddashboardEmpleado = async (req, res) => {
     COUNT(*) AS NumeroDeTransferencias
 FROM fact_transferencia ft
 LEFT JOIN sucursal s ON ft.nomSucursal = s.nomSucursal
-GROUP BY ROLLUP (s.nomSucursal);
+GROUP BY ROLLUP (s.nomSucursal)
+ORDER BY NumeroDeTransferencias DESC limit 10;
     `;
 
     const query3 = `
-SELECT
+    SELECT
     s.nomSucursal AS Sucursal,
     TO_CHAR(t.fechaDeTransaccion, 'YYYY-MM') AS Mes,
     COUNT(*) AS NumeroDeTransferencias
@@ -158,7 +159,9 @@ FROM fact_transferencia ft
 JOIN sucursal s ON ft.nomSucursal = s.nomSucursal
 JOIN transaccion t ON ft.transaccion_ID = t.transaccion_ID
 GROUP BY CUBE (s.nomSucursal, TO_CHAR(t.fechaDeTransaccion, 'YYYY-MM'))
-ORDER BY Sucursal, Mes;
+ORDER BY GROUPING(s.nomSucursal), GROUPING(TO_CHAR(t.fechaDeTransaccion, 'YYYY-MM')), NumeroDeTransferencias DESC, Sucursal, Mes
+LIMIT 5;
+
     `;
 
     usuario[0].sucursal = sucursal.rows[0].nomsucursal;
