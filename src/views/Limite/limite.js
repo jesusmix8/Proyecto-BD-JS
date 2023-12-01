@@ -37,3 +37,24 @@ document.getElementById("form-ahorro").addEventListener("submit", function (e) {
         }
     });
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    var fechaExpElement = document.getElementById('fecha-expiracion');
+
+    if (fechaExpElement) {
+      var fechaOriginal = fechaExpElement.value;
+      var fechaFormateada = formatearFechaDDMMYYYY(fechaOriginal);
+      fechaExpElement.value = fechaFormateada;
+    }
+  });
+
+  function formatearFechaDDMMYYYY(fechaString) {
+    var fecha = new Date(fechaString);
+    
+    var dia = fecha.getDate();
+    var mes = fecha.getMonth() + 1;
+    var año = fecha.getFullYear();
+    var fechaFormateada = (dia < 10 ? '0' : '') + dia + '/' + (mes < 10 ? '0' : '') + mes + '/' + año;
+
+    return fechaFormateada;
+  }
