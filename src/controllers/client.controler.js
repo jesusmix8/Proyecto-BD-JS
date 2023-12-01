@@ -316,6 +316,12 @@ const cambiarTelefono = async (req, res) => {
   }
 };
 
+const fs = require('fs');
+const PDFDocument = require('pdfkit');
+const xml2js = require('xml2js');
+
+// Asumo que tienes la variable pool definida en algún lugar del código
+
 const realizarRetiro = async (req, res) => {
   const usuario = req.session.usuario;
 
@@ -325,29 +331,42 @@ const realizarRetiro = async (req, res) => {
     const cantidad = req.body.cantidad;
     const saldoDisponible = usuario[0].saldo;
 
-
-
     if (cantidad <= saldoDisponible) {
       if (cantidad > 0) {
-        const buscarNoTarjeta = await pool.query(
-          "SELECT * FROM catalogo_servicio WHERE cuenta_id = $1",
-          [
-            cuentaID
-          ]
-        );
         try {
-          console.log(cantidad);
-          const noTarjeta = buscarNoTarjeta.rows[0].notarjeta;
-          /*
-           * No es necesario el update ya que el trigger descuenta por si solo el dinero
-          const updateSaldo = await pool.query(
-            "UPDATE cuenta SET saldo = saldo - $1 WHERE cuenta_id = $2",
-            [
-              cantidad,
-              cuentaID
-            ]
+          const buscarNoTarjeta = await pool.query(
+            "SELECT * FROM catalogo_servicio WHERE cuenta_id = $1",
+            [cuentaID]
           );
-          */
+          const noTarjeta = buscarNoTarjeta.rows[0].notarjeta;
+
+          // Crear informe XML
+          const fecha = new Date();
+          const nombreCliente = usuario[0].nombre + ' ' + usuario[0].apellido;
+
+          const informeXML = `
+            <informe>
+                <cantidad>${cantidad}</cantidad>
+                <fecha>${fecha}</fecha>
+                <nombreCliente>${nombreCliente}</nombreCliente>
+            </informe>
+          `;
+
+          // Convertir XML a JSON
+          const informeJSON = await xml2js.parseStringPromise(informeXML);
+
+          // Crear informe PDF
+          const pdfDoc = new PDFDocument();
+          const pdfPath = 'ticket.pdf';
+          pdfDoc.pipe(fs.createWriteStream(pdfPath));
+
+          pdfDoc.text(`Informe de Retiro`, { align: 'center', underline: true });
+          pdfDoc.text(`Fecha: ${informeJSON.informe.fecha[0]}`);
+          pdfDoc.text(`Nombre del Cliente: ${informeJSON.informe.nombreCliente[0]}`);
+          pdfDoc.text(`Cantidad Retirada: ${informeJSON.informe.cantidad[0]}`);
+
+          pdfDoc.end();
+
           const transaccion = await pool.query(
             "INSERT INTO transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) VALUES (NOW(), $1, $2, $3, $4, $5, $6)",
             [
@@ -359,9 +378,11 @@ const realizarRetiro = async (req, res) => {
               cuentaID
             ]
           );
-          res.status(200).json({ message: "Retiro exitoso" });
+
+          res.status(200).json({ message: "Retiro exitoso", pdfPath });
         } catch (error) {
           console.log(error);
+          res.status(500).json({ message: "Error interno del servidor" });
         }
       } else {
         res.status(400).json({ message: "No se puede retirar una cantidad negativa" });
@@ -372,7 +393,7 @@ const realizarRetiro = async (req, res) => {
   } else {
     res.redirect("/login");
   }
-}
+};
 
 const cargadePantallaLimite = async (req, res) => {
   const usuario = req.session.usuario;
@@ -433,7 +454,7 @@ const crearHipoteca = async (req, res) => {
   const propiedad = req.body.propiedad;
   const cuentaID = usuario[0].id_cuenta;
 
-  
+
   console.log(propiedad);
   console.log(monto);
   console.log(plazo);

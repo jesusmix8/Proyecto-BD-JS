@@ -4,7 +4,7 @@ const mensajePrestamo = document.getElementById("mensajePrestamo");
 
 document.getElementById("prestamo-form").addEventListener("submit", function (e) {
     e.preventDefault();
-    
+
     const nombreSeguro = document.querySelector('input[name="nombre_prestamo"]').value;
     const montoSeguro = document.querySelector('input[name="monto_prestamo"]').value;
     const plazoSeguro = document.getElementById("plazo_prestamo").value;
@@ -39,3 +39,22 @@ document.getElementById("prestamo-form").addEventListener("submit", function (e)
         }
     });
 });
+
+function formatearFecha(fecha) {
+    // Convierte la cadena de fecha a un objeto Date
+    var fechaObj = new Date(fecha);
+
+    // Obtiene el mes y año
+    var mes = fechaObj.getMonth() + 1; // Se suma 1 porque los meses van de 0 a 11
+    var year = fechaObj.getFullYear();
+
+    // Agrega un cero al mes si es necesario para mantener el formato MM
+    if (mes < 10) {
+      mes = '0' + mes;
+    }
+
+    // Devuelve la fecha formateada en MM/YYYY
+    return mes + '/' + year;
+  }
+
+document.getElementById('plazoHipoteca').value = fechaFormateada;

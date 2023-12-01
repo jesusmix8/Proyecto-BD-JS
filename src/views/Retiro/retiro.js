@@ -12,20 +12,34 @@ document.getElementById("retiro-form").addEventListener("submit", function (e) {
         },
         body: JSON.stringify({ cantidad })
     }).then(response => {
-        if(response.status == 200){
+        if (response.status == 200) {
             mensajeRetiro.textContent = "Retiro realizado exitosamente";
             mensajeRetiro.style.display = "block";
 
-            setTimeout(function() {
-                window.location.href = "/perfil";
-            }, 2000);
-        }else if(response.status == 400){
+            // Parsear el contenido de la respuesta como JSON
+            return response.json();
+        } else if (response.status == 400) {
             return response.json().then(data => {
                 mensajeRetiro.textContent = data.message;
                 mensajeRetiro.style.display = "block";
+                throw new Error(data.message);
             });
-        }else if(response.status == 404){
+        } else if (response.status == 404) {
             mensajeRetiro.textContent = "Error desconocido";
+            throw new Error("Error desconocido");
         }
+    }).then(data => {
+        // Crear un enlace de descarga
+        const downloadLink = document.createElement('a');
+        downloadLink.href = `/static/${data.pdfPath}`;
+        downloadLink.download = 'informe.pdf';
+        downloadLink.click();
+
+        // Redirigir después de 2 segundos
+        setTimeout(function() {
+            window.location.href = "/perfil";
+        }, 2000);
+    }).catch(error => {
+        console.error(error);
     });
 });

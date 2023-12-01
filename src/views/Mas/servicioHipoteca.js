@@ -7,6 +7,9 @@ document.getElementById("hipoteca-form").addEventListener("submit", function (e)
     const montoHipoteca = document.querySelector('input[name="monto_hipoteca"]').value;
     const plazoHipoteca = document.getElementById("plazo_hipoteca").value;
     const propiedad = document.getElementById("propiedad_hipoteca").value;
+    const fechaFormateada = formatearFecha(plazoHipoteca);
+    document.getElementById("plazo_hipoteca").value = fechaFormateada;
+
 
     const dataHipoteca = {
         nombreHipoteca: nombreHipoteca,
