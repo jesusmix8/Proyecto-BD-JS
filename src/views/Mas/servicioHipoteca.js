@@ -1,45 +1,3 @@
-
-//Solicitud de prestamo
-
-const mensajePrestamo = document.getElementById("mensajePrestamo");
-
-document.getElementById("prestamo-form").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const nombreSeguro = document.querySelector('input[name="nombre"]').value;
-    const montoSeguro = document.querySelector('input[name="monto"]').value;
-    const plazoSeguro = document.getElementById("plazo").value;
-
-    const data = {
-        nombreSeguro: nombreSeguro,
-        montoSeguro: montoSeguro,
-        plazoSeguro: plazoSeguro
-    }
-
-    fetch("/solicitudPrestamo", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    }).then((response) => {
-        if (response.status === 200) {
-            mensajePrestamo.textContent = "Se ha creado su prestamo correctamente";
-            mensajePrestamo.style.display = "block";
-
-            setTimeout(function () {
-                window.location.href = "/perfil";
-            }, 2000);
-        } else if (response.status === 400) {
-            return response.json().then((data) => {
-                mensajePrestamo.textContent = data.message;
-                mensajePrestamo.style.display = "block";
-            });
-        } else if (response.status === 404) {
-            mensajePrestamo.textContent = "Error desconocido";
-        }
-    });
-});
-
 //Solicitud de hipoteca 
 const mensajeHipoteca = document.getElementById("mensajeHipoteca");
 
@@ -50,7 +8,7 @@ document.getElementById("hipoteca-form").addEventListener("submit", function (e)
     const plazoHipoteca = document.getElementById("plazo_hipoteca").value;
     const propiedad = document.getElementById("propiedad_hipoteca").value;
 
-    const data = {
+    const dataHipoteca = {
         nombreHipoteca: nombreHipoteca,
         montoHipoteca: montoHipoteca,
         plazoHipoteca: plazoHipoteca,
@@ -62,7 +20,7 @@ document.getElementById("hipoteca-form").addEventListener("submit", function (e)
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(dataHipoteca)
     }).then((response) => {
         if (response.status === 200) {
             mensajeHipoteca.textContent = "Se ha creado su hipoteca exitosamente";
