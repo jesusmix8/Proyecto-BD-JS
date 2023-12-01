@@ -173,13 +173,13 @@ const loaddashboard = async (req, res) => {
 
     const servicioTarjeta = await pool.query(
       "SELECT * FROM catalogo_servicio WHERE cuenta_id = $1 AND nombredeservicio = $2",
-      [
-        usuario[0].id_cuenta,
-        "Tarjeta Digital"
-      ]
+      [usuario[0].id_cuenta, "Tarjeta Digital"]
     );
     console.log(servicioTarjeta.rows[0].fechadeexpiracion);
-    res.render("Dashboard/dashboard", { usuario: usuario , servicioTarjeta: servicioTarjeta });
+    res.render("Dashboard/dashboard", {
+      usuario: usuario,
+      servicioTarjeta: servicioTarjeta,
+    });
   } else {
     res.redirect("/login");
   }
@@ -197,7 +197,6 @@ const cargadePantallaTransferencia = async (req, res) => {
 const cargadePantallaPago = async (req, res) => {
   const usuario = req.session.usuario;
   if (usuario) {
-
     const serviciosABuscar = ["Pago de seguro", "Prestamo", "Hipoteca"];
 
     const transacciones = await pool.query(
@@ -239,7 +238,8 @@ const cambiarContrasena = async (req, res) => {
   const usuario = req.session.usuario;
 
   if (usuario) {
-    const { contrasenaActual, contrasenaNueva, contrasenaConfirmada } = req.body;
+    const { contrasenaActual, contrasenaNueva, contrasenaConfirmada } =
+      req.body;
 
     const contrasenaCuenta = usuario[0].contrasena;
 
@@ -247,16 +247,12 @@ const cambiarContrasena = async (req, res) => {
     console.log(contrasenaActual);
     if (contrasenaActual == contrasenaCuenta) {
       if (contrasenaNueva == contrasenaConfirmada) {
-        //Realizo el UPDATE de la contrasena 
+        //Realizo el UPDATE de la contrasena
 
         const cuentaID = usuario[0].cliente_id;
         const result = await pool.query(
           "UPDATE cliente SET contrasena = $1 WHERE cliente_id = $2 AND contrasena = $3",
-          [
-            contrasenaNueva,
-            cuentaID,
-            contrasenaActual
-          ]
+          [contrasenaNueva, cuentaID, contrasenaActual]
         );
         res.status(200).json({ message: "Contrasena cambiada exitosamente" });
       } else {
@@ -265,12 +261,9 @@ const cambiarContrasena = async (req, res) => {
     } else {
       res.status(400).json({ message: "No coincide la contrasena actual" });
     }
-
-
   } else {
     res.redirect("/login");
   }
-
 };
 
 const cambiarCorreo = async (req, res) => {
@@ -283,21 +276,21 @@ const cambiarCorreo = async (req, res) => {
 
       const result = await pool.query(
         "UPDATE cliente SET correo = $1 WHERE cliente_id = $2",
-        [
-          nuevoCorreo,
-          cuentaID
-        ]
+        [nuevoCorreo, cuentaID]
       );
-      res.status(200).json({ message: "Correo electronico cambiado exitosamente" });
+      res
+        .status(200)
+        .json({ message: "Correo electronico cambiado exitosamente" });
     } catch (error) {
-      res.status(400).json({ message: "Error al cambiar el correo electronico" });
+      res
+        .status(400)
+        .json({ message: "Error al cambiar el correo electronico" });
       console.log(error);
     }
   } else {
     res.redirect("/login");
   }
 };
-
 
 const cambiarTelefono = async (req, res) => {
   const usuario = req.session.usuario;
@@ -309,14 +302,15 @@ const cambiarTelefono = async (req, res) => {
 
       const result = await pool.query(
         "UPDATE cliente SET numerodetelefono = $1 WHERE cliente_id = $2",
-        [
-          nuevoTelefono,
-          cuentaID
-        ]
+        [nuevoTelefono, cuentaID]
       );
-      res.status(200).json({ message: "Correo electronico cambiado exitosamente" });
+      res
+        .status(200)
+        .json({ message: "Correo electronico cambiado exitosamente" });
     } catch (error) {
-      res.status(400).json({ message: "Error al cambiar el correo electronico" });
+      res
+        .status(400)
+        .json({ message: "Error al cambiar el correo electronico" });
       console.log(error);
     }
   } else {
@@ -324,9 +318,9 @@ const cambiarTelefono = async (req, res) => {
   }
 };
 
-const fs = require('fs');
-const PDFDocument = require('pdfkit');
-const xml2js = require('xml2js');
+const fs = require("fs");
+const PDFDocument = require("pdfkit");
+const xml2js = require("xml2js");
 
 // Asumo que tienes la variable pool definida en algún lugar del código
 
@@ -350,7 +344,7 @@ const realizarRetiro = async (req, res) => {
 
           // Crear informe XML
           const fecha = new Date();
-          const nombreCliente = usuario[0].nombre + ' ' + usuario[0].apellido;
+          const nombreCliente = usuario[0].nombre + " " + usuario[0].apellido;
 
           const informeXML = `
             <informe>
@@ -365,12 +359,17 @@ const realizarRetiro = async (req, res) => {
 
           // Crear informe PDF
           const pdfDoc = new PDFDocument();
-          const pdfPath = 'ticket.pdf';
+          const pdfPath = "ticket.pdf";
           pdfDoc.pipe(fs.createWriteStream(pdfPath));
 
-          pdfDoc.text(`Informe de Retiro`, { align: 'center', underline: true });
+          pdfDoc.text(`Informe de Retiro`, {
+            align: "center",
+            underline: true,
+          });
           pdfDoc.text(`Fecha: ${informeJSON.informe.fecha[0]}`);
-          pdfDoc.text(`Nombre del Cliente: ${informeJSON.informe.nombreCliente[0]}`);
+          pdfDoc.text(
+            `Nombre del Cliente: ${informeJSON.informe.nombreCliente[0]}`
+          );
           pdfDoc.text(`Cantidad Retirada: ${informeJSON.informe.cantidad[0]}`);
 
           pdfDoc.end();
@@ -383,7 +382,7 @@ const realizarRetiro = async (req, res) => {
               noTarjeta,
               cantidad,
               tipoMovimiento,
-              cuentaID
+              cuentaID,
             ]
           );
 
@@ -393,10 +392,14 @@ const realizarRetiro = async (req, res) => {
           res.status(500).json({ message: "Error interno del servidor" });
         }
       } else {
-        res.status(400).json({ message: "No se puede retirar una cantidad negativa" });
+        res
+          .status(400)
+          .json({ message: "No se puede retirar una cantidad negativa" });
       }
     } else {
-      res.status(400).json({ message: "Usted no cuenta con suficiente saldo disponible" });
+      res
+        .status(400)
+        .json({ message: "Usted no cuenta con suficiente saldo disponible" });
     }
   } else {
     res.redirect("/login");
@@ -409,14 +412,14 @@ const cargadePantallaLimite = async (req, res) => {
 
   const servicioAhorro = await pool.query(
     "SELECT * FROM catalogo_servicio WHERE cuenta_id = $1 AND nombredeservicio = $2",
-    [
-      cuentaID,
-      "Ahorro"
-    ]
+    [cuentaID, "Ahorro"]
   );
 
   if (usuario) {
-    res.render("Limite/limite", { usuario: usuario, servicioAhorro: servicioAhorro });
+    res.render("Limite/limite", {
+      usuario: usuario,
+      servicioAhorro: servicioAhorro,
+    });
   } else {
     res.redirect("/login");
   }
@@ -428,29 +431,26 @@ const cargadePantallaMasServicios = async (req, res) => {
   try {
     const servicioPrestamo = await pool.query(
       "SELECT * FROM catalogo_servicio WHERE cuenta_id = $1 AND nombredeservicio = $2",
-      [
-        cuentaID,
-        "Prestamo"
-      ]
+      [cuentaID, "Prestamo"]
     );
 
     const servicioHipoteca = await pool.query(
       "SELECT * FROM catalogo_servicio WHERE cuenta_id = $1 AND nombredeservicio = $2",
-      [
-        cuentaID,
-        "Hipoteca"
-      ]
+      [cuentaID, "Hipoteca"]
     );
 
     if (usuario) {
-      res.render("Mas/otrosServicios", { usuario: usuario, servicioPrestamo: servicioPrestamo, servicioHipoteca: servicioHipoteca });
+      res.render("Mas/otrosServicios", {
+        usuario: usuario,
+        servicioPrestamo: servicioPrestamo,
+        servicioHipoteca: servicioHipoteca,
+      });
     } else {
       res.redirect("/login");
     }
   } catch (error) {
     res.status(400).json({ message: "Error interno del servidor" });
     console.log(error);
-
   }
 };
 
@@ -462,16 +462,13 @@ const crearHipoteca = async (req, res) => {
   const propiedad = req.body.propiedad;
   const cuentaID = usuario[0].id_cuenta;
 
-
   console.log(propiedad);
   console.log(monto);
   console.log(plazo);
 
   const consultaTarjeta = await pool.query(
     "SELECT * FROM catalogo_servicio WHERE cuenta_id = $1",
-    [
-      cuentaID
-    ]
+    [cuentaID]
   );
 
   const noTarjeta = consultaTarjeta.rows[0].notarjeta;
@@ -536,7 +533,7 @@ const crearHipoteca = async (req, res) => {
               "Hipoteca de " + propiedad,
               fechaDePago,
               monto,
-              cuentaID
+              cuentaID,
             ]
           );
 
@@ -548,27 +545,28 @@ const crearHipoteca = async (req, res) => {
               noTarjeta,
               monto,
               "Hipoteca de " + propiedad,
-              cuentaID
+              cuentaID,
             ]
           );
-
 
           //Sumamos el saldo de su prestamo
           const sumaSaldo = await pool.query(
             "UPDATE cuenta SET saldo = saldo + $1 WHERE cuenta_id = $2",
-            [
-              monto,
-              cuentaID
-            ]
+            [monto, cuentaID]
           );
 
           res.status(200).json({ message: "Hipoteca aprobado" });
         } catch (error) {
           console.log(error);
-          res.status(400).json({ message: "No se ha podido generar su hipoteca" });
+          res
+            .status(400)
+            .json({ message: "No se ha podido generar su hipoteca" });
         }
       } else {
-        res.status(400).json({ message: "No se puede solicitar una hipoteca con un monto menor a 30,000 o mayor a 10,500,000" });
+        res.status(400).json({
+          message:
+            "No se puede solicitar una hipoteca con un monto menor a 30,000 o mayor a 10,500,000",
+        });
       }
     } catch (error) {
       console.log(error);
@@ -576,7 +574,6 @@ const crearHipoteca = async (req, res) => {
   } else {
     res.redirect("/login");
   }
-
 };
 
 const cargadePantallaRetiro = async (req, res) => {
@@ -609,12 +606,10 @@ const realizarTransferenciaCliente = async (req, res) => {
 
   if (usuario) {
     if (noCuentaOrigen !== noCuentaDestino) {
-      //Verificamos si cuenta con saldo suficiente 
+      //Verificamos si cuenta con saldo suficiente
       const saldoDisponible = await pool.query(
         "SELECT * FROM cuenta WHERE cuenta_id = $1",
-        [
-          cuentaIDororigen
-        ]
+        [cuentaIDororigen]
       );
       if (saldoDisponible.rows[0].saldo >= monto) {
         if (idCuentaDestino.rows.length > 0) {
@@ -638,7 +633,9 @@ const realizarTransferenciaCliente = async (req, res) => {
         res.status(400).json({ message: "No cuenta con saldo suficiente" });
       }
     } else {
-      res.status(400).json({ message: "No se puede transferir a la misma cuenta" });
+      res
+        .status(400)
+        .json({ message: "No se puede transferir a la misma cuenta" });
     }
   } else {
     res.redirect("/login");
@@ -666,13 +663,10 @@ const realizarDeposito = async (req, res) => {
       const cuenta_ID = usuario[0].id_cuenta;
 
       if (cantidad >= 0) {
-        //Hacemos el deposito haciendo un UPDATE 
+        //Hacemos el deposito haciendo un UPDATE
         const deposito = await pool.query(
           "UPDATE cuenta SET saldo = saldo + $1 WHERE cuenta_id = $2",
-          [
-            cantidad,
-            cuenta_ID
-          ]
+          [cantidad, cuenta_ID]
         );
 
         //Hacemos el registro de la transaccion
@@ -689,7 +683,9 @@ const realizarDeposito = async (req, res) => {
         );
         res.status(200).json({ message: "Deposito exitoso" });
       } else {
-        res.status(400).json({ message: "No se puede depositar una cantidad negativa" });
+        res
+          .status(400)
+          .json({ message: "No se puede depositar una cantidad negativa" });
       }
     }
   } catch (error) {
@@ -877,9 +873,7 @@ const crearPrestamo = async (req, res) => {
 
   const consultaTarjeta = await pool.query(
     "SELECT * FROM catalogo_servicio WHERE cuenta_id = $1",
-    [
-      cuentaID
-    ]
+    [cuentaID]
   );
 
   const noTarjeta = consultaTarjeta.rows[0].notarjeta;
@@ -907,44 +901,32 @@ const crearPrestamo = async (req, res) => {
       try {
         const prestamo = await pool.query(
           "INSERT INTO catalogo_servicio (nombreDeServicio, concepto, fechaDeApertura, fechaDePago, saldo, cuenta_id) VALUES ($1,$2,NOW(),$3,$4,$5)",
-          [
-            "Prestamo",
-            "Prestamo",
-            fechaDePago,
-            monto,
-            cuentaID
-          ]
+          ["Prestamo", "Prestamo", fechaDePago, monto, cuentaID]
         );
 
         const transaccion = await pool.query(
           "INSERT INTO transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) VALUES (NOW(),$1,$2,$3,$4,$5,$6)",
-          [
-            "Prestamo",
-            noTarjeta,
-            noTarjeta,
-            monto,
-            "Prestamo",
-            cuentaID
-          ]
+          ["Prestamo", noTarjeta, noTarjeta, monto, "Prestamo", cuentaID]
         );
-
 
         //Sumamos el saldo de su prestamo
         const sumaSaldo = await pool.query(
           "UPDATE cuenta SET saldo = saldo + $1 WHERE cuenta_id = $2",
-          [
-            monto,
-            cuentaID
-          ]
+          [monto, cuentaID]
         );
 
         res.status(200).json({ message: "Prestamo aprobado" });
       } catch (error) {
         console.log(error);
-        res.status(400).json({ message: "No se ha podido generar su prestamo" });
+        res
+          .status(400)
+          .json({ message: "No se ha podido generar su prestamo" });
       }
     } else {
-      res.status(400).json({ message: "No se puede solicitar un prestamo con un monto menor a 3,000 o mayor a 1,500,000" });
+      res.status(400).json({
+        message:
+          "No se puede solicitar un prestamo con un monto menor a 3,000 o mayor a 1,500,000",
+      });
     }
   } else {
     res.redirect("/login");
@@ -1009,17 +991,15 @@ const crearAhorro = async (req, res) => {
             fechaExpiracion,
             intereses,
             monto,
-            id_cuenta
+            id_cuenta,
           ]
         );
         //Buscamos el numero de tarjeta de la cuenta
         const buscarNoTarjeta = await pool.query(
           "SELECT * FROM catalogo_servicio WHERE cuenta_id = $1",
-          [
-            id_cuenta
-          ]
+          [id_cuenta]
         );
-        console.log(buscarNoTarjeta.rows[0].notarjeta)
+        console.log(buscarNoTarjeta.rows[0].notarjeta);
         //Creamos la transaccion
         const transaccion = await pool.query(
           "INSERT INTO transaccion (fechaDeTransaccion, tipoDeMovimiento, cuentaOrigen, cuentaDestino, monto, concepto, cuenta_id) VALUES (NOW(),$1,$2,$3,$4,$5,$6)",
@@ -1029,16 +1009,13 @@ const crearAhorro = async (req, res) => {
             buscarNoTarjeta.rows[0].notarjeta,
             monto,
             "Creacion de ahorro",
-            id_cuenta
+            id_cuenta,
           ]
         );
         //Descontamos desde el saldo de la cuenta
         const descuentoAhorro = await pool.query(
           "UPDATE cuenta SET saldo = saldo - $1 WHERE cuenta_id = $2",
-          [
-            monto,
-            id_cuenta
-          ]
+          [monto, id_cuenta]
         );
         res.status(200).json({ message: "Ahorro creado exitosamente" });
       } catch (error) {
@@ -1046,7 +1023,10 @@ const crearAhorro = async (req, res) => {
         console.log(error);
       }
     } else {
-      res.status(400).json({ message: "No se puede crear un ahorro con un monto negativo o mayor al saldo disponible" });
+      res.status(400).json({
+        message:
+          "No se puede crear un ahorro con un monto negativo o mayor al saldo disponible",
+      });
     }
   } else {
     res.redirect("/login");

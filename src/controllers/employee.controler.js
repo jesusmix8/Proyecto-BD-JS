@@ -62,9 +62,9 @@ const crearCuentaEmpleado = async (req, res) => {
     );
 
     const idEmpleado = resultEmpleado.rows[0].empleado_id;
-    res.status(200).json({ message: "Se ha creado el empleado correctamente"});
+    res.status(200).json({ message: "Se ha creado el empleado correctamente" });
   } catch (error) {
-    res.status(400).json({ message: "No se ha podido crear la cuenta"});
+    res.status(400).json({ message: "No se ha podido crear la cuenta" });
   }
 };
 
@@ -137,15 +137,34 @@ const loaddashboardEmpleado = async (req, res) => {
 
     const datamart = await pool.query(query);
 
-    console.log(datamart.rows);
+    const query2 = `
+    SELECT
+    CASE
+        WHEN s.nomSucursal IS NULL THEN 'Total General'
+        ELSE s.nomSucursal
+    END AS Sucursal,
+    COUNT(*) AS NumeroDeTransferencias
+FROM fact_transferencia ft
+LEFT JOIN sucursal s ON ft.nomSucursal = s.nomSucursal
+GROUP BY ROLLUP (s.nomSucursal);
+    `;
 
     usuario[0].sucursal = sucursal.rows[0].nomsucursal;
     usuario[0].clientes = clientesEnSucursal.rows;
+    const datosSucursales = await pool.query(query2);
 
-    console.log(usuario);
+    console.log(datosSucursales.rows);
+
+    datosSucursales.rows.sort((a, b) => {
+      return (
+        parseInt(b.numerodetransferencias) - parseInt(a.numerodetransferencias)
+      );
+    });
 
     res.render("viewsEmpleado/dashboardEmpleado/dashboardempleado", {
       usuario: usuario,
+      data1: datamart.rows,
+      datosSucursales: datosSucursales.rows,
     });
   } catch (error) {
     console.log(error);
@@ -189,16 +208,16 @@ const updatedatosClientes = async (req, res) => {
 
 const eliminarCliente = async (req, res) => {
   const idCliente = req.body.id;
-  
+
   const consultaCuentaID = await pool.query(
-    "SELECT * FROM cuenta WHERE cliente_id = $1", 
+    "SELECT * FROM cuenta WHERE cliente_id = $1",
     [idCliente]
   );
 
   const cuentaID = consultaCuentaID.rows[0].cuenta_id;
 
   console.log(idCliente);
-  try{
+  try {
     const eliminarTransacciones = await pool.query(
       "DELETE FROM transaccion WHERE cuenta_id = $1",
       [cuentaID]
@@ -219,14 +238,14 @@ const eliminarCliente = async (req, res) => {
       [idCliente]
     );
 
-    res.status(200).json({message: "Se ha eliminado el cliente correctamente"});
-  }catch(error){
+    res
+      .status(200)
+      .json({ message: "Se ha eliminado el cliente correctamente" });
+  } catch (error) {
     console.log(error);
-    res.status(400).json({message: "No se ha podido eliminar el cliente"});
+    res.status(400).json({ message: "No se ha podido eliminar el cliente" });
   }
-
 };
-
 
 module.exports = {
   inicioEmpleado,
@@ -237,5 +256,5 @@ module.exports = {
   clientesEnSucursal,
   updateCliente,
   updatedatosClientes,
-  eliminarCliente
+  eliminarCliente,
 };
