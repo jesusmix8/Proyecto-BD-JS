@@ -75,16 +75,16 @@
             <% if(servicioPrestamo.rows.length === 0){ %>
                 <h2 class="uppercase">Solicita un préstamo</h2>
             <form action="/solicitudPrestamo" method="post" id="prestamo-form">
-                <label class="uppercase" for="nombre">Nombre:</label>
-                <input class="txt__all" type="text" id="nombre" name="nombre" readonly
+                <label class="uppercase" for="nombre_prestamo">Nombre:</label>
+                <input class="txt__all" type="text" id="nombre_prestamo" name="nombre_prestamo" readonly
                     value="<%= usuario[0].nombre + ' ' +usuario[0].apellido %>">
 
-                <label class="uppercase" for="monto">Monto solicitado:</label>
-                <input class="txt__all" type="number" id="monto" name="monto" required
+                <label class="uppercase" for="monto_prestamo">Monto solicitado:</label>
+                <input class="txt__all" type="number" id="monto_prestamo" name="monto_prestamo" required
                     placeholder="Desde $3,000 a $1,500,000">
 
-                <label class="uppercase" for="plazo">Plazo de pago:</label>
-                <select class="txt__all" id="plazo" name="plazo" required>
+                <label class="uppercase" for="plazo_prestamo">Plazo de pago:</label>
+                <select class="txt__all" id="plazo_prestamo" name="plazo_prestamo" required>
                     <option value="3">3 meses sin intereses</option>
                     <option value="6">6 meses sin intereses</option>
                     <option value="9">9 meses sin intereses</option>
@@ -97,16 +97,16 @@
             <!--Si es que SI tiene prestamo activo -->
             <%} else if (servicioPrestamo.rows.length > 0 && servicioPrestamo.rows[0].nombredeservicio == 'Prestamo'){ %>
             <h2 class="uppercase">Aqui se muestra la solicitud de tu préstamo</h2>
-                <label class="uppercase" for="nombre">Nombre:</label>
-                <input class="txt__all" type="text" id="nombre" name="nombre" readonly
+                <label class="uppercase" for="nombrePrestamo">Nombre:</label>
+                <input class="txt__all" type="text" id="nombrePrestamo" name="nombrePrestamo" readonly
                     value="<%= usuario[0].nombre + ' ' +usuario[0].apellido %>">
 
-                <label class="uppercase" for="monto">Monto solicitado:</label>
-                <input class="txt__all" type="number" id="monto" name="monto" value="<%= servicioPrestamo.rows[0].saldo%>">
+                <label class="uppercase" for="montoPrestamo">Monto solicitado:</label>
+                <input class="txt__all" type="number" id="montoPrestamo" name="montoPrestamo" value="<%= servicioPrestamo.rows[0].saldo%>">
 
-                <label class="uppercase" for="plazo">Plazo de pago:</label>
+                <label class="uppercase" for="plazoPrestamo">Plazo de pago:</label>
                 
-                <input class="txt__all" type="text" id="plazo" name="plazo" value="<%= servicioPrestamo.rows[0].fechadepago %>">
+                <input class="txt__all" type="text" id="plazoPrestamo" name="plazoPrestamo" value="<%= servicioPrestamo.rows[0].fechadepago %>">
             <% } %>
             </div>
 
@@ -167,14 +167,14 @@
         </div>
     </div>
 
-    <script src="/static/Mas/otrosServicios.js"></script>
+    <script src="/static/Mas/servicioPrestamo.js"></script>
+    <script src="/static/Mas/servicioHipoteca.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/Javascript/Home.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     
 </body>
