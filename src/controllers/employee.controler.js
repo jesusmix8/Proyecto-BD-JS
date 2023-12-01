@@ -187,6 +187,47 @@ const updatedatosClientes = async (req, res) => {
   res.status(200).json({ message: "OK" });
 };
 
+const eliminarCliente = async (req, res) => {
+  const idCliente = req.body.id;
+  
+  const consultaCuentaID = await pool.query(
+    "SELECT * FROM cuenta WHERE cliente_id = $1", 
+    [idCliente]
+  );
+
+  const cuentaID = consultaCuentaID.rows[0].cuenta_id;
+
+  console.log(idCliente);
+  try{
+    const eliminarTransacciones = await pool.query(
+      "DELETE FROM transaccion WHERE cuenta_id = $1",
+      [cuentaID]
+    );
+
+    const eliminiarServicio = await pool.query(
+      "DELETE FROM catalogo_servicio WHERE cuenta_id = $1",
+      [cuentaID]
+    );
+
+    const eliminiarCuenta = await pool.query(
+      "DELETE FROM cuenta WHERE cliente_id = $1",
+      [idCliente]
+    );
+
+    const result = await pool.query(
+      "DELETE FROM cliente WHERE cliente_id = $1",
+      [idCliente]
+    );
+
+    res.status(200).json({message: "Se ha eliminado el cliente correctamente"});
+  }catch(error){
+    console.log(error);
+    res.status(400).json({message: "No se ha podido eliminar el cliente"});
+  }
+
+};
+
+
 module.exports = {
   inicioEmpleado,
   formularioCuentaEmpleado,
@@ -196,4 +237,5 @@ module.exports = {
   clientesEnSucursal,
   updateCliente,
   updatedatosClientes,
+  eliminarCliente
 };

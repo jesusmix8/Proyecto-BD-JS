@@ -9,6 +9,7 @@ const {
   clientesEnSucursal,
   updateCliente,
   updatedatosClientes,
+  eliminarCliente
 } = require("../controllers/employee.controler");
 
 router.get("/employee", inicioEmpleado);
@@ -28,6 +29,8 @@ router.get("/clientesEnSucursal", clientesEnSucursal);
 router.get("/editarCliente/:cliente_id", updateCliente);
 
 router.post("/actualizarCliente/:cliente_id", updatedatosClientes);
+
+router.post("/eliminarCliente", eliminarCliente);
 
 router.get("/logoutEmpleado", (req, res) => {
   req.session.destroy((err) => {

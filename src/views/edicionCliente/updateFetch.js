@@ -16,29 +16,63 @@ document.getElementById("formupdate").addEventListener("submit", function (e) {
     id: id,
   };
 
-  fetch("/actualizarCliente/${cliente_id}", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  }).then((response) => {
-    if (response.status === 200) {
-      mensajeExito.textContent = "Cliente actualizado con exito";
-      mensajeExito.style.display = "block";
-
-      setTimeout(function () {
-        window.history.back();
-      }, 2000);
-    }
-    if (response.status === 400) {
-      return response.json().then((data) => {
-        mensajeError.textContent = " Cliente no encontrado";
-        mensajeError.style.display = "block";
-      });
-    }
-    if (response.status === 404) {
-      mensajeError.textContent = "Error desconocido";
-    }
-  });
+  const btnPresionado = e.submitter;
+  if(btnPresionado.id === "btnActualizarCliente"){
+    //Acualizar cliente
+    fetch("/actualizarCliente/${cliente_id}", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then((response) => {
+      if (response.status === 200) {
+        mensajeExito.textContent = "Cliente actualizado con exito";
+        mensajeExito.style.display = "block";
+  
+        setTimeout(function () {
+          window.location.href = "/perfilEmpleado";
+        }, 2000);
+      }
+      if (response.status === 400) {
+        return response.json().then((data) => {
+          mensajeError.textContent = " Cliente no encontrado";
+          mensajeError.style.display = "block";
+        });
+      }
+      if (response.status === 404) {
+        mensajeError.textContent = "Error desconocido";
+      }
+    });
+  } else if(btnPresionado.id === "btnEliminarCliente"){
+    //Eliminar el Cliente
+    fetch("/eliminarCliente", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then((response) => {
+      if (response.status === 200) {
+        mensajeExito.textContent = "Cliente eliminado con exito";
+        mensajeExito.style.display = "block";
+  
+        setTimeout(function () {
+          window.history.back();
+        }, 2000);
+      }
+      if (response.status === 400) {
+        return response.json().then((data) => {
+          mensajeError.textContent = data.message;
+          mensajeError.style.display = "block";
+        });
+      }
+      if (response.status === 404) {
+        mensajeError.textContent = "Error desconocido";
+      }
+    });
+  }
+  
 });
+
+
