@@ -96,14 +96,17 @@
             <h1>Aqui se muestra la informacion de tu ahorro</h1>
             <form id="form-ahorro">
                 <label for="nombre">Concepto del ahorro:</label>
-                <input class="txt__all" type="text" name="NombreDelAhorro" id="NombreDelAhorro" value="Ahorro <%= servicioAhorro.rows[0].concepto %>">
+                <input class="txt__all" type="text" name="NombreDelAhorro" id="NombreDelAhorro" value="Ahorro <%= servicioAhorro.rows[0].concepto %>" disabled>
+                
                 <label for="Plazo">Plazo:</label>
-                <input class="txt__all" type="text" name="NombreDelAhorro" id="NombreDelAhorro" value="<%= servicioAhorro.rows[0].fechadeexpiracion %>">
+                <input class="txt__all" type="text" name="fecha-expiracion" id="fecha-expiracion" value="<%= servicioAhorro.rows[0].fechadeexpiracion %>">
+                
                 <label for="Intereses">Intereses:</label>
-                <input class="txt__all" type="text" name="NombreDelAhorro" id="NombreDelAhorro" value="Usted escogio un plazo con interes del <%= (servicioAhorro.rows[0].intereses *100) %> %">
+                <input class="txt__all" type="text" name="NombreDelAhorro" id="NombreDelAhorro" value="Usted escogió un plazo con interés del <%= (servicioAhorro.rows[0].intereses * 100) %> %" disabled>
+                
                 <label for="monto">Monto:</label>
-                <input class="txt__all" type="number" name="monto" id="monto" value="<%= servicioAhorro.rows[0].saldo %>">
-            </form>
+                <input class="txt__all" type="number" name="monto" id="monto" value="<%= servicioAhorro.rows[0].saldo %>" disabled>
+              </form>
             <% } %>
         </div>
     </div>

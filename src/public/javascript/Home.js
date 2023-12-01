@@ -32,3 +32,35 @@ document.addEventListener('DOMContentLoaded', function () {
   var tarjetaFormateada = numeroTarjeta.replace(/\s/g, '').replace(/(\d{4}(?=\d))/g, '$1 ');
   tarjetaElement.textContent = tarjetaFormateada;
 });
+
+function toggleVisibilidadDatos() {
+  var datosCVV = document.querySelector('.cvv');
+  var datosFechaExpiracion = document.querySelector('.fecha-expiracion');
+
+  // Toggle de visibilidad
+  datosCVV.classList.toggle('oculto');
+  datosFechaExpiracion.classList.toggle('oculto');
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  var fechaExpElement = document.querySelector('.fecha-expiracion');
+
+  if (fechaExpElement) {
+    var fechaOriginal = fechaExpElement.innerText;
+    var fechaFormateada = formatearFecha(fechaOriginal);
+    fechaExpElement.innerText = fechaFormateada;
+  }
+});
+
+function formatearFecha(fechaString) {
+  var fecha = new Date(fechaString);
+  
+  // Obtenemos el mes y el año
+  var mes = fecha.getMonth() + 1; // Sumamos 1 porque los meses comienzan desde 0
+  var año = fecha.getFullYear() % 100; // Obtenemos solo los últimos dos dígitos del año
+
+  // Formateamos la fecha en MM/YY
+  var fechaFormateada = (mes < 10 ? '0' : '') + mes + '/' + (año < 10 ? '0' : '') + año;
+
+  return fechaFormateada;
+}

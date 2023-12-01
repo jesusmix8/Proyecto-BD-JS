@@ -39,4 +39,3 @@ document.getElementById("hipoteca-form").addEventListener("submit", function (e)
         }
     });
 });
-

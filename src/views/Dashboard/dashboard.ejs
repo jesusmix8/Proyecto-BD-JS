@@ -76,20 +76,15 @@
           <p class="data" id="tarjeta">
             <%= usuario[0].servicios[0].notarjeta %>
           </p>
+          <div class="icono-ojo" onclick="toggleVisibilidadDatos()">👁️</div>
           <p class="Id-tarjeta">VISA</p>
         </div>
       </div>
 
-      <!-- TARJETA DE CREDITO OCULTA SI NO SE TIENE @ESDRAS -->
-      <h3 class="center hidden">Tarjeta Crédito</h3>
-      <div class="tarjeta__credito hidden">
-        <p class="cuenta">$<%= usuario[0].saldo %>
-        </p>
-        <div class="tarjeta-data">
-          <p class="data" id="tarjeta">
-            <%= usuario[0].servicios[0].notarjeta %>
-          </p>
-          <p class="Id-tarjeta">VISA</p>
+      <div class="tarjeta__dato">
+        <div class="shortcuts">
+          <p class="cvv oculto">CVV: <%= usuario[0].servicios[0].cvv %></p>
+          <p class="fecha-expiracion oculto">Expiración: <%= usuario[0].servicios[0].fechadeexpiracion %></p>
         </div>
       </div>
 
