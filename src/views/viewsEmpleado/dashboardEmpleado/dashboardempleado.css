@@ -1,13 +1,21 @@
 .section_report{
     display: flex;
     flex-direction: column;
-    background-color: #ffffff;
     text-align: center;
     align-items: center;
     justify-content: space-between;
     padding: 2rem;
     padding-left: 2rem;
-    padding-right: 2rem;
+    padding-right: -1rem;
     border-radius: 5px;
     z-index: 1;
+}
+
+.section__empleado{
+    background-image: linear-gradient(180deg, #e6f7ff 0, #cae6ff 25%, #aed5f9 50%, #91c4f2 75%, #74b3ec 100%);
+    border-radius: 30px;
+    padding: 2rem 2rem;
+    box-shadow: 0px 100px 50px rgb(0, 0, 0, .5);
+    display: flex;
+    flex-direction: column;
 }
