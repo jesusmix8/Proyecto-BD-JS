@@ -410,6 +410,8 @@ const crearHipoteca = async (req, res) => {
   const propiedad = req.body.propiedad;
   const cuentaID = usuario[0].id_cuenta;
 
+  
+  console.log(propiedad);
   console.log(monto);
   console.log(plazo);
 
@@ -522,6 +524,7 @@ const crearHipoteca = async (req, res) => {
   }else{
     res.redirect("/login");
   }
+
 };
 
 const cargadePantallaRetiro = async (req, res) => {

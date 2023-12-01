@@ -90,7 +90,7 @@
                     <option value="9">9 meses sin intereses</option>
                     <option value="12">12 meses sin intereses</option>
                 </select>
-                <button class="btn__all btn__all--inside uppercase" type="submit">Enviar Solicitud</button>
+                <button class="btn__all btn__all--inside uppercase" type="submit" id="btnSubmitPrestamo">Enviar Solicitud</button>
             </form>
             <p id="mensajePrestamo"></p>
 
@@ -144,24 +144,24 @@
                         <option value="terreno">Terreno</option>
                     </select>
 
-                    <button class="btn__all btn__all--inside uppercase" type="submit">Enviar Solicitud</button>
+                    <button class="btn__all btn__all--inside uppercase" type="submit" id="btnSubmitHipoteca">Enviar Solicitud</button>
                 </form>
                 <p id="mensajeHipoteca"></p>
 
                 <!--En caso de SI tener una hipoteca-->
                 <% }else if(servicioHipoteca.rows.length > 0 && servicioHipoteca.rows[0].nombredeservicio === 'Hipoteca'){ %>
                 <h2 class="uppercase">Aqui se muestra la solicitud de su Hipoteca</h2>
-                    <label class="uppercase" for="nombre_hipoteca">Nombre:</label>
-                    <input class="txt__all" type="text" id="nombre_hipoteca" name="nombre_hipoteca" required readonly value="<%= usuario[0].nombre + ' ' +usuario[0].apellido %>">
+                    <label class="uppercase" for="nombreHipoteca">Nombre:</label>
+                    <input class="txt__all" type="text" id="nombreHipoteca" name="nombreHipoteca" required readonly value="<%= usuario[0].nombre + ' ' +usuario[0].apellido %>">
 
-                    <label class="uppercase" for="monto_hipoteca" >Monto solicitado:</label>
-                    <input class="txt__all" type="number" id="monto_hipoteca" name="monto_hipoteca" value="<%= servicioHipoteca.rows[0].saldo %>">
+                    <label class="uppercase" for="montoHipoteca" >Monto solicitado:</label>
+                    <input class="txt__all" type="number" id="montoHipoteca" name="montoHipoteca" value="<%= servicioHipoteca.rows[0].saldo %>">
 
-                    <label class="uppercase" for="plazo_hipoteca">Plazo de pago:</label>
-                    <input class="txt__all" type="text" id="plazo_hipoteca" name="plazo_hipoteca" value="<%= servicioHipoteca.rows[0].fechadepago %>">
+                    <label class="uppercase" for="plazoHipoteca">Plazo de pago:</label>
+                    <input class="txt__all" type="text" id="plazoHipoteca" name="plazoHipoteca" value="<%= servicioHipoteca.rows[0].fechadepago %>">
 
-                    <label class="uppercase" for="propiedad_hipoteca">Tipo de propiedad hipotecada:</label>
-                    <input class="txt__all" type="text" id="propiedad_hipoteca" name="propiedad_hipoteca" value="<%= servicioHipoteca.rows[0].concepto%>">
+                    <label class="uppercase" for="propiedadHipoteca">Tipo de propiedad hipotecada:</label>
+                    <input class="txt__all" type="text" id="propiedadHipoteca" name="propiedadHipoteca" value="<%= servicioHipoteca.rows[0].concepto%>">
                 <% } %>
             </div>
         </div>
