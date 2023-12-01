@@ -73,7 +73,7 @@
         <p class="cuenta">$<%= usuario[0].saldo %>
         </p>
         <div class="tarjeta-data">
-          <p class="data" id="tarjeta">
+          <p class="data oculto" id="tarjeta">
             <%= usuario[0].servicios[0].notarjeta %>
           </p>
           
@@ -88,7 +88,7 @@
       <div class="tarjeta__dato">
         <div class="shortcuts">
           <p class="cvv oculto">CVV: <%= usuario[0].servicios[0].cvv %></p>
-          <p class="fecha-expiracion oculto">Expiración: <%= servicioTarjeta.rows[0].fechadeexpiracion %></p>
+          <p class="fecha-expiracion oculto"><%= servicioTarjeta.rows[0].fechadeexpiracion %></p>
         </div>
       </div>
 

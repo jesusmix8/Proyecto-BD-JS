@@ -36,8 +36,10 @@ document.addEventListener('DOMContentLoaded', function () {
 function toggleVisibilidadDatos() {
   var datosCVV = document.querySelector('.cvv');
   var datosFechaExpiracion = document.querySelector('.fecha-expiracion');
+  var tarjeta = document.querySelector('.data');
   datosCVV.classList.toggle('oculto');
   datosFechaExpiracion.classList.toggle('oculto');
+  tarjeta.classList.toggle('oculto');
 }
 
 document.addEventListener("DOMContentLoaded", function() {

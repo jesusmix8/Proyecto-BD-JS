@@ -62,9 +62,9 @@ const crearCuentaEmpleado = async (req, res) => {
     );
 
     const idEmpleado = resultEmpleado.rows[0].empleado_id;
-    res.status(200).json({ message: "Se ha creado el empleado correctamente"});
+    res.status(200).json({ message: "Se ha creado el empleado correctamente" });
   } catch (error) {
-    res.status(400).json({ message: "No se ha podido crear la cuenta"});
+    res.status(400).json({ message: "No se ha podido crear la cuenta" });
   }
 };
 
@@ -132,20 +132,63 @@ const loaddashboardEmpleado = async (req, res) => {
     FROM
         TransferenciasPorEstado
     ORDER BY
-        NumeroDeTransferencias DESC;
+        NumeroDeTransferencias DESC limit 10;
     `;
 
     const datamart = await pool.query(query);
 
-    console.log(datamart.rows);
+    const query2 = `
+    SELECT
+    CASE
+        WHEN s.nomSucursal IS NULL THEN 'Total General'
+        ELSE s.nomSucursal
+    END AS Sucursal,
+    COUNT(*) AS NumeroDeTransferencias
+FROM fact_transferencia ft
+LEFT JOIN sucursal s ON ft.nomSucursal = s.nomSucursal
+GROUP BY ROLLUP (s.nomSucursal)
+ORDER BY NumeroDeTransferencias DESC limit 10;
+    `;
+
+    const query3 = `
+    SELECT
+    s.nomSucursal AS Sucursal,
+    TO_CHAR(t.fechaDeTransaccion, 'YYYY-MM') AS Mes,
+    COUNT(*) AS NumeroDeTransferencias
+FROM fact_transferencia ft
+JOIN sucursal s ON ft.nomSucursal = s.nomSucursal
+JOIN transaccion t ON ft.transaccion_ID = t.transaccion_ID
+GROUP BY CUBE (s.nomSucursal, TO_CHAR(t.fechaDeTransaccion, 'YYYY-MM'))
+ORDER BY GROUPING(s.nomSucursal), GROUPING(TO_CHAR(t.fechaDeTransaccion, 'YYYY-MM')), NumeroDeTransferencias DESC, Sucursal, Mes
+LIMIT 5;
+
+    `;
 
     usuario[0].sucursal = sucursal.rows[0].nomsucursal;
     usuario[0].clientes = clientesEnSucursal.rows;
+    const datosSucursales = await pool.query(query2);
 
-    console.log(usuario);
+    const datos3 = await pool.query(query3);
+
+    console.log(datos3.rows);
+
+    datosSucursales.rows.sort((a, b) => {
+      return (
+        parseInt(b.numerodetransferencias) - parseInt(a.numerodetransferencias)
+      );
+    });
+
+    datos3.rows.sort((a, b) => {
+      return (
+        parseInt(b.numerodetransferencias) - parseInt(a.numerodetransferencias)
+      );
+    });
 
     res.render("viewsEmpleado/dashboardEmpleado/dashboardempleado", {
       usuario: usuario,
+      data1: datamart.rows,
+      datosSucursales: datosSucursales.rows,
+      datos: datos3.rows,
     });
   } catch (error) {
     console.log(error);
@@ -189,16 +232,16 @@ const updatedatosClientes = async (req, res) => {
 
 const eliminarCliente = async (req, res) => {
   const idCliente = req.body.id;
-  
+
   const consultaCuentaID = await pool.query(
-    "SELECT * FROM cuenta WHERE cliente_id = $1", 
+    "SELECT * FROM cuenta WHERE cliente_id = $1",
     [idCliente]
   );
 
   const cuentaID = consultaCuentaID.rows[0].cuenta_id;
 
   console.log(idCliente);
-  try{
+  try {
     const eliminarTransacciones = await pool.query(
       "DELETE FROM transaccion WHERE cuenta_id = $1",
       [cuentaID]
@@ -219,14 +262,14 @@ const eliminarCliente = async (req, res) => {
       [idCliente]
     );
 
-    res.status(200).json({message: "Se ha eliminado el cliente correctamente"});
-  }catch(error){
+    res
+      .status(200)
+      .json({ message: "Se ha eliminado el cliente correctamente" });
+  } catch (error) {
     console.log(error);
-    res.status(400).json({message: "No se ha podido eliminar el cliente"});
+    res.status(400).json({ message: "No se ha podido eliminar el cliente" });
   }
-
 };
-
 
 module.exports = {
   inicioEmpleado,
@@ -237,5 +280,5 @@ module.exports = {
   clientesEnSucursal,
   updateCliente,
   updatedatosClientes,
-  eliminarCliente
+  eliminarCliente,
 };
