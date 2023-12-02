@@ -70,13 +70,6 @@
 
         <div class="seccion_pagos">
             <div class="container__pagos">
-                <h2>SEGURO</h2>
-                <h3>Saldo pagado</h3>
-                <% const saldoSeguro=sumasPorServicio["Pago de seguro"] || 0; %>
-                    <p id="saldoSeguro">$<%= Number(saldoSeguro).toFixed(2) %>
-                    </p>
-            </div>
-            <div class="container__pagos">
                 <h2>PRÉSTAMO</h2>
                 <h3>Saldo otorgado</h3>
                 <% const saldoPrestamo=sumasPorServicio["Prestamo"] || 0; %>
@@ -91,7 +84,6 @@
                     </p>
             </div>
             <div class="container__pagos">
-                <h2>TUS PAGOS</h2>
                 <canvas id="myPieChart" width="100" height="100"></canvas>
             </div>
         </div>
