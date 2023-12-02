@@ -72,9 +72,6 @@
                 <label for="nombre">Tu nombre:</label>
                 <input class="txt" type="text" id="nombre" name="nombre" readonly value="<%= usuario[0].nombre + ' ' +usuario[0].apellido %>">
 
-                <label for="fechaNacimiento">Tu fecha de nacimiento:</label>
-                <input class="txt" type="date" id="fechaNacimiento" name="fechaNacimiento">
-
                 <label for="rangoIngreso">Elige tu rango de ingreso mensual:</label>
                 <select class="txt" id="rangoIngreso" name="rangoIngreso" required>
                     <option value="0-20000">De 0 a 20,000 MXN</option>
@@ -104,18 +101,11 @@
                     <input class="checkbox" type="checkbox" id="enfermedad4" name="enfermedades" value="pulmonar">
                 </div>
 
-
-                <label for="sumaAsegurada">Suma asegurada sugerida:</label>
-                <input class="txt" type="text" id="sumaAsegurada" name="sumaAsegurada" value="500000" readonly> MXN
-                <!-- <p>Modifícalo hasta por <span id="maxSumaAsegurada">3,000,000</span> MXN según tus necesidades.</p>  -->
-
-                <h2>Resumen de compra</h2>
-
-                <p>Total anual: <span id="totalAnual">4,622.76</span> MXN</p>
-                <p>Quedas protegido por <span id="proteccion">500,000</span> MXN</p>
-
-                <p>Puedes elegir la forma de pago que más te convenga.</p>
-
+                <div class="pago__seguro">
+                    <h2>Resumen de compra</h2>
+                    <p>Total anual: <span id="totalAnual"></span> MXN</p>
+                    <p>Quedas protegido por <span id="proteccion">500,000</span> MXN</p>
+                </div>
                 <button class="btns btns--inside uppercase" type="submit">Comprar seguro</button>
             </form>
             <p id="mensaje"></p>
