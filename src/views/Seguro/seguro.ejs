@@ -67,6 +67,9 @@
         </div>
 
         <div class="container__seguro">
+            <!--En caso de NO tener un seguro-->
+            
+            <% if(servicioSeguro.rows.length === 0 ){ %>
             <h1>Solicita un seguro</h1>
             <form action="/solicitudSeguro" method="post" id="seguro-form">
                 <label for="nombre">Tu nombre:</label>
@@ -109,6 +112,23 @@
                 <button class="btns btns--inside uppercase" type="submit">Comprar seguro</button>
             </form>
             <p id="mensaje"></p>
+            <!--En caso de SI tener seguro-->
+            
+            <% } else if (servicioSeguro.rows.length > 0 && servicioSeguro.rows[0].nombredeservicio === 'Seguro de vida') { %>
+                <h1>Seguro que usted ha soliticado:</h1>
+                <label for="nombreSeguro">Tu nombre:</label>
+                <input class="txt" type="text" id="nombreSeguro" name="nombreSeguro" readonly value="<%= usuario[0].nombre + ' ' +usuario[0].apellido %>">
+
+                <label for="fechaTransaccion">Usted ha comprado un seguro en la fecha:</label>
+                <input class="txt" type="text" id="fechaTransaccion" name="fechaTransaccion" value="<%= consultTransaccion.rows[0].fechadetransaccion %>">
+                <!--Etiqueta vacia-->
+                <p id="etiquetaVacia"></p>
+                <div class="pago__seguro">
+                    <h2>Resumen de compra</h2>
+                    <p>Total anual: <span id="totalAnualSeguro"><%= consultTransaccion.rows[0].monto %></span> MXN</p>
+                    <p>Quedas protegido por <span id="proteccion">500,000</span> MXN</p>
+                </div>
+            <% } %>
         </div>
     </div>
 

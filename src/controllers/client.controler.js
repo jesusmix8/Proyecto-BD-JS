@@ -771,10 +771,11 @@ const pantallatdc = async (req, res) => {
   });
 };
 
-const SolicitudDeSeguro = (req, res) => {
+const SolicitudDeSeguro = async (req, res) => {
   res.sendFile("views/Seguro/FormSeguro.html", {
     root: __dirname + "/../",
   });
+
 };
 
 const crearSeguro = async (req, res) => {
@@ -784,7 +785,6 @@ const crearSeguro = async (req, res) => {
    *
    * 1.- Seguro de vida
    *
-   * He añadido un formulario de como pienso hacer para crear el seguro (esta en views/Services/services.html)
    */
 
   const usuario = req.session.usuario;
@@ -794,20 +794,12 @@ const crearSeguro = async (req, res) => {
 
     const idCuenta = usuario[0].id_cuenta;
 
-    const fechaDeNacimiento = usuario[0].fechadenacimiento;
-
-    //Recuperamos la fecha de nacimiento del formulario
-    const fechaNacimiento = req.body.fechaNacimiento;
-
-    //Recuperamos que opcion selecciono el usuario del combobox
-    const rangoDeIngresos = req.body.rangoIngresos;
-
     //Recuperamos la suma sugerida del formulario
-    const saldo = req.body.sumaAsegurada;
+    const pagoAnual = req.body.pagoAnual;
 
     //Recuperamos la cantidad de dinero por cada pago mensual
-    const pagoAnual = req.body.pagoAnual;
-    const pagoanual = parseFloat(pagoAnual.replace(",", ""));
+    const totalAnual = req.body.proteccionAnual;
+    const totalAnualFormateado = parseFloat(totalAnual.replace(",", ""));
 
     const saldoCuenta = await pool.query(
       "SELECT saldo FROM cuenta WHERE  cuenta_id = $1",
@@ -820,22 +812,27 @@ const crearSeguro = async (req, res) => {
     const fechaDeExpiracion = new Date();
     fechaDeExpiracion.setFullYear(fechaDeExpiracion.getFullYear() + 80);
 
-    if (saldoActual >= pagoanual) {
+    if (saldoActual >= pagoAnual) {
       try {
         const transaccion = await pool.query(
           "INSERT INTO transaccion (fechadetransaccion, tipodemovimiento, cuentaorigen, cuentadestino, monto, concepto, cuenta_id) values (NOW(),$1,$2,$3,$4,$5,$6)",
           [
             "Pago de seguro",
             idCuenta,
-            78000,
-            pagoanual,
-            "Pago de seguro",
             idCuenta,
+            pagoAnual,
+            "Pago de seguro",
+            idCuenta
           ]
         );
         const result = await pool.query(
-          "INSERT INTO catalogo_servicio (nombredeservicio, fechadeexpiracion, fechadeapertura, saldo) VALUES ($1, $2, CURRENT_DATE, $3)",
-          [tipoDeServicio, fechaDeExpiracion, pagoanual]
+          "INSERT INTO catalogo_servicio (nombredeservicio, fechadeexpiracion, fechadeapertura, saldo, cuenta_id) VALUES ($1, $2, NOW(), $3, $4)",
+          [
+            tipoDeServicio, 
+            fechaDeExpiracion, 
+            totalAnualFormateado,
+            idCuenta
+          ]
         );
         res.status(200).json({ message: "Seguro creado exitosamente" });
       } catch (error) {
@@ -1079,10 +1076,38 @@ const pantalladeahorro = (req, res) => {
   console.log("Aqui ira la pantalla de info del Ahorro ");
 };
 
-const cargarPantallaSeguro = (req, res) => {
+const cargarPantallaSeguro = async (req, res) => {
   const usuario = req.session.usuario;
   if (usuario) {
-    res.render("Seguro/seguro", { usuario: usuario });
+    const usuario = req.session.usuario;
+
+    //Consulta para obtener la cuenta_id
+    const cuenta = await pool.query(
+      "SELECT * FROM cuenta WHERE cliente_id = $1", 
+      [
+        usuario[0].cliente_id
+      ]
+    );
+    const idCuenta = cuenta.rows[0].cuenta_id;
+
+    //Consulta para obtener la transaccion del pago del seguro
+    const consultTransaccion = await pool.query(
+      "SELECT * FROM transaccion WHERE tipodemovimiento = $1 AND cuenta_id = $2 ORDER BY fechadetransaccion DESC LIMIT 1", 
+      [
+        "Pago de seguro",
+        idCuenta
+      ]
+    );
+    
+    const servicioSeguro = await pool.query(
+      "SELECT * FROM catalogo_servicio WHERE cuenta_id = $1 AND nombredeservicio = $2",
+      [
+        idCuenta,
+        "Seguro de vida"
+      ]
+    );
+
+    res.render("Seguro/seguro", { usuario: usuario, consultTransaccion: consultTransaccion, servicioSeguro: servicioSeguro });
   } else {
     res.redirect("/login");
   }

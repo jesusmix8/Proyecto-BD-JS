@@ -52,16 +52,14 @@ document.getElementById("seguro-form").addEventListener("submit", function (e) {
 
   const Nombre = document.querySelector('input[name="nombre"]').value;
   const rangoIngresos = document.getElementById("rangoIngreso").value;
-  const sumaAsegurada = document.querySelector(
-    "input[name=sumaAsegurada]"
-  ).value;
   const pagoAnual = document.getElementById("totalAnual").textContent;
+  const proteccionAnual = document.getElementById("proteccion").textContent;
 
   const data = {
     Nombre: Nombre,
     rangoIngresos: rangoIngresos,
-    sumaAsegurada: sumaAsegurada,
     pagoAnual: pagoAnual,
+    proteccionAnual: proteccionAnual
   };
 
   fetch("/solicitudSeguro", {
